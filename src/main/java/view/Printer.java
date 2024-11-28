@@ -1,6 +1,6 @@
-package edu.ntnu.iir.bidata.view;
+package redacted.path.view;
 
-import edu.ntnu.iir.bidata.module.Item;
+import redacted.path.module.Item;
 
 public class Printer {
 

@@ -1,4 +1,4 @@
-package edu.ntnu.iir.bidata.view;
+package redacted.path.view;
 import java.util.Scanner;
 
 public class Handler {

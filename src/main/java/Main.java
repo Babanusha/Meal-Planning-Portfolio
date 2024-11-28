@@ -1,7 +1,7 @@
-package edu.ntnu.iir.bidata;
+package redacted.path.;
 
 
-import edu.ntnu.iir.bidata.controller.Controller;
+import redacted.path.controller.Controller;
 
 public class Main {
 

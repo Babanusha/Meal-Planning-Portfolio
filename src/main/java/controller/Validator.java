@@ -1,5 +1,5 @@
 
-package edu.ntnu.iir.bidata.controller;
+package redacted.path.controller;
 
 public enum Validator {
   NOT_EMPTY {

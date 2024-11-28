@@ -1,9 +1,9 @@
-package edu.ntnu.iir.bidata.controller;
+package redacted.path.controller;
 
-import edu.ntnu.iir.bidata.module.Item;
-import edu.ntnu.iir.bidata.module.ItemStorage;
-import edu.ntnu.iir.bidata.view.Handler;
-import edu.ntnu.iir.bidata.view.Printer;
+import redacted.path.module.Item;
+import redacted.path.module.ItemStorage;
+import redacted.path.view.Handler;
+import redacted.path.view.Printer;
 
 
 public class Controller {
