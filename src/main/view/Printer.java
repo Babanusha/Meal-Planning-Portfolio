@@ -1,6 +1,6 @@
-package edu.ntnu.iir.bidata.view;
+package view;
 
-import edu.ntnu.iir.bidata.module.Item;
+import module.Item;
 
 public class Printer {
 

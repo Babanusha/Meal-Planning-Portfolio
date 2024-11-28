@@ -1,7 +1,7 @@
-package edu.ntnu.iir.bidata;
+package edu.ntnu.idi.bidata;
 
 
-import edu.ntnu.iir.bidata.controller.Controller;
+import controller.Controller;
 
 public class Main {
 

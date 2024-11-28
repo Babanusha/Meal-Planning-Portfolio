@@ -1,4 +1,4 @@
-package edu.ntnu.iir.bidata.module;
+package module;
 
 import java.util.Calendar;
 import java.util.Date;

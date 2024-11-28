@@ -1,10 +1,9 @@
-package edu.ntnu.iir.bidata.module;
+package module;
 
-import edu.ntnu.iir.bidata.view.Printer;
+import view.Printer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class ItemStorage {
 
