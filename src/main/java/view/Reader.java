@@ -14,7 +14,7 @@ public class Handler {
 
 
   public Handler(Validator validator) {
-    scanner = new Scanner(System.in);
+    scanner = new   Scanner(System.in);
     printer = new Printer();
     this.validator = validator;
 
@@ -27,13 +27,14 @@ public class Handler {
     while (!inputAccepted) {
       try {
         input = scanner.nextLine();
-        if (validator.validateString(input)) {
+        System.out.println("input: " + input);
+        if (validator.validateString(input)) {                    //EXTRACT?
           inputAccepted = true;
         } else {
           throw new Exception("Format is: [a-zA-Z0-9]"); //TODO: RYDD OPP/tydeligjør
         }
       } catch (Exception e) {
-        printer.invalidInput();
+        printer.invalidInputError();
         printer.printString("exception: " + e);
       }
     } return input;
@@ -50,7 +51,7 @@ public class Handler {
         inputAccepted = true;
 
       } catch (Exception e) {
-        printer.invalidInput();
+        printer.invalidInputError();
         scanner.nextLine(); //Consume invalid input
       }
     } return input;
