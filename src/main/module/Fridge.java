@@ -48,6 +48,13 @@ public class Fridge {
   public Iterator<Item> iterateFridge() {
     return itemContainer.iterator();
   }
+
+  public void testPrint() {         ////////// TEST
+    System.out.println("TEST");
+    for (Item item: itemContainer) {
+      System.out.println(item.getName() + " " + item.getQuantity() + " " + item.getUnit() + " " + item.getProductCost() + " " + item.getExpirationDate());
+    }
+  }
 }
 
 
