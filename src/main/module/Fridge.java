@@ -1,6 +1,5 @@
 package module;
 
-import view.Printer;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -9,7 +8,6 @@ public class ItemStorage {
 
   private ArrayList<Item> itemContainer;
   private Item item;
-  private Printer printer;
 
 
 
@@ -22,24 +20,10 @@ public class ItemStorage {
 
   public void init() {
     itemContainer = new ArrayList<>();
-    printer = new Printer();
-    testInit(); //FOR TESTING
-
   }
 
 
 
-  private void testInit() {
-    itemContainer = new ArrayList<>();
-    // flytt til init
-    itemContainer.add(new Item("Test1", 1, "liters"));
-    itemContainer.add(new Item("Test2", 2, "pieces"));
-    itemContainer.add(new Item("Test3", 3, "grams"));
-
-    System.out.println("TEST");
-    printAllItems();
-    System.out.println("TEST DONE");
-  }
 
 
 
@@ -65,10 +49,7 @@ public class ItemStorage {
     }
   }
 
-  private void printAllItems() {
-    for (Item item : itemContainer) {
-      printer.printItem(item);
-    }
+
 
   }
 
@@ -85,4 +66,4 @@ public class ItemStorage {
 
 
 
-}
+
