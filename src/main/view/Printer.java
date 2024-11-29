@@ -1,7 +1,5 @@
 package view;
 
-import module.Item;
-
 public class Printer {
 
 
@@ -11,20 +9,41 @@ public class Printer {
 
   public void homeMenu() {
     printString("Fridge is open, choose an action:");
-    printString("1. Add item");
-    printString("2. Remove item");
-    printString("3. List items");
+
+    printString("1. Add item to fridge");
+    printString("2. Remove item from fridge");
+    printString("3. List items in fridge (CALCULATE COST OF ITEMS)");
+    printString("");
+    printString("4. Edit item/item list");
+
+    printString("9. Save and exit");
   }
 
 
-  public void printItem(Item item) {
-    if (item.getUnit() != null) {
-      printString("Item: " + item.getName() + " Quantity: " +
-          item.getQuantity() + " Unit: " + item.getUnit());
-    }
+
+  public void toExit() {
+    printString("To exit: either type 'exit' or '9'");
   }
 
-  public void invalidInput() {
-    printString("Invalid input, try again");
+  public void printExitMessage() {
+    printString("Exiting application");
+  }
+
+  public void LocalDateFormatError() {
+    printError("Enter date in the format yyyy-mm-dd");
+  }
+
+
+
+  public void invalidInputError() {
+    printError("Invalid input, try again");
+  }
+
+  public void printError(String stringToPrint) {
+    System.err.println(stringToPrint);
+  }
+
+  public void printSkipLine() {
+    printString("To skip this step, type 's' or 'skip' and press enter");
   }
 }
