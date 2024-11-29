@@ -4,32 +4,33 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-public class ItemStorage {
+public class Fridge {
 
   private ArrayList<Item> itemContainer;
   private Item item;
 
 
-
-  public ItemStorage() {
+  public Fridge() {
     init();
   }
 
-
-
-
-  public void init() {
+  private void init() {
     itemContainer = new ArrayList<>();
   }
 
 
 
 
-
-
-  public void addItem(Item item) {
+  public void addItemToFridge(Item item) {
     itemContainer.add(item);
   }
+
+  public void createNewItem(String name, int amount, String unit) {
+    item = new Item(name, amount, unit);
+    addItemToFridge(item);
+  }
+
+
   private void removeItem(Item item) {
     itemContainer.remove(item);
   }
@@ -43,15 +44,13 @@ public class ItemStorage {
             .equalsIgnoreCase(itemName)).iterator();
   }
 
-  private void printFilledListOfItems(List<Item> listOfItems) {
-    for (Item item: listOfItems) {
-      System.out.println("DO SOMETHING");
-    }
+
+  public Iterator<Item> iterateFridge() {
+    return itemContainer.iterator();
   }
+}
 
 
-
-  }
 
 
 
