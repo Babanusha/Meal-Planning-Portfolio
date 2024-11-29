@@ -95,8 +95,10 @@ public class Controller {
     }
     fridge.addItemToFridge(new Item(name, quantity,
         quantityUnit, cost, expirationDate));
-  }
 
+    fridge.testPrint();              //TO BE REMOVED
+
+  }
 
 }
 
