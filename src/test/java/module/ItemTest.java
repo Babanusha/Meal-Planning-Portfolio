@@ -2,9 +2,7 @@ package redacted.path.module;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
 
-import redacted.path.module.Item;
 import java.time.LocalDate;
-import java.time.LocalTime;
 import org.junit.jupiter.api.Assertions;
 
 
@@ -49,8 +47,8 @@ class ItemTest {
 
   @org.junit.jupiter.api.Test
   void getQuantitySpecifier() {
-    Assertions.assertEquals(testItem.getQuantitySpecifier(), quantitySpecifier, "Positive getQuantitySpecifier() failed");
-    Assertions.assertNotEquals("privateMethodsAreSecure", testItem.getQuantitySpecifier(), "Negative getQuantitySpecifier() failed");
+    Assertions.assertEquals(testItem.getUnit(), quantitySpecifier, "Positive getQuantitySpecifier() failed");
+    Assertions.assertNotEquals("privateMethodsAreSecure", testItem.getUnit(), "Negative getQuantitySpecifier() failed");
   }
 
   @org.junit.jupiter.api.Test
