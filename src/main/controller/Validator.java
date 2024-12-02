@@ -1,12 +1,12 @@
 package controller;
 
-import static module.ApplicationSettings.MAX_INT_LENGTH;
+
 
 public class Validator {
 
 
   public boolean isBetweenZeroAndGivenValue(int numberToCheck, int maxIntValue) {
-    return numberToCheck <= maxIntValue && String.valueOf(numberToCheck).length() < MAX_INT_LENGTH;
+  return numberToCheck > 0 && numberToCheck <= maxIntValue;
   }
 
 
@@ -22,5 +22,7 @@ public class Validator {
   }
 
 
-
+  public boolean isExitCalled(String input) {
+    return input.equalsIgnoreCase("exit") || input.equalsIgnoreCase("quit");
+  }
 }
