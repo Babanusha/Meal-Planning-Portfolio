@@ -44,4 +44,22 @@ public class Reader {
   }
 
 
+  public double readDouble() throws Exception {
+    double input = 0;
+    inputAccepted = false;
+
+    while (!inputAccepted) {
+      try {
+        input = scanner.nextDouble();
+        scanner.nextLine(); //Consume newline
+        inputAccepted = true;
+
+      } catch (Exception e) {
+        scanner.nextLine(); //Consume invalid input
+        throw new Exception("Invalid input");
+      }
+    } return input;
+  }
+
+
 }
