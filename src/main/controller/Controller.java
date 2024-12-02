@@ -2,13 +2,16 @@ package controller;
 
 import static module.ApplicationSettings.DEFAULT_COST;
 import static module.ApplicationSettings.DEFAULT_EXPIRATION_DATE;
+import static module.ApplicationSettings.INT_EXIT;
+import static module.ApplicationSettings.STRING_DECIMALFORMAT;
 import static module.ApplicationSettings.SWITCH_CASE_LIMIT;
 
 import module.Item;
 import module.Fridge;
 import view.Reader;
 import view.Printer;
-import view.UI_Handler;
+import view.UserInterface;
+import java.text.DecimalFormat;
 import java.time.LocalDate;
 
 
@@ -16,10 +19,9 @@ public class Controller {
 
 
   private Fridge fridge;
-  private UI_Handler ui_handler;
-  private Reader reader;
-  private Printer printer;
-  Validator validator;
+  private UserInterface userInterface;
+
+
 
 
   /**
@@ -34,25 +36,30 @@ public class Controller {
 
 
   public void init() {
+
     fridge = new Fridge();
-    validator = new Validator();
+    Validator validator = new Validator();
 
-    reader = new Reader();
-    printer = new Printer();
+    //Only Initiated in controller, not held by.
+    Reader reader = new Reader();
+    Printer printer = new Printer();
+    DecimalFormat decimalFormat = new DecimalFormat(STRING_DECIMALFORMAT);
 
-    ui_handler = new UI_Handler(reader, printer, validator);
+    userInterface = new UserInterface(reader, printer, validator, decimalFormat);
   }
+
+
 
 
   private void start() {
     boolean isApplicationOnline = true; //If time, make persistent storage
 
-    printer.homeMenu();
+
     mainMenuSwitchCase(isApplicationOnline);
   }
 
   private void exit() {
-    printer.printExitMessage();
+    userInterface.printExitMessage();
 
     //TODO: Make it save to a file if time + persistent storage?
   }
@@ -60,45 +67,126 @@ public class Controller {
   private void mainMenuSwitchCase(boolean programStatus) {
     while (programStatus) {
       try {
-        switch (ui_handler.intHandler(SWITCH_CASE_LIMIT)) {
+        userInterface.printHomeMenu();
+        switch (userInterface.intHandler(SWITCH_CASE_LIMIT)) {
 
           case 1 -> createNewItem();
-          // case 2 -> itemStorage.removeItem(findItem());
-          //case 3 -> itemStorage.listItems();
-          case 9 -> programStatus = false;
+          case 2 -> editItemMenu();
+          case 3 -> displayAllItemsInFridge();
 
-          default -> printer.invalidInputError(); //UI_HANDLER?
+          case INT_EXIT -> programStatus = false;        //EXIT
+
+          default -> userInterface.printInvalidInputError(); //UI_HANDLER?
         }
       } catch (Exception allExceptions) {
-        printer.printError("Invalid input" + allExceptions); //TODO: CLEAN UP
+        userInterface.printErrorWithException(allExceptions);
       }
     }
     exit();
   }
-
 
   private void createNewItem() {
 
     String name;
     int quantity;
     String quantityUnit;
-    int cost = DEFAULT_COST;
-    LocalDate expirationDate = DEFAULT_EXPIRATION_DATE;
-    name = ui_handler.promtForItemName();
-    quantity = ui_handler.promtForItemQuantity();
-    quantityUnit = ui_handler.promtForQuantityUnit();
-    if (ui_handler.yesOrNo("Do you want to add cost of item?")) {
-      cost = ui_handler.promtForCostOfItem();
-    }
-    if (ui_handler.yesOrNo("Do you want to add expiration date?")) {
-      expirationDate = ui_handler.promtForExpirationDate();
-    }
-    fridge.addItemToFridge(new Item(name, quantity,
-        quantityUnit, cost, expirationDate));
+    double cost = DEFAULT_COST;
 
-    fridge.testPrint();              //TO BE REMOVED
+    LocalDate expirationDate = DEFAULT_EXPIRATION_DATE;
+    name = userInterface.promtForItemName();
+    quantity = userInterface.promtForQuantity();
+    quantityUnit = userInterface.promtForQuantityUnit();
+    if (userInterface.yesOrNo("Do you want to add cost of item?")) {
+      cost = userInterface.promtForCostOfItem();
+    }
+    if (userInterface.yesOrNo("Do you want to add expiration date?")) {
+      expirationDate = userInterface.promtForExpirationDate();
+    }
+    fridge.createItemAndAddToFridge(name, quantity, quantityUnit,
+        cost, expirationDate);
+  }
+
+  private void displayAllItemsInFridge() {
+    userInterface.displayItemsInTable(fridge.iterateOverFridge());
+    userInterface.displayCostOfItemsInFridge(CalculateCostOfFrige());
+  }
+
+
+  private double CalculateCostOfFrige() {
+   return fridge.calculateTotalCostOfItems();
+  }
+  private void editItemMenu() {
+    displayAllItemsInFridge();
+    String searchItem = userInterface.promtForItemName();
+    int itemsFound = fridge.specificItemInFridgeCount(searchItem);
+
+    switch (itemsFound) {
+      case 0 -> userInterface.printNoItemsFound();
+      case 1 -> editSingularItem(searchItem);
+      default -> editMultipleItems(searchItem);
+    }
 
   }
+  private void editMultipleItems(String searchItem) {
+    editItemSwitchCase(fridge.retrieveNthOccurenceOfItem(
+        promtForSpecificItemToEditFromSearch(searchItem),searchItem));
+  }
+
+  private void editSingularItem(String searchItem) {
+    editItemSwitchCase(fridge.searchForItem(searchItem).next());
+  }
+
+  private int promtForSpecificItemToEditFromSearch(String searchItem) {
+   return userInterface.promtMultipleItemsFoundChoice(fridge.searchForItem(searchItem));
+  }
+
+  private void editItemSwitchCase(Item itemToEdit) { //TODO:BOOLEAN RETURN TO CONFIRM EDIT
+    int userChoice = userInterface.promtWhatPartToEditInItem();
+    boolean editComplete = false;
+    while (!editComplete && userChoice != INT_EXIT) { // 9 = exit
+      try {
+        switch (userChoice) {
+          case 1 -> editComplete = editName(itemToEdit);
+          case 2 -> editComplete = editQuantity(itemToEdit);
+          case 3 -> editComplete = editQuantityUnit(itemToEdit);
+          case 4 -> editComplete = editCostOfItem(itemToEdit);
+          case 5 -> editComplete = editExpirationDate(itemToEdit);
+
+
+          default -> userInterface.printInvalidInputError();
+        }
+
+      } catch (Exception allExceptions) {
+        userInterface.printErrorWithException(allExceptions);
+      }
+  }
+
+
+
+
+
+  }
+
+  private boolean editExpirationDate(Item itemToEdit) {
+    return fridge.editItemExpirationDate(itemToEdit, userInterface.promtForExpirationDate());
+  }
+
+  private boolean editCostOfItem(Item itemToEdit) {
+    return fridge.editItemCost(itemToEdit, userInterface.promtForCostOfItem());
+  }
+
+  private boolean editQuantityUnit(Item itemToEdit) {
+    return fridge.editItemUnit(itemToEdit, userInterface.promtForQuantityUnit());
+  }
+
+  private boolean editQuantity(Item itemToEdit) {
+    return fridge.editItemQuantity(itemToEdit, userInterface.promtForQuantity());
+  }
+
+  private boolean editName(Item itemToEdit) {
+    return fridge.editItemName(itemToEdit, userInterface.promtForItemName());
+  }
+
 
 }
 

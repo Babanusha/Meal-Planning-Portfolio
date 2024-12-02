@@ -128,6 +128,7 @@ public class Fridge {
         .equalsIgnoreCase(searchItem)).toList();
     return listToSearch.get(itemNumber - 1);
   }
+
   public boolean isFridgeEmpty() {
     return listOfItems.isEmpty();
   }

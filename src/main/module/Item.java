@@ -1,5 +1,7 @@
 package module;
 
+
+
 import java.time.LocalDate;
 
 
@@ -14,7 +16,7 @@ public class Item {
   private String name;
   private int quantity; // needs specifier (e.g. "grams", "pieces")
   private String unit; //grams or piece
-  private double productCost; // price per quantity -> max 2 decimals?
+  private double productCost; // TODO:price per quantity -> max 2 decimals?
 
   /**
    * Constructor for Item with only mandatory fields.
@@ -62,7 +64,7 @@ public class Item {
    *
    * @param name , name of item
    */
-  private void setName(String name) {
+  void setName(String name) {
     this.name = name;
   }
 
@@ -80,7 +82,7 @@ public class Item {
    *
    * @param quantity , quantity of item
    */
-  private void setQuantity(int quantity) {
+  void setQuantity(int quantity) {
     this.quantity = quantity;
   }
 
@@ -98,7 +100,7 @@ public class Item {
    *
    * @param unit , quantity specifier of item
    */
-  private void setUnit(String unit) {
+  void setUnit(String unit) {
     this.unit = unit;
   }
 
@@ -116,7 +118,7 @@ public class Item {
    *
    * @param productCost , product cost of item
    */
-  private void setProductCost(double productCost) {
+  void setProductCost(double productCost) {
     this.productCost = productCost;
   }
 
@@ -134,7 +136,7 @@ public class Item {
    *
    * @param expirationDate , expiration date of item
    */
-  private void setExpirationDate(LocalDate expirationDate) {
+  void setExpirationDate(LocalDate expirationDate) {
     this.expirationDate = expirationDate;
   }
 
