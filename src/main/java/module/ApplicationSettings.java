@@ -49,5 +49,12 @@ public class ApplicationSettings {
   public static final int INT_EXIT = 9;
   public static final String EXIT = "exit";
   public static final String CANCELLED = "cancelled";
+  public static final String INVALID_INPUT = "Invalid input";
 
+
+  //ISO CODE STRING FOR CURRENCY
+  public static final String CURRENCY_NOK = "Kr (NOK)";
+  public static final String CURRENCY_USD = "$ (USD)";
+  public static final String CURRENCY_EUR = "€ (EUR)";
+  public static final String CURRENCY_GBP = "£ (GBP)";
 }

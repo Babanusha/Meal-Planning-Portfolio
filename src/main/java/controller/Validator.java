@@ -21,8 +21,7 @@ public class Validator {
     return input.equalsIgnoreCase("yes") || input.equalsIgnoreCase("y") || input.equalsIgnoreCase("ye");
   }
 
-
-  public boolean isExitCalled(String input) {
-    return input.equalsIgnoreCase("exit") || input.equalsIgnoreCase("quit");
+  public boolean isDoubleAccepted(double input, int maximumIntValue) {
+    return input > 0 && input <= maximumIntValue;
   }
 }
