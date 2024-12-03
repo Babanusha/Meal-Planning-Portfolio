@@ -5,6 +5,7 @@ import static module.ApplicationSettings.STRING_LITERS;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
 
@@ -13,9 +14,8 @@ public class Fridge {
 
 
   private ArrayList<Item> listOfItems;
-  private Item item;
 
-
+                       ///TODO: make item search case insensitive  ss SS
   public Fridge() {
     init();
     testInit();
@@ -27,7 +27,6 @@ public class Fridge {
     listOfItems.add(new Item("Bacon", 2, STRING_KILOGRAMS, 20.03032, LocalDate.now().plusDays(3)));
     listOfItems.add(new Item("Kenguru", 1, STRING_LITERS, 30, LocalDate.now().plusDays(7)));
 
-
   }
   private void init() {
     listOfItems = new ArrayList<>();
@@ -35,7 +34,7 @@ public class Fridge {
 
   public void createItemAndAddToFridge(String name, int quantity, String unit,
       double productCost, LocalDate expirationDate) {
-    item = new Item(name, quantity, unit, productCost, expirationDate);
+    Item item = new Item(name, quantity, unit, productCost, expirationDate);
     addItemToFridge(item);
   }
 
@@ -43,13 +42,13 @@ public class Fridge {
     return listOfItems.iterator();
   }
 
-  public void addItemToFridge(Item item) { //TODO: make private or remove?
+  private void addItemToFridge(Item item) {
     listOfItems.add(item);
   }
 
 
-  public void removeItem(Item item) {
-    listOfItems.remove(item);
+  public boolean removeItem(Item item) {
+    return listOfItems.remove(item);
   }
 
 
@@ -60,35 +59,17 @@ public class Fridge {
   }
 
 
-
-  public int getSizeOfFridge() {
-    return listOfItems.size();
-  }
-  private ArrayList<Item> duplicateFridge() {
-    return new ArrayList<>(listOfItems);
+  public void sortItemsByExpirationDate() {
+    listOfItems.sort(Comparator.comparing(Item::getExpirationDate));
   }
 
-
-  private List<Item> fridgeSortedByExpirationDate() {
-    ArrayList<Item> arrayListToSort = duplicateFridge();
-    arrayListToSort.sort((firstItem, secondItem) -> firstItem.getExpirationDate()
-        .compareTo(secondItem.getExpirationDate()));
-    return arrayListToSort;
+  public void sortItemsByQuantityLeft() {
+    listOfItems.sort(Comparator.comparingInt(Item::getQuantity));
   }
 
-  private List<Item> fridgeSortedByQuantity() {
-    ArrayList<Item> arrayListToSort = duplicateFridge();
-    arrayListToSort.sort((firstItem, secondItem) -> firstItem.getQuantity() - secondItem.getQuantity());
-    return arrayListToSort;
+  public void sortItemsAlphabetically() {
+    listOfItems.sort(Comparator.comparing(Item::getName));
   }
-
-  private List<Item> fridgeSortedByAlphabeticalOrder() { //TODO: change name of variable and method? ALL SORTS
-    ArrayList<Item> arrayListToSort = duplicateFridge();
-    arrayListToSort.sort((firstItem, secondItem) -> firstItem.getName().compareTo(secondItem.getName()));
-    return arrayListToSort;
-  }
-
-
 
   public boolean editItemName(Item item, String newName) {
     item.setName(newName);
@@ -115,7 +96,7 @@ public class Fridge {
   public int specificItemInFridgeCount(String searchItem) {
     int count = 0;
     for (Item itemToCount : listOfItems) {
-      if (itemToCount.getName().equalsIgnoreCase(searchItem)) {
+      if (itemToCount.getName().equalsIgnoreCase(searchItem)) { // case in-sensitive. and includes names not fully written.
         count++;
       }
     }
@@ -124,14 +105,11 @@ public class Fridge {
 
 
   public Item retrieveNthOccurenceOfItem(int itemNumber, String searchItem) {
-    List<Item> listToSearch = listOfItems.stream().filter(itemInList -> itemInList.getName()
-        .equalsIgnoreCase(searchItem)).toList();
+    List<Item> listToSearch = listOfItems.stream().filter(itemInList -> itemInList.
+        getName().equalsIgnoreCase(searchItem)).toList();
     return listToSearch.get(itemNumber - 1);
   }
 
-  public boolean isFridgeEmpty() {
-    return listOfItems.isEmpty();
-  }
 
   public double calculateTotalCostOfItems() {
     double totalcost = 0;
@@ -141,6 +119,16 @@ public class Fridge {
   }
 
 
+  public Iterator<Item> iterateExpiredItems(LocalDate dateToCheck) {
+    return listOfItems.stream()
+        .filter(item -> item.getExpirationDate().isBefore(dateToCheck)).iterator();
+  }
+
+  public double calculateCostOfExpiredItems(LocalDate dateToCheck) {
+  return listOfItems.stream()
+      .filter(itemInList -> itemInList.getExpirationDate().isBefore(dateToCheck))
+      .mapToDouble(Item::getProductCost).sum();
+  }
 }
 
 
