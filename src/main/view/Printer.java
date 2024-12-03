@@ -6,6 +6,10 @@ import static module.ApplicationSettings.STRING_KILOGRAMS;
 import static module.ApplicationSettings.STRING_LITERS;
 import static module.ApplicationSettings.STRING_MILLIGRAMS;
 import static module.ApplicationSettings.STRING_MILLILITERS;
+import static module.ApplicationSettings.CURRENCY_EUR;
+import static module.ApplicationSettings.CURRENCY_GBP;
+import static module.ApplicationSettings.CURRENCY_NOK;
+import static module.ApplicationSettings.CURRENCY_USD;
 
 public class Printer {
 
@@ -13,56 +17,53 @@ public class Printer {
   public void printString(String message) {
     System.out.println(message);
   }
+  public void printError(String stringToPrint) {
+    System.err.println(stringToPrint);
+  }
+
+  //______________________________________-
 
 
   public void homeMenu() {
     printString("Fridge is open, choose an action:");
     printString("1. Add item to fridge");
     printString("2. Edit item from fridge");
-    printString("3. List items in fridge & calculate cost(CALCULATE COST OF ITEMS)");
+    printString("3. List items in fridge & calculate cost");
     blankLine();
-    printString("4. Edit item/item list");
-    printString(INT_EXIT+". Exit");
+    printString("8. Fridge settings");
+    printString(INT_EXIT + ". Exit Application");
   }
 
-  public void editMenu() {
-    printString("Edit menu:");
-    printString("1. Edit item");
-    printString("2. Remove item");
-    printString("3. Sort items by name");
-    printString("4. Sort items by quantity");
-    printString("5. Sort items by expiration date");
-
-    printString(INT_EXIT +". Back to main menu");
+  public void settingsMenu() {
+    printString("Edit fridge:");
+    printString("1. Sort items alphabetically");
+    printString("2. Sort items by quantity - ascending");
+    printString("3. Sort items by expiration date");
+    blankLine();
+    printString("4. Choose new currency type");
+    blankLine();
+    printString(INT_EXIT + ". Back to main menu");
   }
-  public void itemEditMenu(){
+
+  public void editItemMenu() {
     printString("Edit item:");
     printString("1. Edit name");
     printString("2. Edit quantity");
     printString("3. Edit unit");
     printString("4. Edit cost");
     printString("5. Edit expiration date");
-
-    printString(INT_EXIT+". Back to edit menu");
+    blankLine();
+    printString(INT_EXIT + ". Back to edit menu");
   }
 
 
-public void blankLine() {
+  public void blankLine() {
     printString("");
   }
 
-  public void toExit() {
-    printString("To exit: either type 'exit' or '" + INT_EXIT + "'");
-  }
 
 
 
-
-
-
-  public void printError(String stringToPrint) {
-    System.err.println(stringToPrint);
-  }
 
 
 
@@ -78,6 +79,48 @@ public void blankLine() {
 
   public void itemTableFrame() {
     printString(String.format("%-5s\t%-13s\t%-11s\t%-10s\t%-10s\t%-16s",
-       "Nr", "Name", "Quantity", "Unit", "Cost", "Expiration Date"));
+        "Nr", "Name", "Quantity", "Unit", "Cost", "Expiration Date"));
+  }
+
+  public void currencyMenu() {
+    printString("Please choose currency:");
+    printString("1. " + CURRENCY_NOK);
+    printString("2. " + CURRENCY_EUR);
+    printString("3. " + CURRENCY_USD);
+    printString("4. " + CURRENCY_GBP);
+    blankLine();
+    printString(INT_EXIT + ". Exit");
+  }
+
+  public void correctedFormatForIntHandler() {
+    printString("Please enter a number corresponding to the given list");
+  }
+  public void invalidInputError() {
+    printError("Invalid input, try again");
+  }
+
+  public void correctedFormatForDoubleHandler() {
+    printString("Please enter a number, two decimals allowed");
+  }
+
+  public void correctedFormatForStringHandler() {
+    printString("Please enter letters and numbers, special characters not allowed");
+  }
+
+
+  /**
+   * Standard feedback message for string input errors.
+   */
+
+  public void stringErrorStandardResponse() {
+  invalidInputError();
+  correctedFormatForStringHandler();
+  }
+  /**
+   * Standard user feedback for "int" input errors.
+   */
+  public void intErrorStandardResponse() {
+    invalidInputError();
+    correctedFormatForIntHandler();
   }
 }
