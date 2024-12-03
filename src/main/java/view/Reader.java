@@ -16,8 +16,8 @@ public class Reader {
   /**
    * Constructor for the Reader class initiates' scanner.
    */
-  public Reader() {
-    scanner = new Scanner(System.in);
+  public Reader(Scanner scanner) {
+    this.scanner = scanner;
   }
 
   /**
