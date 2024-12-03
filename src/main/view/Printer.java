@@ -25,10 +25,12 @@ public class Printer {
 
 
   public void homeMenu() {
+    blankLine();
     printString("Fridge is open, choose an action:");
     printString("1. Add item to fridge");
-    printString("2. Edit item from fridge");
+    printString("2. Search fridge, edit/remove possible.");
     printString("3. List items in fridge & calculate cost");
+    printString("4. See items that expire before a given date");
     blankLine();
     printString("8. Fridge settings");
     printString(INT_EXIT + ". Exit Application");
@@ -38,7 +40,7 @@ public class Printer {
     printString("Edit fridge:");
     printString("1. Sort items alphabetically");
     printString("2. Sort items by quantity - ascending");
-    printString("3. Sort items by expiration date");
+    printString("3. Sort items by earliest expiration date");
     blankLine();
     printString("4. Choose new currency type");
     blankLine();
@@ -52,6 +54,7 @@ public class Printer {
     printString("3. Edit unit");
     printString("4. Edit cost");
     printString("5. Edit expiration date");
+    printString("6. Remove item from fridge");
     blankLine();
     printString(INT_EXIT + ". Back to edit menu");
   }

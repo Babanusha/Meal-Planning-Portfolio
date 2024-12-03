@@ -255,10 +255,13 @@ public class UserInterface {
    */
   public LocalDate promtForExpirationDate() {
     printer.printString("Enter expiration year:");
+    printer.printError("Year must be between 1 and 9998");
     int year = intHandler(YEAR_INT_LIMITATION);
     printer.printString("Enter expiration month:");
+    printer.printError("Month must be between 1 and 12");
     int month = intHandler(MONTH_INT_LIMITATION);
     printer.printString("Enter expiration day:");
+    printer.printError("Day must be between 1 and 31");
     int day = intHandler(DAY_INT_LIMITATION);
 
     return LocalDate.of(year, month, day);
@@ -334,6 +337,10 @@ public class UserInterface {
    */
 
   public void displayItemsInTable(Iterator<Item> foundItems) {
+    if (!foundItems.hasNext()) {
+      printNoItemsFound();
+      return;
+    }
     printer.blankLine();
     printer.itemTableFrame();
     int itemNumerator = 0;
@@ -352,7 +359,7 @@ public class UserInterface {
    * @return , returns the validated integer value from user, symbolising the users choice of item.
    */
   public int promtMultipleItemsFoundChoice(Iterator<Item> itemIterator) {
-    printer.printString("Multiple items found, choose item to edit by typing the items number.:");
+    printer.printString("Multiple items found, choose item by typing the items number.:");
     displayItemsInTable(itemIterator);
     return intHandler(DEFAULT_INT_HANDLER_LIMIT);
   }
