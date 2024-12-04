@@ -1,7 +1,11 @@
 package controller;
 
 
+import static module.ApplicationSettings.DEFAULT_COST;
 import static module.ApplicationSettings.MAXIMUM_LENGTH_OF_STRING_INPUT;
+import static module.ApplicationSettings.YEAR_INT_LIMITATION;
+
+import java.time.LocalDate;
 
 public class Validator {
 
@@ -54,5 +58,13 @@ public class Validator {
    */
   public boolean isDoubleBetweenZeroAndGivenValue(double input, int givenMaxValue) {
     return input > 0 && input <= givenMaxValue;
+  }
+
+  public boolean isAfterDateLimit(LocalDate expirationDate) {
+    return YEAR_INT_LIMITATION < expirationDate.getYear();
+  }
+
+  public boolean costIsDefaultValue(Double inputCost) {
+    return inputCost <= DEFAULT_COST;
   }
 }

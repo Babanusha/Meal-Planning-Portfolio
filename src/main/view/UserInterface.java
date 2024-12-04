@@ -20,6 +20,7 @@ import static module.ApplicationSettings.STRING_KILOGRAMS;
 import static module.ApplicationSettings.STRING_LITERS;
 import static module.ApplicationSettings.STRING_MILLIGRAMS;
 import static module.ApplicationSettings.STRING_MILLILITERS;
+import static module.ApplicationSettings.STRING_NOT_GIVEN;
 import static module.ApplicationSettings.YEAR_INT_LIMITATION;
 
 import controller.Validator;
@@ -266,7 +267,6 @@ public class UserInterface {
 
     return LocalDate.of(year, month, day);
   }
-
   /**
    * Prompts user for what part of item to edit. Uses printer class for printing promt to user.
    *
@@ -309,8 +309,8 @@ public class UserInterface {
   }
 
   /**
-   * formats and prints the item in a table format. Uses decimalFormat for formatting the cost to 2
-   * decimals.
+   * formats and prints the item in a table format. Values currently not listed doesn't print. Cost
+   * is formatted to 2 decimal max.
    *
    * @param inputItem     , the item to be printed.
    * @param itemNumerator , the item number in the list.
@@ -320,13 +320,45 @@ public class UserInterface {
     String itemName = inputItem.getName();
     int quantity = inputItem.getQuantity();
     String quantityUnit = inputItem.getUnit();
-    String formattedCost = decimalFormat.format(inputItem.getProductCost());
-    LocalDate expirationDate = inputItem.getExpirationDate();
+    String validatedCost = retrieveCostFormattedToString(inputItem.getProductCost());
+    String validatedExpirationDate = retrieveExpirationDateToString(inputItem.getExpirationDate());
 
     //s = string, d = decimal, f = float
     String formattedString = String.format("%-5d\t%-14.14s\t%-8d\t%-11.11s\t%-11.11s\t%-16.16s",
-        itemNumerator, itemName, quantity, quantityUnit, formattedCost, expirationDate);
+        itemNumerator, itemName, quantity, quantityUnit, validatedCost, validatedExpirationDate);
     printer.printString(formattedString);
+  }
+
+  /**
+   * Retrieves the cost of an item and formats it to a string. Uses decimalFormat for formatting the
+   * cost to 2 decimals. If the cost is "default value", AKA not given it will format to
+   * STRING_NOT_GIVEN.
+   *
+   * @param inputCost , the item to retrieve the cost from.
+   * @return , returns the formatted cost in string format.
+   */
+  private String retrieveCostFormattedToString(Double inputCost) {
+    String cost = STRING_NOT_GIVEN;
+    if (!validator.costIsDefaultValue(inputCost)) {
+      cost = decimalFormat.format(inputCost);
+    }
+    return cost;
+  }
+
+  /**
+   * Retrieves the expiration date of an item and formats it to a string. If the expiration date is
+   * If date is "default value", AKA not given it will format to STRING_NOT_GIVEN.
+   *
+   * @param inputDate , the item to retrieve the expiration date from.
+   * @return , returns the formatted expiration date in string format.
+   */
+  private String retrieveExpirationDateToString(LocalDate inputDate) {
+    String formattedDate = STRING_NOT_GIVEN;
+    if (!validator.isAfterDateLimit(inputDate)) {
+      formattedDate = String.format("%d-%02d-%02d",
+          inputDate.getYear(), inputDate.getMonthValue(), inputDate.getDayOfMonth());
+    }
+    return formattedDate;
   }
 
   /**

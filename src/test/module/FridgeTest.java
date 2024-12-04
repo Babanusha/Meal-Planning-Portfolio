@@ -13,7 +13,6 @@ import org.junit.jupiter.api.Test;
 class FridgeTest {
 
   Fridge fridgeTester = new Fridge();
-  ArrayList<Item> listOfItemsTest = new ArrayList<>();
 
   @BeforeEach
   void setUp() {

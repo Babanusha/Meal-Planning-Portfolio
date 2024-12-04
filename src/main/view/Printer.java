@@ -1,15 +1,15 @@
 package view;
 
+import static module.ApplicationSettings.CURRENCY_EUR;
+import static module.ApplicationSettings.CURRENCY_GBP;
+import static module.ApplicationSettings.CURRENCY_NOK;
+import static module.ApplicationSettings.CURRENCY_USD;
 import static module.ApplicationSettings.INT_EXIT;
 import static module.ApplicationSettings.STRING_GRAMS;
 import static module.ApplicationSettings.STRING_KILOGRAMS;
 import static module.ApplicationSettings.STRING_LITERS;
 import static module.ApplicationSettings.STRING_MILLIGRAMS;
 import static module.ApplicationSettings.STRING_MILLILITERS;
-import static module.ApplicationSettings.CURRENCY_EUR;
-import static module.ApplicationSettings.CURRENCY_GBP;
-import static module.ApplicationSettings.CURRENCY_NOK;
-import static module.ApplicationSettings.CURRENCY_USD;
 
 public class Printer {
 
@@ -17,6 +17,7 @@ public class Printer {
   public void printString(String message) {
     System.out.println(message);
   }
+
   public void printError(String stringToPrint) {
     System.err.println(stringToPrint);
   }
@@ -65,11 +66,6 @@ public class Printer {
   }
 
 
-
-
-
-
-
   public void listQuantityUnitsTable() {
 
     printString("1. " + STRING_KILOGRAMS);
@@ -98,6 +94,7 @@ public class Printer {
   public void correctedFormatForIntHandler() {
     printString("Please enter a number corresponding to the given list");
   }
+
   public void invalidInputError() {
     printError("Invalid input, try again");
   }
@@ -110,15 +107,15 @@ public class Printer {
     printString("Please enter letters and numbers, special characters not allowed");
   }
 
-
   /**
    * Standard feedback message for string input errors.
    */
 
   public void stringErrorStandardResponse() {
-  invalidInputError();
-  correctedFormatForStringHandler();
+    invalidInputError();
+    correctedFormatForStringHandler();
   }
+
   /**
    * Standard user feedback for "int" input errors.
    */

@@ -226,7 +226,9 @@ public class Fridge {
   public double calculateTotalCostOfItems() {
     double totalcost = 0;
     for (Item item : listOfItems) {
-      totalcost += item.getProductCost();
+      if (item.getProductCost() > 0) { //Takes out default values.
+        totalcost += item.getProductCost();
+      }
     }
     return totalcost;
   }

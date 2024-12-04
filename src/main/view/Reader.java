@@ -5,8 +5,7 @@ import static module.ApplicationSettings.INVALID_INPUT;
 import java.util.Scanner;
 
 /**
- * Class for reading input from the user.
- * Uses Java.util.Scanner for reading input.
+ * Class for reading input from the user. Uses Java.util.Scanner for reading input.
  */
 public class Reader {
 
