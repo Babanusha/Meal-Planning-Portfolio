@@ -277,9 +277,9 @@ public class Controller {
    * @return true to indicate that the item has been removed.
    */
   private boolean removeItemFromFridge(Item itemToEdit) {
-    fridge.removeItem(itemToEdit);
+    boolean removedStatus = fridge.removeItem(itemToEdit);
     displayAllItemsInFridge();
-    return true; //Indicate a check for exit.
+    return removedStatus; //Indicate a check for exit.
   }
 
   /**

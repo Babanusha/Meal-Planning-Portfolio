@@ -34,8 +34,7 @@ public class ApplicationSettings {
   public static final String STRING_MILLILITERS = "Milliliters";
   public static final String STRING_DECIMALFORMAT = "0.##"; //Decimal format for double values
   public static final int INT_EXIT = 9;
-  public static final String EXIT = "exit";
-  public static final String CANCELLED = "cancelled";
+
   public static final String INVALID_INPUT = "Invalid input";
   //ISO CODE STRING FOR CURRENCY
   public static final String CURRENCY_NOK = "Kr (NOK)";
