@@ -73,7 +73,7 @@ public class UserInterface {
     while (!inputAccepted) {
       try {
         input = reader.readDouble();
-        if (!validator.isDoubleAccepted(input, maximumIntValue)) {
+        if (!validator.isDoubleBetweenZeroAndGivenValue(input, maximumIntValue)) {
           throw new IllegalArgumentException(INVALID_INPUT);
         }
 

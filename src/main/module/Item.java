@@ -1,7 +1,6 @@
 package module;
 
 
-
 import java.time.LocalDate;
 
 
@@ -12,18 +11,18 @@ import java.time.LocalDate;
  */
 public class Item {
 
-  private LocalDate expirationDate;
-  private String name;
+  private LocalDate expirationDate; // expiration date of item.
+  private String name; // name of item
   private int quantity; // needs specifier (e.g. "grams", "pieces")
   private String unit; //grams or piece
-  private double productCost; // TODO:price per quantity -> max 2 decimals?
+  private double productCost; //cost of item
 
   /**
    * Constructor for Item with only mandatory fields.
    *
-   * @param name              , name of item
-   * @param quantity          , quantity of item
-   * @param unit , type of quantity (e.g. grams, pieces, liters)
+   * @param name     , name of item
+   * @param quantity , quantity of item
+   * @param unit     , type of quantity (e.g. grams, pieces, liters)
    */
   public Item(String name, int quantity, String unit) {
     this(name, quantity, unit, -1, null);
@@ -33,11 +32,11 @@ public class Item {
    * Overloaded constructor for Items with all fields. Used when all fields are known. Contains:
    * name, quantity, quantity specifier, product cost and expiration date.
    *
-   * @param name              , name of item
-   * @param quantity          , quantity of item
-   * @param unit , type of quantity (e.g. grams, pieces, liters)
-   * @param productCost       , price of item
-   * @param expirationDate    , expiration date of item
+   * @param name           , name of item
+   * @param quantity       , quantity of item
+   * @param unit           , type of quantity (e.g. grams, pieces, liters)
+   * @param productCost    , price of item
+   * @param expirationDate , expiration date of item
    */
 
   public Item(String name, int quantity, String unit, double productCost, LocalDate
