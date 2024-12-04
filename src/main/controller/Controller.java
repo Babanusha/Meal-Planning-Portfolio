@@ -34,8 +34,13 @@ public class Controller {
     start();
   }
 
+  /**
+   * Initialising the controller with the necessary classes and objects.
+   * <p>
+   * Several classes are ONLY initiated in the controller, and not held by the controller.
+   */
 
-  public void init() {
+  private void init() {
 
 
     Validator validator = new Validator();//Only Initiated in controller, not held by.
@@ -50,20 +55,32 @@ public class Controller {
   }
 
 
-
+  /**
+   * Starts the application and runs the main menu.
+   */
 
   private void start() {
-    boolean isApplicationOnline = true; //If time, make persistent storage
+    boolean isApplicationOnline = true;
     mainMenuSwitchCase(isApplicationOnline);
   }
 
-  private void exit() { //TODO: Make it save to a file if time + persistent storage?
+  /**
+   * Exits the application.
+   * <p>
+   * Prompts user for confirmation before exiting.
+   */
+  private void exit() {
     if (userInterface.promtExitMessage()) {
       System.exit(0);
     }
     mainMenuSwitchCase(true);
   }
 
+  /**
+   * Main menu switch case.
+   * @param programStatus boolean to keep the program running.
+   * Must correspond to UI.printers homeMenu.
+   */
   private void mainMenuSwitchCase(boolean programStatus) {
     while (programStatus) {
       try {
@@ -87,6 +104,12 @@ public class Controller {
     }
     exit();
   }
+
+  /**
+   * Displays items that expire before a given date.
+   * Checks if there is any items returned form fridge.
+   */
+
   private void displayItemsThatExpireBeforeGivenDate() {
     LocalDate dateToCheck = userInterface.promtForExpirationDate();
     Iterator<Item> expiredItems= fridge.iterateExpiredItems(dateToCheck);
@@ -96,9 +119,12 @@ public class Controller {
     } else {
       userInterface.printNoItemsFound();
     }
-
   }
 
+  /**
+   * Fridge settings menu.
+   * Switch case with options.
+   */
   private void fridgeSettings() {
     boolean exitTrigger = false;
     while (!exitTrigger) {
@@ -119,6 +145,13 @@ public class Controller {
     }
   }
 
+  /**
+   * Creates a new item and adds it to the fridge.
+   * <p>
+   *   Prompts user for name, quantity, quantity unit, cost, and expiration date.
+   *   If user chooses to add cost, the user is prompted for cost.
+   *   If user chooses to add expiration date, the user is prompted for expiration date.
+   */
   private void createNewItem() {
 
     String name;
@@ -130,6 +163,7 @@ public class Controller {
     name = userInterface.promtForItemName();
     quantity = userInterface.promtForQuantity();
     quantityUnit = userInterface.promtForQuantityUnit();
+
     if (userInterface.yesOrNo("Do you want to add cost of item?")) { //TODO: move string
       cost = userInterface.promtForCostOfItem();
     }
@@ -140,15 +174,30 @@ public class Controller {
         cost, expirationDate);
   }
 
+  /**
+   * Displays all items in the fridge.
+   * Retrieves and prints the calculated cost of all items in the fridge.
+   */
   private void displayAllItemsInFridge() {
     userInterface.displayItemsInTable(fridge.iterateOverFridge());
     userInterface.displayCostOfItemsInFridge(calculateCostOfFridge());
   }
 
 
+  /**
+   * Calculates the total cost of all items in the fridge.
+   * @return the total cost of all items in the fridge.
+   */
+
   private double calculateCostOfFridge() {
    return fridge.calculateTotalCostOfItems();
   }
+
+  /**
+   * Searches for an item in the fridge by prompting item name.
+   * If the item is found, the user is prompted to edit the item.
+   * if multiple items are found, the user is prompted to choose which item to edit.
+   */
   private void searchAndEditItemMenu() {
     displayAllItemsInFridge();
     String searchItem = userInterface.promtForItemName();
@@ -161,18 +210,40 @@ public class Controller {
     }
 
   }
+
+  /**
+   * Method to make user explicitly choose between multiple items found in search.
+   * @param searchItem the item to search for.
+   * prompts the user to choose which item to edit from number of new list.
+   */
   private void editMultipleItems(String searchItem) {
     editItemSwitchCase(fridge.retrieveNthOccurenceOfItem(
         promtForSpecificItemToEditFromSearch(searchItem),searchItem));
   }
 
+  /**
+   * Edits a singular item.
+   * @param searchItem the item to search for.
+   * Prompts user to edit the item.
+   */
   private void editSingularItem(String searchItem) {
     editItemSwitchCase(fridge.searchForItem(searchItem).next());
   }
 
+  /**
+   * Prompts user to choose which item to edit from a list of items.
+   * @param searchItem the item that has been searched for.
+   * @return the index of the item to edit.
+   */
+
   private int promtForSpecificItemToEditFromSearch(String searchItem) {
    return userInterface.promtMultipleItemsFoundChoice(fridge.searchForItem(searchItem));
   }
+
+  /**
+   * Switch case for editing an item.
+   * @param itemToEdit the item to edit.
+   */
 
   private void editItemSwitchCase(Item itemToEdit) {
     int userChoice = userInterface.promtWhatPartToEditInItem();
@@ -192,36 +263,61 @@ public class Controller {
       } catch (Exception allExceptions) {
         userInterface.printIntErrorStandardResponse();
       }
+    }
   }
 
-
-
-
-
-  }
-
+  /**
+   * Removes an item from the fridge.
+   * @param itemToEdit the item to remove.
+   * @return true to indicate that the item has been removed.
+   */
   private boolean removeItemFromFridge(Item itemToEdit) {
     fridge.removeItem(itemToEdit);
     displayAllItemsInFridge();
-    return true;
+    return true; //Indicate a check for exit.
   }
 
+  /**
+   * Edits the expiration date of an item.
+   * @param itemToEdit the item to edit.
+   * @return true to indicate that the expiration date has been edited.
+   */
   private boolean editExpirationDate(Item itemToEdit) {
     return fridge.editItemExpirationDate(itemToEdit, userInterface.promtForExpirationDate());
   }
 
+  /**
+   * Edits the cost of an item.
+   * @param itemToEdit the item to edit.
+   * @return true to indicate that the cost has been edited.
+   */
   private boolean editCostOfItem(Item itemToEdit) {
     return fridge.editItemCost(itemToEdit, userInterface.promtForCostOfItem());
   }
 
+  /**
+   * Edits the quantity unit of an item.
+   * @param itemToEdit the item to edit.
+   * @return true to indicate that the quantity unit has been edited.
+   */
   private boolean editQuantityUnit(Item itemToEdit) {
     return fridge.editItemUnit(itemToEdit, userInterface.promtForQuantityUnit());
   }
 
+  /**
+   * Edits the quantity of an item.
+   * @param itemToEdit the item to edit.
+   * @return true to indicate that the quantity has been edited.
+   */
   private boolean editQuantity(Item itemToEdit) {
     return fridge.editItemQuantity(itemToEdit, userInterface.promtForQuantity());
   }
 
+  /**
+   * Edits the name of an item.
+   * @param itemToEdit the item to edit.
+   * @return true to indicate that the name has been edited.
+   */
   private boolean editName(Item itemToEdit) {
     return fridge.editItemName(itemToEdit, userInterface.promtForItemName());
   }
