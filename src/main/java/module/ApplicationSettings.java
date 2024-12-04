@@ -18,6 +18,7 @@ public class ApplicationSettings {
   public static final int SWITCH_CASE_LIMIT = 99;
   public static final int DEFAULT_INT_HANDLER_LIMIT = 99; //Default value for intHandler maximum value input.
   public static final int MAXIMUM_LENGTH_OF_STRING_INPUT = 100;
+  public static final String STRING_NOT_GIVEN = "Not given";
   //Controller
   public static final LocalDate DEFAULT_EXPIRATION_DATE = LocalDate.of(9999, 12, 31);
   public static final int DEFAULT_COST = -1;
@@ -41,6 +42,7 @@ public class ApplicationSettings {
   public static final String CURRENCY_USD = "$ (USD)";
   public static final String CURRENCY_EUR = "€ (EUR)";
   public static final String CURRENCY_GBP = "£ (GBP)";
+
   private ApplicationSettings() {
     // Prevent instantiation.
   }

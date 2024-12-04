@@ -24,8 +24,9 @@ public class Item {
    * @param quantity , quantity of item
    * @param unit     , type of quantity (e.g. grams, pieces, liters)
    */
+  //TODO: fix?
   public Item(String name, int quantity, String unit) {
-    this(name, quantity, unit, -1, null);
+    this(name, quantity, unit, -1, LocalDate.of(9999, 12, 31));
   }
 
   /**
