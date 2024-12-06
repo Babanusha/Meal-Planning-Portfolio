@@ -70,6 +70,7 @@ public class Controller {
 
   private void start() {
     boolean isApplicationOnline = true;
+    userInterface.printWelcomeMessage();
     mainMenuSwitchCase(isApplicationOnline);
   }
 
@@ -99,14 +100,16 @@ public class Controller {
 
           case 1 -> createNewItem();
           case 2 -> reduceAnItemInFridge();
+
           case 3 -> searchAndEditItemMenu();
-          case 4 -> displayAllItemsInFridge();
-          case 5 -> displayItemsThatExpireBeforeGivenDate();
+          case 4 -> searchDisplayItemsThatExpireBeforeGivenDate();
 
+          case 5 -> displayAllItemsInFridgeWithCost();
+          case 6 -> displaySimplifiedFridge();
 
-          case 6 -> openCookBookMenu();
-
+          case 7 -> openCookBookMenu();
           case 8 -> fridgeSettings();
+
           case INT_EXIT -> programStatus = false;        //EXIT
 
           default -> throw new IllegalArgumentException("Invalid input");
@@ -117,6 +120,10 @@ public class Controller {
       }
     }
     exit();
+  }
+
+  private void displaySimplifiedFridge() {
+    userInterface.displayItemsInTable(fridge.retrieveShortenListOfItems());
   }
 
   private void reduceAnItemInFridge() {
@@ -280,7 +287,7 @@ public class Controller {
    * fridge.
    */
 
-  private void displayItemsThatExpireBeforeGivenDate() {
+  private void searchDisplayItemsThatExpireBeforeGivenDate() {
     LocalDate dateToCheck = userInterface.promtForExpirationDate();
     Iterator<Item> expiredItems = fridge.iterateExpiredItems(dateToCheck);
     if (expiredItems.hasNext()) {
@@ -353,7 +360,7 @@ public class Controller {
    * Displays all items in the fridge. Retrieves and prints the calculated cost of all items in the
    * fridge.
    */
-  private void displayAllItemsInFridge() {
+  private void displayAllItemsInFridgeWithCost() {
     userInterface.displayItemsInTable(fridge.iterateOverFridge());
     userInterface.displayCostOfItemsInFridge(calculateCostOfFridge());
   }
@@ -371,7 +378,7 @@ public class Controller {
 
 
   private Item searchForItemNameInFridge() {
-    displayAllItemsInFridge();
+    displayAllItemsInFridgeWithCost();
     Item itemFromFridge = null;
     try {
       String searchItem = userInterface.promtForItemName();
@@ -461,7 +468,7 @@ private Item retrieveUniqeFirstItem(String searchItem) {
    */
   private boolean removeItemFromFridge(Item itemToEdit) {
     boolean removedStatus = fridge.removeItem(itemToEdit);
-    displayAllItemsInFridge();
+    displayAllItemsInFridgeWithCost();
     return removedStatus; //Indicate a check for exit.
   }
 

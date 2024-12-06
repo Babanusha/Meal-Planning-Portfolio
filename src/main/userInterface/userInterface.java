@@ -250,7 +250,7 @@ public class userInterface {
    */
 
   public double promtForCostOfItem() {
-    printer.printString("Enter cost of item:");
+    printer.printString("Enter the cost of one item:");
     return doubleHandler(COST_LIMITATION);
   }
 
@@ -595,7 +595,8 @@ public class userInterface {
   }
 
   public void printRecipeIngredients(Iterator<Item> recipeIngredients) {
-    printer.printString("Ingredients: ");
+    printer.printIngredienttable();
+
     int ingredientNumerator = 0;
     while (recipeIngredients.hasNext()) {
       ingredientNumerator++;
@@ -657,4 +658,7 @@ public class userInterface {
   }
 
 
+  public void printWelcomeMessage() {
+    printer.welcomeMessage();
+  }
 }
