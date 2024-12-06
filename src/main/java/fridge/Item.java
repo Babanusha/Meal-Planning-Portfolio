@@ -57,6 +57,18 @@ public class Item {
     setExpirationDate(expirationDate);
   }
 
+  /**
+   * Copy constructor for Items.
+   * @param item to copyIntoNewOne
+   */
+  public Item(Item item) {
+    setName(item.getName());
+    setQuantity(item.getQuantity());
+    setUnit(item.getUnit());
+    setProductCost(item.getProductCost());
+    setExpirationDate(item.getExpirationDate());
+  }
+
 
   /**
    * Get name of item.
