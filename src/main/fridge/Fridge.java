@@ -6,8 +6,12 @@ import static settings.ApplicationSettings.STRING_LITERS;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 //TODO: En metode for å legge til en matvare i registeret. Dersom det allerede finnes en matvare av
 //samme type som den varen som forsøkes lagt til, skal mengden av varen i kjøleskapet
@@ -273,39 +277,55 @@ public class Fridge {
     return noItemsLeft;
   }
 
-  /*          //TODO: continue this method, hopefully make it work..
-              //TODO: REMOVE COPY CONSTRUCTOR???
+  /*
+  private Iterator<Item> createShortenedListOfItems() {
+    List<Item> mergedItems = new ArrayList<>(listOfItems); //duplicate list.
+    mergedItems.sort(Comparator.comparing(Item::getName)); //Sort alphabetically by name
 
-  public Iterator<Item> iterateSimplifiedItems() {
-    Map<String, Item> mergedItemsMap = new HashMap<>();
+    Item previousItem = mergedItems.getFirst(); //First item in list.
 
-    // Sort the list alphabetically by item name (sorts original list)
-    listOfItems.sort(Comparator.comparing(Item::getName));
+    for (Item newItem : mergedItems) {
 
-    // Create a new list to store merged items
-    List<Item> simplifiedList = new ArrayList<>();
+      if (previousItem != null) {
+        if (previousItem.getName()
+            .equalsIgnoreCase(newItem.getName())) { //If name is the same, merge quantity and delete last element
+          int index = mergedItems.indexOf(previousItem);
 
-    // Iterate over the original list and merge items by name
-    for (Item item : listOfItems) {
-      String name = item.getName();
-
-      // Check if the item with this name is already in the map
-      if (mergedItemsMap.containsKey(name)) {
-        // If it exists, add the quantity to the existing item
-        Item existingItem = mergedItemsMap.get(name);
-        existingItem.setQuantity(existingItem.getQuantity() + item.getQuantity());
-      } else {
-        // Otherwise, add the item to the map and the simplified list
-        mergedItemsMap.put(name, new Item(item)); // Assuming you have a copy constructor
-        simplifiedList.add(new Item(item)); // Add to the simplified list
+          mergedItems.get(index) //Get previous
+              .setQuantity(mergedItems.get(index).getQuantity() + newItem.getQuantity()); //set quantity to sum of both.
+          mergedItems.remove(newItem); //remove new item.
+        }
       }
-    }
-
-    // Return an iterator over the simplified list
-    return simplifiedList.iterator();
+      previousItem = newItem; //  new item to previous item.
+    } return mergedItems.iterator();
   }
 
 */
+  private Iterator<Item> createShortenedListOfItems() {
+         // Create a map to group items by their name (case-insensitive) and sum their quantities
+    Map<String, Item> groupedItems = new HashMap<>();
+
+    for (Item item : listOfItems) {
+      String itemName = item.getName().toLowerCase(); // Normalize name to lowercase for case-insensitivity
+      if (!groupedItems.containsKey(itemName)) {
+        groupedItems.put(itemName, new Item(item)); // Add a copy of the item to the map
+      } else {
+        // If name exists, merge the quantity
+        Item existingItem = groupedItems.get(itemName);
+        existingItem.setQuantity(existingItem.getQuantity() + item.getQuantity());
+      }
+    }
+
+    // Sort grouped items alphabetically by name and return as an iterator
+    List<Item> shortenedList = new ArrayList<>(groupedItems.values());
+    shortenedList.sort(Comparator.comparing(Item::getName)); // Optional: sort alphabetically if required
+    return shortenedList.iterator();
+  }
+  public Iterator<Item> retrieveShortenListOfItems() {
+    return createShortenedListOfItems(); //always reloaded list.
+  }
+
+
 
 }
 
