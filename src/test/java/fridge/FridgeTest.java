@@ -1,14 +1,10 @@
 package redacted.path.module;
 
-import static redacted.path.module.ApplicationSettings.STRING_LITERS;
-import static org.junit.jupiter.api.Assertions.*;
+import static redacted.path.settings.ApplicationSettings.STRING_LITERS;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.Iterator;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 
 class FridgeTest {
 

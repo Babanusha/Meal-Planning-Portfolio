@@ -1,6 +1,6 @@
-package redacted.path.view;
+package redacted.path.userInterface;
 
-import static redacted.path.module.ApplicationSettings.INVALID_INPUT;
+import static redacted.path.settings.ApplicationSettings.INVALID_INPUT;
 
 import java.util.Scanner;
 

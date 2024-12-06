@@ -1,30 +1,31 @@
-package redacted.path.view;
+package redacted.path.userInterface;
 
-import static redacted.path.module.ApplicationSettings.COST_LIMITATION;
-import static redacted.path.module.ApplicationSettings.CURRENCY_EUR;
-import static redacted.path.module.ApplicationSettings.CURRENCY_GBP;
-import static redacted.path.module.ApplicationSettings.CURRENCY_NOK;
-import static redacted.path.module.ApplicationSettings.CURRENCY_USD;
-import static redacted.path.module.ApplicationSettings.DAY_INT_LIMITATION;
-import static redacted.path.module.ApplicationSettings.DEFAULT_INT_HANDLER_LIMIT;
-import static redacted.path.module.ApplicationSettings.INT_GRAMS;
-import static redacted.path.module.ApplicationSettings.INT_KILOGRAMS;
-import static redacted.path.module.ApplicationSettings.INT_LITERS;
-import static redacted.path.module.ApplicationSettings.INT_MILLIGRAMS;
-import static redacted.path.module.ApplicationSettings.INT_MILLILITERS;
-import static redacted.path.module.ApplicationSettings.INVALID_INPUT;
-import static redacted.path.module.ApplicationSettings.MONTH_INT_LIMITATION;
-import static redacted.path.module.ApplicationSettings.QUANTITY_LIMITATION;
-import static redacted.path.module.ApplicationSettings.STRING_GRAMS;
-import static redacted.path.module.ApplicationSettings.STRING_KILOGRAMS;
-import static redacted.path.module.ApplicationSettings.STRING_LITERS;
-import static redacted.path.module.ApplicationSettings.STRING_MILLIGRAMS;
-import static redacted.path.module.ApplicationSettings.STRING_MILLILITERS;
-import static redacted.path.module.ApplicationSettings.STRING_NOT_GIVEN;
-import static redacted.path.module.ApplicationSettings.YEAR_INT_LIMITATION;
+import static redacted.path.settings.ApplicationSettings.COST_LIMITATION;
+import static redacted.path.settings.ApplicationSettings.CURRENCY_EUR;
+import static redacted.path.settings.ApplicationSettings.CURRENCY_GBP;
+import static redacted.path.settings.ApplicationSettings.CURRENCY_NOK;
+import static redacted.path.settings.ApplicationSettings.CURRENCY_USD;
+import static redacted.path.settings.ApplicationSettings.DAY_INT_LIMITATION;
+import static redacted.path.settings.ApplicationSettings.DEFAULT_INT_HANDLER_LIMIT;
+import static redacted.path.settings.ApplicationSettings.INT_GRAMS;
+import static redacted.path.settings.ApplicationSettings.INT_KILOGRAMS;
+import static redacted.path.settings.ApplicationSettings.INT_LITERS;
+import static redacted.path.settings.ApplicationSettings.INT_MILLIGRAMS;
+import static redacted.path.settings.ApplicationSettings.INT_MILLILITERS;
+import static redacted.path.settings.ApplicationSettings.INVALID_INPUT;
+import static redacted.path.settings.ApplicationSettings.MONTH_INT_LIMITATION;
+import static redacted.path.settings.ApplicationSettings.QUANTITY_LIMITATION;
+import static redacted.path.settings.ApplicationSettings.STRING_GRAMS;
+import static redacted.path.settings.ApplicationSettings.STRING_HANDLER_LIMIT_FOR_NAME;
+import static redacted.path.settings.ApplicationSettings.STRING_HANDLER_LIMIT_FOR_YES_NO;
+import static redacted.path.settings.ApplicationSettings.STRING_KILOGRAMS;
+import static redacted.path.settings.ApplicationSettings.STRING_LITERS;
+import static redacted.path.settings.ApplicationSettings.STRING_MILLIGRAMS;
+import static redacted.path.settings.ApplicationSettings.STRING_PIECES;
+import static redacted.path.settings.ApplicationSettings.STRING_NOT_GIVEN;
+import static redacted.path.settings.ApplicationSettings.YEAR_INT_LIMITATION;
 
-import redacted.path.controller.Validator;
-import redacted.path.module.Item;
+import redacted.path.module.fridge.Item;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.Iterator;
@@ -32,7 +33,7 @@ import java.util.Iterator;
 /**
  * Class for handling user input/output. Uses Reader, Printer, Validator and DecimalFormat classes.
  */
-public class UserInterface {
+public class User_interface {
 
   private final Reader reader;
   private final Printer printer;
@@ -50,7 +51,7 @@ public class UserInterface {
    * @param decimalFormat , DecimalFormat class for formatting values to correct length.
    */
 
-  public UserInterface(Reader reader, Printer printer,
+  public User_interface(Reader reader, Printer printer,
       Validator validator, DecimalFormat decimalFormat) {
     this.reader = reader;
     this.printer = printer;
@@ -111,7 +112,6 @@ public class UserInterface {
         inputAccepted = true;
       } catch (Exception e) {
         printer.intErrorStandardResponse();
-        input = 0;
       }
     }
     return input;
@@ -139,13 +139,13 @@ public class UserInterface {
    * @return , returns the validated string value from user.
    */
 
-  public String stringHandler() {
+  public String stringHandler(int maxLengthOfString) {
     String input = null;
     boolean inputAccepted = false;
 
     while (!inputAccepted) {
       try {
-        input = readAndValidateString();
+        input = readAndValidateString(maxLengthOfString);
         inputAccepted = true;
       } catch (Exception e) {
         printer.stringErrorStandardResponse();
@@ -161,9 +161,9 @@ public class UserInterface {
    * @throws IllegalArgumentException ,if input does not match the regex pattern.
    */
 
-  private String readAndValidateString() throws IllegalArgumentException {
+  private String readAndValidateString(int maxLengthOfString) throws IllegalArgumentException {
     String input = reader.readString();
-    if (!validator.validateString(input)) {
+    if (!validator.validateString(input, maxLengthOfString)) {
       throw new IllegalArgumentException(INVALID_INPUT);
     }
     return input;
@@ -177,7 +177,7 @@ public class UserInterface {
 
   public String promtForItemName() {
     printer.printString("Enter item name:");
-    return stringHandler();
+    return stringHandler(STRING_HANDLER_LIMIT_FOR_NAME);
   }
 
   /**
@@ -230,7 +230,7 @@ public class UserInterface {
       case INT_GRAMS -> STRING_GRAMS;
       case INT_MILLIGRAMS -> STRING_MILLIGRAMS;
       case INT_LITERS -> STRING_LITERS;
-      case INT_MILLILITERS -> STRING_MILLILITERS;
+      case INT_MILLILITERS -> STRING_PIECES;
       default -> throw new IllegalArgumentException(
           INVALID_INPUT); // Throws exception to promtForQuantityUnit.
     };
@@ -287,7 +287,7 @@ public class UserInterface {
    */
   public boolean yesOrNo(String questionOnly) {
     printer.printString(questionOnly + "  (yes/no or y/n)");
-    return validator.checkIfYes(stringHandler());
+    return validator.checkIfYes(stringHandler(STRING_HANDLER_LIMIT_FOR_YES_NO));
   }
 
 
@@ -500,5 +500,10 @@ public class UserInterface {
    */
   public void printIntErrorStandardResponse() { //redirects to printer
     printer.intErrorStandardResponse();
+  }
+
+  public String promtForRecipeName() {
+    printer.printString("Enter recipe name:");
+    return stringHandler(STRING_HANDLER_LIMIT_FOR_NAME);
   }
 }
