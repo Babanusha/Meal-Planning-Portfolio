@@ -1,14 +1,20 @@
-package module;
+package module.fridge;
 
-import static module.ApplicationSettings.STRING_KILOGRAMS;
-import static module.ApplicationSettings.STRING_LITERS;
+import static settings.ApplicationSettings.STRING_KILOGRAMS;
+import static settings.ApplicationSettings.STRING_LITERS;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import org.w3c.dom.css.CSSImportRule;
 
+//TODO: En metode for å legge til en matvare i registeret. Dersom det allerede finnes en matvare av
+//samme type som den varen som forsøkes lagt til, skal mengden av varen i kjøleskapet
+//økes tilsvarende mengden som blir forsøkt lagt til. (DEL 2 spesifikasjon)
 
 public class Fridge {
 
@@ -28,7 +34,7 @@ public class Fridge {
 
   private void testInit() { //TODO: Remove before completion
     listOfItems.add(new Item("Milk", 1, STRING_LITERS, 20.03034, LocalDate.now().plusDays(2)));
-    listOfItems.add(new Item("Milk", 3, STRING_LITERS, 40.3402, LocalDate.now().plusDays(7)));
+    listOfItems.add(new Item("milk", 3, STRING_LITERS, 40.3402, LocalDate.now().plusDays(7)));
     listOfItems.add(new Item("Bacon", 2, STRING_KILOGRAMS, 20.03032, LocalDate.now().plusDays(3)));
     listOfItems.add(new Item("Kenguru", 1, STRING_LITERS, 30, LocalDate.now().plusDays(7)));
 
@@ -227,7 +233,7 @@ public class Fridge {
     double totalcost = 0;
     for (Item item : listOfItems) {
       if (item.getProductCost() > 0) { //Takes out default values.
-        totalcost += item.getProductCost();
+        totalcost += (item.getProductCost() * item.getQuantity());
       }
     }
     return totalcost;
@@ -256,6 +262,53 @@ public class Fridge {
         .filter(itemInList -> itemInList.getExpirationDate().isBefore(dateToCheck))
         .mapToDouble(Item::getProductCost).sum();
   }
+
+  public boolean reduceQuantityOfItem(int quantityToReduceWith,Item itemToReduce) {
+    boolean noItemsLeft = false;
+    int oldQuantity = itemToReduce.getQuantity();
+    if(oldQuantity <= quantityToReduceWith) { //If the quantity to reduce with is greater than or equal to the quantity of the item, remove the item.
+      removeItem(itemToReduce);
+      noItemsLeft = true;
+    } else {
+      itemToReduce.setQuantity(oldQuantity - quantityToReduceWith);
+    }
+    return noItemsLeft;
+  }
+
+  /*          //TODO: continue this method, hopefully make it work..
+              //TODO: REMOVE COPY CONSTRUCTOR???
+
+  public Iterator<Item> iterateSimplifiedItems() {
+    Map<String, Item> mergedItemsMap = new HashMap<>();
+
+    // Sort the list alphabetically by item name (sorts original list)
+    listOfItems.sort(Comparator.comparing(Item::getName));
+
+    // Create a new list to store merged items
+    List<Item> simplifiedList = new ArrayList<>();
+
+    // Iterate over the original list and merge items by name
+    for (Item item : listOfItems) {
+      String name = item.getName();
+
+      // Check if the item with this name is already in the map
+      if (mergedItemsMap.containsKey(name)) {
+        // If it exists, add the quantity to the existing item
+        Item existingItem = mergedItemsMap.get(name);
+        existingItem.setQuantity(existingItem.getQuantity() + item.getQuantity());
+      } else {
+        // Otherwise, add the item to the map and the simplified list
+        mergedItemsMap.put(name, new Item(item)); // Assuming you have a copy constructor
+        simplifiedList.add(new Item(item)); // Add to the simplified list
+      }
+    }
+
+    // Return an iterator over the simplified list
+    return simplifiedList.iterator();
+  }
+
+*/
+
 }
 
 

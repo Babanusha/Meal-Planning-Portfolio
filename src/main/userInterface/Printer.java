@@ -1,15 +1,16 @@
-package view;
+package userInterface;
 
-import static module.ApplicationSettings.CURRENCY_EUR;
-import static module.ApplicationSettings.CURRENCY_GBP;
-import static module.ApplicationSettings.CURRENCY_NOK;
-import static module.ApplicationSettings.CURRENCY_USD;
-import static module.ApplicationSettings.INT_EXIT;
-import static module.ApplicationSettings.STRING_GRAMS;
-import static module.ApplicationSettings.STRING_KILOGRAMS;
-import static module.ApplicationSettings.STRING_LITERS;
-import static module.ApplicationSettings.STRING_MILLIGRAMS;
-import static module.ApplicationSettings.STRING_MILLILITERS;
+import static settings.ApplicationSettings.CURRENCY_EUR;
+import static settings.ApplicationSettings.CURRENCY_GBP;
+import static settings.ApplicationSettings.CURRENCY_NOK;
+import static settings.ApplicationSettings.CURRENCY_USD;
+import static settings.ApplicationSettings.INT_EXIT;
+import static settings.ApplicationSettings.STRING_GRAMS;
+import static settings.ApplicationSettings.STRING_KILOGRAMS;
+import static settings.ApplicationSettings.STRING_LITERS;
+import static settings.ApplicationSettings.STRING_MILLIGRAMS;
+import static settings.ApplicationSettings.STRING_PIECES;
+
 
 public class Printer {
 
@@ -29,9 +30,12 @@ public class Printer {
     blankLine();
     printString("Fridge is open, choose an action:");
     printString("1. Add item to fridge");
-    printString("2. Search fridge, edit/remove possible.");
-    printString("3. List items in fridge & calculate cost");
-    printString("4. See items that expire before a given date");
+    printString("2. Take out parts of an item");
+    printString("3. Search fridge, edit/remove possible.");
+    printString("4. List items in fridge & calculate cost");
+    printString("5. Search expire before a given date");
+    blankLine();
+    printString("6. Open cookBook");
     blankLine();
     printString("8. Fridge settings");
     printString(INT_EXIT + ". Exit Application");
@@ -72,13 +76,14 @@ public class Printer {
     printString("2. " + STRING_GRAMS);
     printString("3. " + STRING_MILLIGRAMS);
     printString("4. " + STRING_LITERS);
-    printString("5. " + STRING_MILLILITERS);
+    printString("5. " + STRING_PIECES);
   }
 
+  //ea = each
 
   public void itemTableFrame() {
     printString(String.format("%-5s\t%-13s\t%-11s\t%-10s\t%-10s\t%-16s",
-        "Nr", "Name", "Quantity", "Unit", "Cost", "Expiration Date"));
+        "Nr", "Name", "Quantity", "Unit", "Cost 'ea' ", "Expiration Date"));
   }
 
   public void currencyMenu() {
@@ -122,5 +127,39 @@ public class Printer {
   public void intErrorStandardResponse() {
     invalidInputError();
     correctedFormatForIntHandler();
+  }
+
+  public void cookBookMenu() {
+    printString("Welcome to cookBook! Where we help you manage your recipes.");
+    printString("To continue please choose an action from below:");
+    printString("1. Create a new recipe");
+    printString("2. search for a recipe - edit/remove possible");
+    printString("3. See all recipes");
+    blankLine();
+    printString(INT_EXIT + ". Exit cookBook");
+  }
+
+  public void recipeManual() {
+
+    printString("Write instructions sequentially, one line at a time.");
+    printString("When one step is finished, press enter before writing the next step.");
+    printError("When complete: type 'done' and press enter.");
+  }
+
+
+  public void editRecipeMenu() {
+    printString("Edit recipe:");
+    printString("1. Edit name");
+    printString("2. Edit description");
+    printString("3. Edit ingredients");
+    printString("4. Edit instructions");
+    printString("5. Remove recipe");
+    blankLine();
+    printString(INT_EXIT + ". Back to cookBook menu");
+  }
+
+
+  public void reduceItemQuantity() {
+    printString("Enter the amount you want to reduce the quantity by:");
   }
 }

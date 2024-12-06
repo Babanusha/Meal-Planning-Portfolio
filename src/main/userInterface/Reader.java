@@ -1,6 +1,6 @@
-package view;
+package userInterface;
 
-import static module.ApplicationSettings.INVALID_INPUT;
+import static settings.ApplicationSettings.INVALID_INPUT;
 
 import java.util.Scanner;
 

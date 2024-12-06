@@ -1,9 +1,8 @@
-package controller;
+package userInterface;
 
 
-import static module.ApplicationSettings.DEFAULT_COST;
-import static module.ApplicationSettings.MAXIMUM_LENGTH_OF_STRING_INPUT;
-import static module.ApplicationSettings.YEAR_INT_LIMITATION;
+import static settings.ApplicationSettings.DEFAULT_COST;
+import static settings.ApplicationSettings.YEAR_INT_LIMITATION;
 
 import java.time.LocalDate;
 
@@ -29,11 +28,10 @@ public class Validator {
    * @return true if input is valid, false otherwise
    */
 
-  public boolean validateString(String input) {
-    int maxLengthOfStringInput = MAXIMUM_LENGTH_OF_STRING_INPUT;
-    String regex = "^[a-zA-Z0-9]*$";
+  public boolean validateString(String input, int maxLengthOfStringInput) {
+    String regex = "^[a-zA-Z0-9 ,.]*$";
     return input != null && !input.trim().isEmpty() &&
-        input.length() < maxLengthOfStringInput && input.matches(regex);
+        input.length() <= maxLengthOfStringInput && input.matches(regex);
   }
 
   /**
@@ -66,5 +64,13 @@ public class Validator {
 
   public boolean costIsDefaultValue(Double inputCost) {
     return inputCost <= DEFAULT_COST;
+  }
+
+  public boolean isDoneSpotted(String input) {
+    return input.equalsIgnoreCase("done");
+  }
+
+  public boolean stringNotEmpty(String input) {
+    return !input.trim().isEmpty();
   }
 }

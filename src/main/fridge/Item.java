@@ -1,5 +1,8 @@
-package module;
+package module.fridge;
 
+
+import static settings.ApplicationSettings.DEFAULT_COST;
+import static settings.ApplicationSettings.DEFAULT_EXPIRATION_DATE;
 
 import java.time.LocalDate;
 
@@ -17,27 +20,32 @@ public class Item {
   private String unit; //grams or piece
   private double productCost; //cost of item
 
+
   /**
-   * Constructor for Item with only mandatory fields.
-   *
-   * @param name     , name of item
-   * @param quantity , quantity of item
-   * @param unit     , type of quantity (e.g. grams, pieces, liters)
+   * Constructor for Items were only name, quantity, and unit is entered.
+   * Contains: name, quantity, quantity specifier.
+   * Default values are set for product cost and expiration date.
+   * @param name name of item
+   * @param quantity quantity of item
+   * @param unit type of quantity (e.g. grams, pieces, liters)
    */
-  //TODO: fix?
   public Item(String name, int quantity, String unit) {
-    this(name, quantity, unit, -1, LocalDate.of(9999, 12, 31));
+    setName(name);
+    setQuantity(quantity);
+    setUnit(unit);
+    setProductCost(DEFAULT_COST);
+    setExpirationDate(DEFAULT_EXPIRATION_DATE);
   }
 
   /**
-   * Overloaded constructor for Items with all fields. Used when all fields are known. Contains:
-   * name, quantity, quantity specifier, product cost and expiration date.
+   * Constructor for Items with all fields.
+   * Contains: name, quantity, quantity specifier, product cost and expiration date.
    *
-   * @param name           , name of item
-   * @param quantity       , quantity of item
-   * @param unit           , type of quantity (e.g. grams, pieces, liters)
-   * @param productCost    , price of item
-   * @param expirationDate , expiration date of item
+   * @param name name of item
+   * @param quantity quantity of item
+   * @param unit type of quantity (e.g. grams, pieces, liters)
+   * @param productCost price of item
+   * @param expirationDate expiration date of item
    */
 
   public Item(String name, int quantity, String unit, double productCost, LocalDate
