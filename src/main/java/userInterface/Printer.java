@@ -24,18 +24,24 @@ public class Printer {
   }
 
   //______________________________________-
-
+  public void welcomeMessage() {
+    printString("Welcome to the fridge application!");
+  }
 
   public void homeMenu() {
     blankLine();
     printString("Fridge is open, choose an action:");
+
     printString("1. Add item to fridge");
     printString("2. Take out parts of an item");
+
     printString("3. Search fridge, edit/remove possible.");
-    printString("4. List items in fridge & calculate cost");
-    printString("5. Search expire before a given date");
+    printString("4. Search expire before a given date");
     blankLine();
-    printString("6. Open cookBook");
+    printString("5. List items in fridge & calculate cost");
+    printString("6. Display a simplified fridge overview");
+    blankLine();
+    printString("7. Open cookBook");
     blankLine();
     printString("8. Fridge settings");
     printString(INT_EXIT + ". Exit Application");
@@ -162,4 +168,13 @@ public class Printer {
   public void reduceItemQuantity() {
     printString("Enter the amount you want to reduce the quantity by:");
   }
+
+  public void printIngredienttable() {
+    printString("Ingredients:");
+    blankLine();
+    printString(String.format("%-5s\t%-13s\t%-11s\t%-10s",
+        "Nr", "Name", "Quantity", "Unit"));
+  }
+
+
 }
