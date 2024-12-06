@@ -1,4 +1,4 @@
-package redacted.path.module;
+package redacted.path.fridge;
 
 import static redacted.path.settings.ApplicationSettings.STRING_LITERS;
 
