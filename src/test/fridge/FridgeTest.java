@@ -1,4 +1,4 @@
-package module;
+package fridge;
 
 import static settings.ApplicationSettings.STRING_LITERS;
 

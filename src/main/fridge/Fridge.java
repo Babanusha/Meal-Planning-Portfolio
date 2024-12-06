@@ -1,4 +1,4 @@
-package module.fridge;
+package fridge;
 
 import static settings.ApplicationSettings.STRING_KILOGRAMS;
 import static settings.ApplicationSettings.STRING_LITERS;
@@ -6,11 +6,8 @@ import static settings.ApplicationSettings.STRING_LITERS;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
-import org.w3c.dom.css.CSSImportRule;
 
 //TODO: En metode for å legge til en matvare i registeret. Dersom det allerede finnes en matvare av
 //samme type som den varen som forsøkes lagt til, skal mengden av varen i kjøleskapet
@@ -263,10 +260,11 @@ public class Fridge {
         .mapToDouble(Item::getProductCost).sum();
   }
 
-  public boolean reduceQuantityOfItem(int quantityToReduceWith,Item itemToReduce) {
+  public boolean reduceQuantityOfItem(int quantityToReduceWith, Item itemToReduce) {
     boolean noItemsLeft = false;
     int oldQuantity = itemToReduce.getQuantity();
-    if(oldQuantity <= quantityToReduceWith) { //If the quantity to reduce with is greater than or equal to the quantity of the item, remove the item.
+    if (oldQuantity
+        <= quantityToReduceWith) { //If the quantity to reduce with is greater than or equal to the quantity of the item, remove the item.
       removeItem(itemToReduce);
       noItemsLeft = true;
     } else {

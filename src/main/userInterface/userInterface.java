@@ -16,30 +16,36 @@ import static settings.ApplicationSettings.INVALID_INPUT;
 import static settings.ApplicationSettings.MONTH_INT_LIMITATION;
 import static settings.ApplicationSettings.QUANTITY_LIMITATION;
 import static settings.ApplicationSettings.STRING_GRAMS;
+import static settings.ApplicationSettings.STRING_HANDLER_LIMIT_FOR_DESCRIPTION;
+import static settings.ApplicationSettings.STRING_HANDLER_LIMIT_FOR_INSTRUCTIONS;
 import static settings.ApplicationSettings.STRING_HANDLER_LIMIT_FOR_NAME;
 import static settings.ApplicationSettings.STRING_HANDLER_LIMIT_FOR_YES_NO;
 import static settings.ApplicationSettings.STRING_KILOGRAMS;
+import static settings.ApplicationSettings.STRING_LITERAL_NOT_GIVEN;
 import static settings.ApplicationSettings.STRING_LITERS;
 import static settings.ApplicationSettings.STRING_MILLIGRAMS;
 import static settings.ApplicationSettings.STRING_PIECES;
-import static settings.ApplicationSettings.STRING_NOT_GIVEN;
+import static settings.ApplicationSettings.TEN_BLANK_SPACES;
 import static settings.ApplicationSettings.YEAR_INT_LIMITATION;
 
-import module.fridge.Item;
+import cookbook.Recipe;
+import fridge.Item;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
  * Class for handling user input/output. Uses Reader, Printer, Validator and DecimalFormat classes.
  */
-public class User_interface {
+public class userInterface {
 
   private final Reader reader;
   private final Printer printer;
   private final Validator validator;
   private final DecimalFormat decimalFormat;
   private String currentCurrency = CURRENCY_NOK; //Default currency
+
 
   /**
    * Constructor for the UserInterface class. Independency Injection for Reader, Printer, Validator
@@ -51,7 +57,7 @@ public class User_interface {
    * @param decimalFormat , DecimalFormat class for formatting values to correct length.
    */
 
-  public User_interface(Reader reader, Printer printer,
+  public userInterface(Reader reader, Printer printer,
       Validator validator, DecimalFormat decimalFormat) {
     this.reader = reader;
     this.printer = printer;
@@ -267,6 +273,7 @@ public class User_interface {
 
     return LocalDate.of(year, month, day);
   }
+
   /**
    * Prompts user for what part of item to edit. Uses printer class for printing promt to user.
    *
@@ -295,7 +302,7 @@ public class User_interface {
    * Prints a message to user that no items were found.
    */
   public void printNoItemsFound() {
-    printer.printString("No items found");
+    printer.printError("No items found");
   }
 
 
@@ -316,7 +323,7 @@ public class User_interface {
    * @param itemNumerator , the item number in the list.
    */
 
-  private void printItemInFormat(Item inputItem, int itemNumerator) {
+  private void printItemInFullFormat(Item inputItem, int itemNumerator) {
     String itemName = inputItem.getName();
     int quantity = inputItem.getQuantity();
     String quantityUnit = inputItem.getUnit();
@@ -338,7 +345,7 @@ public class User_interface {
    * @return , returns the formatted cost in string format.
    */
   private String retrieveCostFormattedToString(Double inputCost) {
-    String cost = STRING_NOT_GIVEN;
+    String cost = STRING_LITERAL_NOT_GIVEN;
     if (!validator.costIsDefaultValue(inputCost)) {
       cost = decimalFormat.format(inputCost);
     }
@@ -353,7 +360,7 @@ public class User_interface {
    * @return , returns the formatted expiration date in string format.
    */
   private String retrieveExpirationDateToString(LocalDate inputDate) {
-    String formattedDate = STRING_NOT_GIVEN;
+    String formattedDate = STRING_LITERAL_NOT_GIVEN;
     if (!validator.isAfterDateLimit(inputDate)) {
       formattedDate = String.format("%d-%02d-%02d",
           inputDate.getYear(), inputDate.getMonthValue(), inputDate.getDayOfMonth());
@@ -378,7 +385,7 @@ public class User_interface {
     int itemNumerator = 0;
     while (foundItems.hasNext()) {
       itemNumerator++;
-      printItemInFormat(foundItems.next(), itemNumerator);
+      printItemInFullFormat(foundItems.next(), itemNumerator);
 
     }
     printer.blankLine();
@@ -502,8 +509,152 @@ public class User_interface {
     printer.intErrorStandardResponse();
   }
 
+  /**
+   * Prints standard feedback for reducing and items quantity by x amount. Redirects to printer
+   */
+  public void printReduceItemQuantity() {
+    printer.reduceItemQuantity();
+  }
+
+  //////////////////////////////////
+
   public String promtForRecipeName() {
-    printer.printString("Enter recipe name:");
+    printer.printString("Please enter recipe name" + TEN_BLANK_SPACES +
+        "max length is: " + STRING_HANDLER_LIMIT_FOR_NAME + " characters");
     return stringHandler(STRING_HANDLER_LIMIT_FOR_NAME);
   }
+
+  public void printCookBookMenu() {
+    printer.cookBookMenu();
+  }
+
+  public String promtForRecipeDescription() {
+    printer.printString("Enter recipe description:" + TEN_BLANK_SPACES
+        + "max length is: " + STRING_HANDLER_LIMIT_FOR_DESCRIPTION + " characters");
+    return stringHandler(STRING_HANDLER_LIMIT_FOR_DESCRIPTION);
+  }
+
+
+  public ArrayList<String> promtForRecipeInstructions() {
+    printer.printString("Enter recipe instructions:" + TEN_BLANK_SPACES
+        + "max length is: " + STRING_HANDLER_LIMIT_FOR_INSTRUCTIONS + " characters per line.");
+
+    printer.recipeManual();
+    return readInstructions();
+  }
+
+  private ArrayList<String> readInstructions() {
+    ArrayList<String> instructions = new ArrayList<>();
+    boolean doneSpotted = false;
+    while (!doneSpotted) {
+      String input = reader.readString();
+      if (validator.isDoneSpotted(input)) {
+        doneSpotted = true;
+      } else if (!validator.stringNotEmpty(input)) {
+        instructions.add(input);
+      }
+    }
+    return instructions;
+  }
+
+
+  public void displayRecipesInTable(Iterator<Recipe> iteratedRecipesToShow) {
+    if (!iteratedRecipesToShow.hasNext()) {
+      printNoItemsFound();
+      return;
+    }
+    printer.blankLine();
+    int recipeNumerator = 0;
+    while (iteratedRecipesToShow.hasNext()) {
+      recipeNumerator++;
+      printRecipeInFormat(iteratedRecipesToShow.next(), recipeNumerator);
+    }
+    printer.blankLine();
+  }
+
+  private void printRecipeInFormat(Recipe recipeToPrint, int recipeNumerator) {
+    String recipeName = recipeToPrint.getRecipeName();
+    String recipeDescription = recipeToPrint.getRecipeDescription();
+    Iterator<Item> recipeIngredients = recipeToPrint.getRecipeIngredients();
+    Iterator<String> recipeInstructions = recipeToPrint.getRecipeInstructions();
+
+    printRecipeName(recipeNumerator, recipeName);
+    printRecipeDescription(recipeDescription);
+
+    printRecipeIngredients(recipeIngredients);
+    printRecipeInstructions(recipeInstructions);
+  }
+
+  public void printRecipeName(int recipeNumerator, String recipeName) {
+    printer.printString("Recipe number: " + recipeNumerator + " Recipe name: " + recipeName);
+  }
+
+  public void printRecipeDescription(String recipeDescription) {
+    printer.printString("Description: ");
+    printer.printString(recipeDescription);
+  }
+
+  public void printRecipeIngredients(Iterator<Item> recipeIngredients) {
+    printer.printString("Ingredients: ");
+    int ingredientNumerator = 0;
+    while (recipeIngredients.hasNext()) {
+      ingredientNumerator++;
+      printItemInShortFormat(recipeIngredients.next(), ingredientNumerator);
+      printer.blankLine();
+    }
+  }
+
+  public void printRecipeInstructions(Iterator<String> recipeInstructions) {
+    printer.printString("Instructions: ");
+    int instructionNumerator = 0;
+    while (recipeInstructions.hasNext()) {
+      instructionNumerator++;
+      printer.printString("Step nr." + instructionNumerator + ": ");
+      printer.printString(recipeInstructions.next());
+      printer.blankLine();
+    }
+  }
+
+  private void printItemInShortFormat(Item next, int ingredientNumerator) {
+    String itemName = next.getName();
+    int quantity = next.getQuantity();
+    String quantityUnit = next.getUnit();
+    String formattedString = String.format("%-5d\t%-14.14s\t%-8d\t%-11.11s",
+        ingredientNumerator, itemName, quantity, quantityUnit);
+    printer.printString(formattedString);
+  }
+
+  public int promtWhatPartToEditInRecipe() {
+    printer.editRecipeMenu();
+    return intHandler(DEFAULT_INT_HANDLER_LIMIT);
+  }
+
+  public boolean promtForConfirmation() {
+    return true; //TODO: fix
+  }
+
+
+  public int promtForQuantityToReduceWIth() {
+    printer.printString("How many items should be taken out of your fridge?:");
+    return intHandler(QUANTITY_LIMITATION);
+  }
+
+  public void promptUserForWhatItemToRemove() {
+    printer.printString("What item do you want to reduce in the fridge?");
+  }
+
+  public void printItemRemovedCauseNoneLeft() {
+    printer.printString("No items left, entry removed.");
+  }
+
+
+  public void printEnterRecipeSpesifications() {
+    printer.printString("Enter recipe ingredients specifications.");
+  }
+
+  public boolean promtAddMoreIngredients() {
+    return yesOrNo("Add more ingredients? (yes/no)");
+  }
+
+
 }

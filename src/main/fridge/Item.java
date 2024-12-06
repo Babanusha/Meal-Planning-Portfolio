@@ -1,4 +1,4 @@
-package module.fridge;
+package fridge;
 
 
 import static settings.ApplicationSettings.DEFAULT_COST;
@@ -22,12 +22,12 @@ public class Item {
 
 
   /**
-   * Constructor for Items were only name, quantity, and unit is entered.
-   * Contains: name, quantity, quantity specifier.
-   * Default values are set for product cost and expiration date.
-   * @param name name of item
+   * Constructor for Items were only name, quantity, and unit is entered. Contains: name, quantity,
+   * quantity specifier. Default values are set for product cost and expiration date.
+   *
+   * @param name     name of item
    * @param quantity quantity of item
-   * @param unit type of quantity (e.g. grams, pieces, liters)
+   * @param unit     type of quantity (e.g. grams, pieces, liters)
    */
   public Item(String name, int quantity, String unit) {
     setName(name);
@@ -38,13 +38,13 @@ public class Item {
   }
 
   /**
-   * Constructor for Items with all fields.
-   * Contains: name, quantity, quantity specifier, product cost and expiration date.
+   * Constructor for Items with all fields. Contains: name, quantity, quantity specifier, product
+   * cost and expiration date.
    *
-   * @param name name of item
-   * @param quantity quantity of item
-   * @param unit type of quantity (e.g. grams, pieces, liters)
-   * @param productCost price of item
+   * @param name           name of item
+   * @param quantity       quantity of item
+   * @param unit           type of quantity (e.g. grams, pieces, liters)
+   * @param productCost    price of item
    * @param expirationDate expiration date of item
    */
 
