@@ -1,6 +1,5 @@
 package fridge;
 
-import static settings.ApplicationSettings.STRING_GRAMS;
 import static settings.ApplicationSettings.STRING_KILOGRAMS;
 import static settings.ApplicationSettings.STRING_LITERS;
 import static settings.ApplicationSettings.STRING_PIECES;
@@ -10,10 +9,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 //TODO: En metode for å legge til en matvare i registeret. Dersom det allerede finnes en matvare av
 //samme type som den varen som forsøkes lagt til, skal mengden av varen i kjøleskapet
@@ -255,7 +252,7 @@ public class Fridge {
   public double calculateCostOfExpiredItems(LocalDate dateToCheck) {
     return listOfItems.stream()
         .filter(itemInList -> itemInList.getExpirationDate().isBefore(dateToCheck))
-        .mapToDouble(itemInList -> itemInList.getProductCost() * itemInList.getQuantity() ).sum();
+        .mapToDouble(itemInList -> itemInList.getProductCost() * itemInList.getQuantity()).sum();
   }
 
   /**
@@ -268,7 +265,6 @@ public class Fridge {
     return listOfItems.stream()
         .filter(item -> item.getExpirationDate().isBefore(dateToCheck)).iterator();
   }
-
 
 
   public boolean reduceQuantityOfItem(int quantityToReduceWith, Item itemToReduce) {
@@ -309,11 +305,12 @@ public class Fridge {
 
 */
   private Iterator<Item> createShortenedListOfItems() {
-         // Create a map to group items by their name (case-insensitive) and sum their quantities
+    // Create a map to group items by their name (case-insensitive) and sum their quantities
     Map<String, Item> groupedItems = new HashMap<>();
 
     for (Item item : listOfItems) {
-      String itemName = item.getName().toLowerCase(); // Normalize name to lowercase for case-insensitivity
+      String itemName = item.getName()
+          .toLowerCase(); // Normalize name to lowercase for case-insensitivity
       if (!groupedItems.containsKey(itemName)) {
         groupedItems.put(itemName, new Item(item)); // Add a copy of the item to the map
       } else {
@@ -325,9 +322,11 @@ public class Fridge {
 
     // Sort grouped items alphabetically by name and return as an iterator
     List<Item> shortenedList = new ArrayList<>(groupedItems.values());
-    shortenedList.sort(Comparator.comparing(Item::getName)); // Optional: sort alphabetically if required
+    shortenedList.sort(
+        Comparator.comparing(Item::getName)); // Optional: sort alphabetically if required
     return shortenedList.iterator();
   }
+
   public Iterator<Item> retrieveShortenListOfItems() {
     return createShortenedListOfItems(); //always reloaded list.
   }
@@ -335,6 +334,7 @@ public class Fridge {
 
   /**
    * Checks if the fridge is empty.
+   *
    * @return true if fridge contains any Items, false if not.
    */
   public boolean notEmpty() {

@@ -13,11 +13,10 @@ import fridge.Fridge;
 import fridge.Item;
 import userInterface.Printer;
 import userInterface.Reader;
-import userInterface.userInterface;
 import userInterface.Validator;
+import userInterface.userInterface;
 import java.text.DecimalFormat;
 import java.time.LocalDate;
-
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -54,7 +53,6 @@ public class Controller {
     Printer printer = new Printer();  //Only Initiated in controller, not held by.
     DecimalFormat decimalFormat = new DecimalFormat(
         STRING_DECIMALFORMAT);  //Only Initiated in controller, not held by.
-
 
     userInterface = new userInterface(reader, printer, validator, decimalFormat);
 
@@ -131,7 +129,7 @@ public class Controller {
     Item itemToReduce = searchForItemNameInFridge();
     if (itemToReduce != null) {
       int quantityToReduceWith = userInterface.promtForQuantityToReduceWIth();
-      if (fridge.reduceQuantityOfItem(quantityToReduceWith, itemToReduce)){
+      if (fridge.reduceQuantityOfItem(quantityToReduceWith, itemToReduce)) {
         userInterface.printItemRemovedCauseNoneLeft(); //TODO: you cant take out more items then you have.
       }
     }
@@ -166,7 +164,7 @@ public class Controller {
   }
 
   private void whatRecipesCanBeMade() {
-      if (fridge.notEmpty() && cookBook.notEmpty()) {
+    if (fridge.notEmpty() && cookBook.notEmpty()) {
       userInterface.displayRecipesInTable(
           cookBook.isRecipeInFridge(fridge.iterateOverFridge()));
     } else {
@@ -179,13 +177,13 @@ public class Controller {
     String description = userInterface.promtForRecipeDescription();
     List<Item> ingredientsNeeded = promtForRecipeIngredients();
     List<String> instructions = userInterface.promtForRecipeInstructions();
-    cookBook.createRecipeAndAddToBook(name, description, ingredientsNeeded,instructions);
+    cookBook.createRecipeAndAddToBook(name, description, ingredientsNeeded, instructions);
   }
 
 
   public List<Item> promtForRecipeIngredients() {
     userInterface.printEnterRecipeSpesifications();
-    List<Item> listOfIngredients= new ArrayList<>();
+    List<Item> listOfIngredients = new ArrayList<>();
 
     listOfIngredients.add(promtForRecipeIngredient()); //add first
     boolean addMoreIngredients = userInterface.promtAddMoreIngredients();
@@ -249,7 +247,7 @@ public class Controller {
 
   private boolean removeRecipeFromCookBook(Recipe recipeToEdit) {
     boolean removeConfirmation = false;
-    if (userInterface.promtForConfirmation()){
+    if (userInterface.promtForConfirmation()) {
       removeConfirmation = cookBook.removeRecipe(recipeToEdit);
 
     }
@@ -258,26 +256,25 @@ public class Controller {
 
   private boolean editRecipeInstructions(Recipe recipeToEdit) {
     userInterface.printRecipeInstructions(recipeToEdit.getRecipeInstructions());
-    cookBook.editInstructions(userInterface.promtForRecipeInstructions(),recipeToEdit);
+    cookBook.editInstructions(userInterface.promtForRecipeInstructions(), recipeToEdit);
     return true; //Future improvements: checkEdit;
   }
 
   private boolean editRecipeIngredients(Recipe recipeToEdit) {
     userInterface.printRecipeIngredients(recipeToEdit.getRecipeIngredients());
-    cookBook.editIngredient(promtForRecipeIngredients(),recipeToEdit);
+    cookBook.editIngredient(promtForRecipeIngredients(), recipeToEdit);
     return true;
   }
 
   private boolean editRecipeDescription(Recipe recipeToEdit) {
     userInterface.printRecipeDescription(recipeToEdit.getRecipeDescription());
-    cookBook.editDescription(userInterface.promtForRecipeDescription(),recipeToEdit);
+    cookBook.editDescription(userInterface.promtForRecipeDescription(), recipeToEdit);
     return true;
   }
 
   private boolean editRecipeName(Recipe recipeToEdit) {
     int recipeNumber = cookBook.getRecipeNumber(recipeToEdit);
-    userInterface.printRecipeName(recipeNumber,recipeToEdit.getRecipeName());
-
+    userInterface.printRecipeName(recipeNumber, recipeToEdit.getRecipeName());
 
     return false;
   }
@@ -286,10 +283,7 @@ public class Controller {
     userInterface.displayRecipesInTable(cookBook.iterateOverCookBook());
   }
 
-
   ///////// BORDER BETWEEN FRIDGE AND COOKBOOK ////////// //TODO: Move to separate class.
-
-
 
 
   /**
@@ -366,6 +360,7 @@ public class Controller {
     String quantityUnit = userInterface.promtForQuantityUnit();
     return cookBook.createIngredient(itemName, ingredientQuantity, quantityUnit);
   }
+
   /**
    * Displays all items in the fridge. Retrieves and prints the calculated cost of all items in the
    * fridge.
@@ -398,16 +393,17 @@ public class Controller {
         case 1 -> itemFromFridge = retrieveUniqeFirstItem(searchItem);
         default -> itemFromFridge = promtMultipleFound(searchItem);
       }
-    }
-    catch(Exception allExceptions) { //Currently catches all, should use logger if improved.
+    } catch (Exception allExceptions) { //Currently catches all, should use logger if improved.
       userInterface.printNoItemsFound();
     }
 
     return itemFromFridge;
   }
-private Item retrieveUniqeFirstItem(String searchItem) {
-  return fridge.searchForItem(searchItem).next();
+
+  private Item retrieveUniqeFirstItem(String searchItem) {
+    return fridge.searchForItem(searchItem).next();
   }
+
   private Item promtMultipleFound(String searchItem) {
     return fridge.retrieveNthOccurenceOfItem(
         promtForSpecificItemToEditFromSearch(searchItem), searchItem);
@@ -425,8 +421,6 @@ private Item retrieveUniqeFirstItem(String searchItem) {
 
   /**
    * Edits a singular item.
-   *
-   *
    */
   private void editSingularItem(Item itemToEdit) {
     editItemSwitchCase(itemToEdit); //TODO: fix javadoc
