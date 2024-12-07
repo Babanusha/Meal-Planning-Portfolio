@@ -1,7 +1,9 @@
 package fridge;
 
+import static settings.ApplicationSettings.STRING_GRAMS;
 import static settings.ApplicationSettings.STRING_KILOGRAMS;
 import static settings.ApplicationSettings.STRING_LITERS;
+import static settings.ApplicationSettings.STRING_PIECES;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -38,6 +40,9 @@ public class Fridge {
     listOfItems.add(new Item("milk", 3, STRING_LITERS, 40.3402, LocalDate.now().plusDays(7)));
     listOfItems.add(new Item("Bacon", 2, STRING_KILOGRAMS, 20.03032, LocalDate.now().plusDays(3)));
     listOfItems.add(new Item("Kenguru", 1, STRING_LITERS, 30, LocalDate.now().plusDays(7)));
+    listOfItems.add(new Item("c", 1, STRING_PIECES));
+    listOfItems.add(new Item("t", 1, STRING_PIECES));
+    listOfItems.add(new Item("l", 1, STRING_PIECES));
 
   }
 
@@ -242,6 +247,18 @@ public class Fridge {
 
 
   /**
+   * Calculates the total cost of all expired items in the fridge.
+   *
+   * @param dateToCheck for expiration.
+   * @return total cost of all expired items.
+   */
+  public double calculateCostOfExpiredItems(LocalDate dateToCheck) {
+    return listOfItems.stream()
+        .filter(itemInList -> itemInList.getExpirationDate().isBefore(dateToCheck))
+        .mapToDouble(itemInList -> itemInList.getProductCost() * itemInList.getQuantity() ).sum();
+  }
+
+  /**
    * Iterates over the list of items in the fridge that have expired.
    *
    * @param dateToCheck for expiration.
@@ -252,17 +269,7 @@ public class Fridge {
         .filter(item -> item.getExpirationDate().isBefore(dateToCheck)).iterator();
   }
 
-  /**
-   * Calculates the total cost of all expired items in the fridge.
-   *
-   * @param dateToCheck for expiration.
-   * @return total cost of all expired items.
-   */
-  public double calculateCostOfExpiredItems(LocalDate dateToCheck) {
-    return listOfItems.stream()
-        .filter(itemInList -> itemInList.getExpirationDate().isBefore(dateToCheck))
-        .mapToDouble(Item::getProductCost).sum();
-  }
+
 
   public boolean reduceQuantityOfItem(int quantityToReduceWith, Item itemToReduce) {
     boolean noItemsLeft = false;
@@ -326,7 +333,13 @@ public class Fridge {
   }
 
 
-
+  /**
+   * Checks if the fridge is empty.
+   * @return true if fridge contains any Items, false if not.
+   */
+  public boolean notEmpty() {
+    return !listOfItems.isEmpty();
+  }
 }
 
 

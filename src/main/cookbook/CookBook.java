@@ -6,6 +6,8 @@ import static settings.ApplicationSettings.STRING_PIECES;
 
 import fridge.Item;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -23,6 +25,23 @@ public class CookBook {
   }
 
   private void test() {
+    Item lettuce = new Item("l", 1, STRING_PIECES);
+    Item tomato = new Item("t", 1, STRING_PIECES);
+    Item cucumber = new Item("c", 1, STRING_PIECES);
+    List<Item> saladIngredients = new ArrayList<>();
+    saladIngredients.add(lettuce);
+    saladIngredients.add(tomato);
+    saladIngredients.add(cucumber);
+
+    List<String> saladInstructions = new ArrayList<>();
+    saladInstructions.add("Cut lettuce");
+    saladInstructions.add("Cut tomato");
+    saladInstructions.add("Cut cucumber");
+
+    createRecipeAndAddToBook("Salad", "Salad with lettuce", saladIngredients, saladInstructions);
+
+
+    /*
     Item lettuce = new Item("Lettuce", 1, STRING_PIECES);
     Item tomato = new Item("Tomato", 1, STRING_PIECES);
     Item cucumber = new Item("Cucumber", 1, STRING_PIECES);
@@ -54,6 +73,7 @@ public class CookBook {
     Item pizzaSauce = new Item("TomatoSauce", 1, STRING_LITERS);
     Item cheese = new Item("Cheese", 4000, STRING_GRAMS);
     List<Item> pizzaIngredients = new ArrayList<>();
+
     pizzaIngredients.add(pizzaDough);
     pizzaIngredients.add(pizzaSauce);
     pizzaIngredients.add(cheese);
@@ -64,6 +84,7 @@ public class CookBook {
     pizzaInstructions.add("Add cheese");
     createRecipeAndAddToBook("Pizza", "Pizza with cheese", pizzaIngredients,
         pizzaInstructions);
+*/
 
   }
 
@@ -163,5 +184,43 @@ public class CookBook {
 
   public Item createIngredient(String name, int quantity, String unit) {
     return new Item(name, quantity, unit);
+  }
+
+
+
+// Recipe som har en liste av ingredienser
+  // Ingredienser har navn, mengde og enhet
+  // Kjøeskap har navn, mengde og enhet
+  //Ta en recipe, sjekk om den har første ingrediens i kjøleskapet
+  //Hvis ja, sjekk andre ingredienser
+  //Hvis Nei, gå til neste recipe
+
+  public Iterator<Recipe> isRecipeInFridge(Iterator<Item> fridgeItems) {
+    List<Recipe> list = cookBookArrayList.stream().filter(recipe ->
+        recipeIsInFridge(recipe, iteratorToList(fridgeItems))).toList();
+    return list.iterator();
+  }
+
+  public boolean recipeIsInFridge(Recipe recipeToCheck, List<Item> fridgeItems) {
+    Iterator<Item> recipeIngredients = recipeToCheck.getRecipeIngredients();
+    List<Item> recipeIngredientsList = iteratorToList(recipeIngredients);
+
+    return recipeIngredientsList.stream().allMatch(recipeIngredient ->
+        fridgeItems.stream().anyMatch(fridgeItem ->
+            recipeIngredient.getName().equalsIgnoreCase(fridgeItem.getName()) &&
+                recipeIngredient.getQuantity() <= fridgeItem.getQuantity()));
+  }
+
+  private List<Item> iteratorToList(Iterator<Item> recipeIngredients) {
+    List<Item> list = new ArrayList<>();
+    while (recipeIngredients.hasNext()) {
+      list.add(recipeIngredients.next());
+    }
+    return list;
+  }
+
+
+  public boolean notEmpty() {
+    return !cookBookArrayList.isEmpty();
   }
 }
