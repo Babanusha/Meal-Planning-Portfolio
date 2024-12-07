@@ -565,6 +565,7 @@ public class userInterface {
     }
     printer.blankLine();
     int recipeNumerator = 0;
+
     while (iteratedRecipesToShow.hasNext()) {
       recipeNumerator++;
       printRecipeInFormat(iteratedRecipesToShow.next(), recipeNumerator);

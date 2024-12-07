@@ -1,5 +1,7 @@
 package cookbook;
 
+import static settings.ApplicationSettings.STRING_GRAMS;
+import static settings.ApplicationSettings.STRING_LITERS;
 import static settings.ApplicationSettings.STRING_PIECES;
 
 import fridge.Item;
@@ -21,6 +23,8 @@ public class CookBook {
   }
 
   private void test() {
+
+    ///*******
     Item lettuce = new Item("l", 1, STRING_PIECES);
     Item tomato = new Item("t", 1, STRING_PIECES);
     Item cucumber = new Item("c", 1, STRING_PIECES);
@@ -34,25 +38,10 @@ public class CookBook {
     saladInstructions.add("Cut tomato");
     saladInstructions.add("Cut cucumber");
 
-    createRecipeAndAddToBook("Salad", "Salad with lettuce", saladIngredients, saladInstructions);
+    createRecipeAndAddToBook("recipeWeHave", "Salad with lettuce", saladIngredients,
+        saladInstructions);
 
-
-    /*
-    Item lettuce = new Item("Lettuce", 1, STRING_PIECES);
-    Item tomato = new Item("Tomato", 1, STRING_PIECES);
-    Item cucumber = new Item("Cucumber", 1, STRING_PIECES);
-    List<Item> saladIngredients = new ArrayList<>();
-    saladIngredients.add(lettuce);
-    saladIngredients.add(tomato);
-    saladIngredients.add(cucumber);
-
-    List<String> saladInstructions = new ArrayList<>();
-    saladInstructions.add("Cut lettuce");
-    saladInstructions.add("Cut tomato");
-    saladInstructions.add("Cut cucumber");
-
-    createRecipeAndAddToBook("Salad", "Salad with lettuce", saladIngredients, saladInstructions);
-
+    //******
     Item lettuce3 = new Item("Lettuce", 3, STRING_PIECES);
     Item tomatoSauce = new Item("TomatoSauce", 1, STRING_LITERS);
     List<Item> pastaIngredients = new ArrayList<>();
@@ -62,12 +51,14 @@ public class CookBook {
     List<String> pastaInstructions = new ArrayList<>();
     pastaInstructions.add("Boil pasta");
     pastaInstructions.add("Add tomato sauce");
-    createRecipeAndAddToBook("Pasta", "Pasta with tomato sauce", pastaIngredients,
+    createRecipeAndAddToBook("PastaDontHave", "Pasta with tomato sauce", pastaIngredients,
         pastaInstructions);
 
-    Item pizzaDough = new Item("Pizza Dough", 1, STRING_PIECES);
-    Item pizzaSauce = new Item("TomatoSauce", 1, STRING_LITERS);
-    Item cheese = new Item("Cheese", 4000, STRING_GRAMS);
+    ////****
+    Item pizzaDough = new Item("Pizza", 1, STRING_PIECES);
+    Item pizzaSauce = new Item("Tomato", 1, STRING_LITERS);
+    Item cheese = new Item("Cheese", 40, STRING_GRAMS);
+
     List<Item> pizzaIngredients = new ArrayList<>();
 
     pizzaIngredients.add(pizzaDough);
@@ -78,9 +69,9 @@ public class CookBook {
     pizzaInstructions.add("Roll out pizza dough");
     pizzaInstructions.add("Add tomato sauce");
     pizzaInstructions.add("Add cheese");
-    createRecipeAndAddToBook("Pizza", "Pizza with cheese", pizzaIngredients,
+    createRecipeAndAddToBook("PizzaWeHave", "Pizza with cheese", pizzaIngredients,
         pizzaInstructions);
-*/
+
 
   }
 
@@ -189,9 +180,10 @@ public class CookBook {
   //Hvis ja, sjekk andre ingredienser
   //Hvis Nei, gå til neste recipe
 
-  public Iterator<Recipe> isRecipeInFridge(Iterator<Item> fridgeItems) {
+  public Iterator<Recipe> isRecipeInFridge(Iterator<Item> fridgeItemsIterated) {
+    List<Item> fridgeItemsList = iteratorToList(fridgeItemsIterated);
     List<Recipe> list = cookBookArrayList.stream().filter(recipe ->
-        recipeIsInFridge(recipe, iteratorToList(fridgeItems))).toList();
+        recipeIsInFridge(recipe, fridgeItemsList)).toList();
     return list.iterator();
   }
 

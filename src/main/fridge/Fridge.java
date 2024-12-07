@@ -1,5 +1,6 @@
 package fridge;
 
+import static settings.ApplicationSettings.STRING_GRAMS;
 import static settings.ApplicationSettings.STRING_KILOGRAMS;
 import static settings.ApplicationSettings.STRING_LITERS;
 import static settings.ApplicationSettings.STRING_PIECES;
@@ -40,6 +41,9 @@ public class Fridge {
     listOfItems.add(new Item("c", 1, STRING_PIECES));
     listOfItems.add(new Item("t", 1, STRING_PIECES));
     listOfItems.add(new Item("l", 1, STRING_PIECES));
+    listOfItems.add(new Item("Pizza", 1, STRING_PIECES));
+    listOfItems.add(new Item("Tomato", 1, STRING_LITERS));
+    listOfItems.add(new Item("Cheese", 40, STRING_GRAMS));
 
   }
 
