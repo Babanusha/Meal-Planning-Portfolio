@@ -154,6 +154,7 @@ public class Controller {
           case 1 -> createNewRecipe();
           // case 2 -> searchAndEditRecipeMenu(); //Todo: Implement
           case 3 -> displayAllRecipes();
+          case 4 -> whatRecipesCanBeMade();
 
           case INT_EXIT -> exitTrigger = true;
           default -> throw new IllegalArgumentException(INVALID_INPUT);
@@ -161,6 +162,15 @@ public class Controller {
       } catch (Exception allExceptions) {
         userInterface.printIntErrorStandardResponse();
       }
+    }
+  }
+
+  private void whatRecipesCanBeMade() {
+      if (fridge.notEmpty() && cookBook.notEmpty()) {
+      userInterface.displayRecipesInTable(
+          cookBook.isRecipeInFridge(fridge.iterateOverFridge()));
+    } else {
+      userInterface.printNoItemsFound();
     }
   }
 
