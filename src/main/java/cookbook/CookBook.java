@@ -1,13 +1,9 @@
 package redacted.path.cookbook;
 
-import static redacted.path.settings.ApplicationSettings.STRING_GRAMS;
-import static redacted.path.settings.ApplicationSettings.STRING_LITERS;
 import static redacted.path.settings.ApplicationSettings.STRING_PIECES;
 
 import redacted.path.fridge.Item;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.stream.IntStream;
@@ -185,8 +181,6 @@ public class CookBook {
   public Item createIngredient(String name, int quantity, String unit) {
     return new Item(name, quantity, unit);
   }
-
-
 
 // Recipe som har en liste av ingredienser
   // Ingredienser har navn, mengde og enhet

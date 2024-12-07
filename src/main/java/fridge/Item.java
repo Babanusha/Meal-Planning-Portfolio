@@ -59,6 +59,7 @@ public class Item {
 
   /**
    * Copy constructor for Items.
+   *
    * @param item to copyIntoNewOne
    */
   public Item(Item item) {
