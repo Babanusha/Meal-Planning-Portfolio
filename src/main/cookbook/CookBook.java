@@ -188,8 +188,7 @@ public class CookBook {
   }
 
   public boolean recipeIsInFridge(Recipe recipeToCheck, List<Item> fridgeItems) {
-    Iterator<Item> recipeIngredients = recipeToCheck.getRecipeIngredients();
-    List<Item> recipeIngredientsList = iteratorToList(recipeIngredients);
+    List<Item> recipeIngredientsList = iteratorToList(recipeToCheck.getRecipeIngredients());
 
     return recipeIngredientsList.stream().allMatch(recipeIngredient ->
         fridgeItems.stream().anyMatch(fridgeItem ->

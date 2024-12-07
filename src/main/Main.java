@@ -1,11 +1,12 @@
 package edu.ntnu.idi.bidata;
 
 
-import controller.Controller;
+
+import controller.MainController;
 
 public class Main {
 
   public static void main(String[] args) {
-    new Controller();
+    new MainController();
   }
 }

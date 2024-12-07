@@ -34,11 +34,12 @@ import java.text.DecimalFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.List;
 
 /**
  * Class for handling user input/output. Uses Reader, Printer, Validator and DecimalFormat classes.
  */
-public class userInterface {
+public class UserInterface {
 
   private final Reader reader;
   private final Printer printer;
@@ -57,7 +58,7 @@ public class userInterface {
    * @param decimalFormat , DecimalFormat class for formatting values to correct length.
    */
 
-  public userInterface(Reader reader, Printer printer,
+  public UserInterface(Reader reader, Printer printer,
       Validator validator, DecimalFormat decimalFormat) {
     this.reader = reader;
     this.printer = printer;
@@ -534,8 +535,8 @@ public class userInterface {
     return stringHandler(STRING_HANDLER_LIMIT_FOR_DESCRIPTION);
   }
 
-
-  public ArrayList<String> promtForRecipeInstructions() {
+//TODO: shouldnt be List encapsulation...
+  public List<String> promtForRecipeInstructions() {
     printer.printString("Enter recipe instructions:" + TEN_BLANK_SPACES
         + "max length is: " + STRING_HANDLER_LIMIT_FOR_INSTRUCTIONS + " characters per line.");
 
@@ -543,14 +544,14 @@ public class userInterface {
     return readInstructions();
   }
 
-  private ArrayList<String> readInstructions() {
-    ArrayList<String> instructions = new ArrayList<>();
+  private List<String> readInstructions() {
+    List<String> instructions = new ArrayList<>();
     boolean doneSpotted = false;
     while (!doneSpotted) {
       String input = reader.readString();
       if (validator.isDoneSpotted(input)) {
         doneSpotted = true;
-      } else if (!validator.stringNotEmpty(input)) {
+      } else if (validator.stringNotEmpty(input)) {
         instructions.add(input);
       }
     }

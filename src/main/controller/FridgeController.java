@@ -4,61 +4,34 @@ import static settings.ApplicationSettings.DEFAULT_COST;
 import static settings.ApplicationSettings.DEFAULT_EXPIRATION_DATE;
 import static settings.ApplicationSettings.INT_EXIT;
 import static settings.ApplicationSettings.INVALID_INPUT;
-import static settings.ApplicationSettings.STRING_DECIMALFORMAT;
 import static settings.ApplicationSettings.SWITCH_CASE_LIMIT;
 
-import cookbook.CookBook;
-import cookbook.Recipe;
 import fridge.Fridge;
 import fridge.Item;
-import userInterface.Printer;
-import userInterface.Reader;
-import userInterface.Validator;
-import userInterface.userInterface;
-import java.text.DecimalFormat;
+import userInterface.UserInterface;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.List;
-import java.util.Scanner;
 
 
-public class Controller {
+public class FridgeController {
 
-  private CookBook cookBook;
+
   private Fridge fridge;
-  private userInterface.userInterface userInterface;
+  private UserInterface userInterface;
 
 
   /**
    * Constructor for the Controller class Initializes the ItemStorage, Handler, Printer, and
    * UI_Handler Starts the application
    */
-  public Controller() {
-    init();
-    start();
+  public FridgeController(Fridge fridge, UserInterface userInterface) {
+    init(fridge, userInterface);
   }
 
-  /**
-   * Initialising the controller with the necessary classes and objects.
-   * <p>
-   * Several classes are ONLY initiated in the controller, and not held by the controller.
-   */
 
-  private void init() {
-
-    Validator validator = new Validator();//Only Initiated in controller, not held by.
-    Scanner scanner = new Scanner(System.in); //Only Initiated in controller, not held by.
-    Reader reader = new Reader(scanner); //Only Initiated in controller, not held by.
-    Printer printer = new Printer();  //Only Initiated in controller, not held by.
-    DecimalFormat decimalFormat = new DecimalFormat(
-        STRING_DECIMALFORMAT);  //Only Initiated in controller, not held by.
-
-    userInterface = new userInterface(reader, printer, validator, decimalFormat);
-
-    cookBook = new CookBook();
-    fridge = new Fridge();
-
+  private void init(Fridge fridge, UserInterface userInterface) {
+    this.fridge = fridge;
+    this.userInterface = userInterface;
   }
 
 
@@ -66,65 +39,12 @@ public class Controller {
    * Starts the application and runs the main menu.
    */
 
-  private void start() {
-    boolean isApplicationOnline = true;
-    userInterface.printWelcomeMessage();
-    mainMenuSwitchCase(isApplicationOnline);
-  }
 
-  /**
-   * Exits the application.
-   * <p>
-   * Prompts user for confirmation before exiting.
-   */
-  private void exit() {
-    if (userInterface.promtExitMessage()) {
-      System.exit(0);
-    }
-    mainMenuSwitchCase(true);
-  }
-
-  /**
-   * Main menu switch case.
-   *
-   * @param programStatus boolean to keep the program running. Must correspond to UI.printers
-   *                      homeMenu.
-   */
-  private void mainMenuSwitchCase(boolean programStatus) {
-    while (programStatus) {
-      try {
-        userInterface.printHomeMenu(); //homeMenu i printer.
-        switch (userInterface.intHandler(SWITCH_CASE_LIMIT)) {
-
-          case 1 -> createNewItem();
-          case 2 -> reduceAnItemInFridge();
-
-          case 3 -> searchAndEditItemMenu();
-          case 4 -> searchDisplayItemsThatExpireBeforeGivenDate();
-
-          case 5 -> displayAllItemsInFridgeWithCost();
-          case 6 -> displaySimplifiedFridge();
-
-          case 7 -> openCookBookMenu();
-          case 8 -> fridgeSettings();
-
-          case INT_EXIT -> programStatus = false;        //EXIT
-
-          default -> throw new IllegalArgumentException("Invalid input");
-
-        }
-      } catch (Exception allExceptions) {
-        userInterface.printIntErrorStandardResponse();
-      }
-    }
-    exit();
-  }
-
-  private void displaySimplifiedFridge() {
+  void displaySimplifiedFridge() {
     userInterface.displayItemsInTable(fridge.retrieveShortenListOfItems());
   }
 
-  private void reduceAnItemInFridge() {
+  void reduceAnItemInFridge() {
     userInterface.promptUserForWhatItemToRemove();
     Item itemToReduce = searchForItemNameInFridge();
     if (itemToReduce != null) {
@@ -135,7 +55,7 @@ public class Controller {
     }
   }
 
-  private void searchAndEditItemMenu() {
+  void searchAndEditItemMenu() {
     Item itemToEdit = searchForItemNameInFridge();
     if (itemToEdit != null) {
       editSingularItem(itemToEdit);
@@ -143,147 +63,9 @@ public class Controller {
   }
 
 
-  private void openCookBookMenu() {
-    boolean exitTrigger = false;
-    while (!exitTrigger) {
-      try {
-        userInterface.printCookBookMenu();
-        switch (userInterface.intHandler(SWITCH_CASE_LIMIT)) {
-          case 1 -> createNewRecipe();
-          // case 2 -> searchAndEditRecipeMenu(); //Todo: Implement
-          case 3 -> displayAllRecipes();
-          case 4 -> whatRecipesCanBeMade();
-
-          case INT_EXIT -> exitTrigger = true;
-          default -> throw new IllegalArgumentException(INVALID_INPUT);
-        }
-      } catch (Exception allExceptions) {
-        userInterface.printIntErrorStandardResponse();
-      }
-    }
-  }
-
-  private void whatRecipesCanBeMade() {
-    if (fridge.notEmpty() && cookBook.notEmpty()) {
-      userInterface.displayRecipesInTable(
-          cookBook.isRecipeInFridge(fridge.iterateOverFridge()));
-    } else {
-      userInterface.printNoItemsFound();
-    }
-  }
-
-  private void createNewRecipe() {
-    String name = userInterface.promtForRecipeName();
-    String description = userInterface.promtForRecipeDescription();
-    List<Item> ingredientsNeeded = promtForRecipeIngredients();
-    List<String> instructions = userInterface.promtForRecipeInstructions();
-    cookBook.createRecipeAndAddToBook(name, description, ingredientsNeeded, instructions);
-  }
 
 
-  public List<Item> promtForRecipeIngredients() {
-    userInterface.printEnterRecipeSpesifications();
-    List<Item> listOfIngredients = new ArrayList<>();
 
-    listOfIngredients.add(promtForRecipeIngredient()); //add first
-    boolean addMoreIngredients = userInterface.promtAddMoreIngredients();
-
-    while (addMoreIngredients) {
-      listOfIngredients.add(promtForRecipeIngredient());
-      addMoreIngredients = userInterface.promtAddMoreIngredients();
-    }
-    return listOfIngredients;
-  }
-
-
-/*
-  private void searchAndEditRecipeMenu() {
-    String recipeNameToFind = userInterface.promtForRecipeName();
-    int numberOfRecipesFound = cookBook.specificRecipeInCookBookCount(recipeNameToFind);
-
-    switch (numberOfRecipesFound) {
-      case 0 -> userInterface.printNoItemsFound(); //Found none
-      case 1 -> editSingularRecipe(recipeNameToFind);   //found 1
-      default -> findSingularRecipeFromList(recipeNameToFind); //found multiple
-    }
-  }
-
-  private void findSingularRecipeFromList(String recipeNameToFind) {
-    editRecipeSwitchCase(cookBook.retrieveNthOccurenceOfRecipe(
-        promtForSpecificIRecipeToEditFromSearch(recipeNameToFind)));
-  }
-
-  private String promtForSpecificIRecipeToEditFromSearch(String recipeNameToFind) {
-    userInterface.printRecipeName(cookBook.retrieveRecipeFromCookBook());
-    return userInterface.promtForRecipeNumberFromMultipleRecipes();
-  }
-
-  */
-
-
-  private void editRecipeSwitchCase(Recipe recipe) {
-    boolean editComplete = false;
-    while (!editComplete) {
-
-      try {
-        int userChoice = userInterface.promtWhatPartToEditInRecipe();
-        switch (userChoice) {
-          case 1 -> editComplete = editRecipeName(recipe);
-          case 2 -> editComplete = editRecipeDescription(recipe);
-          case 3 -> editComplete = editRecipeIngredients(recipe);
-          case 4 -> editComplete = editRecipeInstructions(recipe);
-          case 5 -> editComplete = removeRecipeFromCookBook(recipe);
-
-          case INT_EXIT -> editComplete = true; //EXIT
-
-          default -> throw new IllegalArgumentException(INVALID_INPUT);
-        }
-
-      } catch (Exception allExceptions) {
-        userInterface.printIntErrorStandardResponse();
-      }
-    }
-  }
-
-  private boolean removeRecipeFromCookBook(Recipe recipeToEdit) {
-    boolean removeConfirmation = false;
-    if (userInterface.promtForConfirmation()) {
-      removeConfirmation = cookBook.removeRecipe(recipeToEdit);
-
-    }
-    return removeConfirmation;
-  }
-
-  private boolean editRecipeInstructions(Recipe recipeToEdit) {
-    userInterface.printRecipeInstructions(recipeToEdit.getRecipeInstructions());
-    cookBook.editInstructions(userInterface.promtForRecipeInstructions(), recipeToEdit);
-    return true; //Future improvements: checkEdit;
-  }
-
-  private boolean editRecipeIngredients(Recipe recipeToEdit) {
-    userInterface.printRecipeIngredients(recipeToEdit.getRecipeIngredients());
-    cookBook.editIngredient(promtForRecipeIngredients(), recipeToEdit);
-    return true;
-  }
-
-  private boolean editRecipeDescription(Recipe recipeToEdit) {
-    userInterface.printRecipeDescription(recipeToEdit.getRecipeDescription());
-    cookBook.editDescription(userInterface.promtForRecipeDescription(), recipeToEdit);
-    return true;
-  }
-
-  private boolean editRecipeName(Recipe recipeToEdit) {
-    int recipeNumber = cookBook.getRecipeNumber(recipeToEdit);
-    userInterface.printRecipeName(recipeNumber, recipeToEdit.getRecipeName());
-
-    return false;
-  }
-
-  private void displayAllRecipes() {
-    userInterface.displayRecipesInTable(cookBook.iterateOverCookBook());
-  }
-
-  ///////// BORDER BETWEEN FRIDGE AND COOKBOOK ////////// //TODO: Move to separate class.
 
 
   /**
@@ -291,7 +73,8 @@ public class Controller {
    * fridge.
    */
 
-  private void searchDisplayItemsThatExpireBeforeGivenDate() {
+
+  void searchDisplayItemsThatExpireBeforeGivenDate() {
     LocalDate dateToCheck = userInterface.promtForExpirationDate();
     Iterator<Item> expiredItems = fridge.iterateExpiredItems(dateToCheck);
     if (expiredItems.hasNext()) {
@@ -302,10 +85,13 @@ public class Controller {
     }
   }
 
+
+
+
   /**
    * Fridge settings menu. Switch case with options.
    */
-  private void fridgeSettings() {
+  void fridgeSettings() {
     boolean exitTrigger = false;
     while (!exitTrigger) {
       try {
@@ -325,6 +111,9 @@ public class Controller {
     }
   }
 
+
+
+
   /**
    * Creates a new item and adds it to the fridge.
    * <p>
@@ -332,7 +121,7 @@ public class Controller {
    * add cost, the user is prompted for cost. If user chooses to add expiration date, the user is
    * prompted for expiration date.
    */
-  private void createNewItem() {
+  void createNewItem() {
 
     String name;
     int quantity;
@@ -354,18 +143,15 @@ public class Controller {
         cost, expirationDate);
   }
 
-  private Item promtForRecipeIngredient() {
-    String itemName = userInterface.promtForItemName();
-    int ingredientQuantity = userInterface.promtForQuantity();
-    String quantityUnit = userInterface.promtForQuantityUnit();
-    return cookBook.createIngredient(itemName, ingredientQuantity, quantityUnit);
-  }
+
+
+
 
   /**
    * Displays all items in the fridge. Retrieves and prints the calculated cost of all items in the
    * fridge.
    */
-  private void displayAllItemsInFridgeWithCost() {
+  void displayAllItemsInFridgeWithCost() {
     userInterface.displayItemsInTable(fridge.iterateOverFridge());
     userInterface.displayCostOfItemsInFridge(calculateCostOfFridge());
   }
@@ -527,5 +313,8 @@ public class Controller {
   }
 
 
+  public Iterator<Item> getFridgeIterator() {
+    return fridge.iterateOverFridge();
+  }
 }
 
