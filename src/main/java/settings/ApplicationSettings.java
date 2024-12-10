@@ -18,7 +18,7 @@ public class ApplicationSettings {
   public static final int SWITCH_CASE_LIMIT = 99;
 
   //HANDLER LIMITATIONS
-  public static final int DEFAULT_INT_HANDLER_LIMIT = 99; //Default value for intHandler maximum value input.
+  public static final int DEFAULT_INT_HANDLER_LIMIT = 999; //Default value for intHandler maximum value input.
 
 
   public static final int STRING_HANDLER_LIMIT_FOR_YES_NO = 5; //Yes or No can be up to x characters long.

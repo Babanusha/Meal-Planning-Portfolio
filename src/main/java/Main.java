@@ -1,7 +1,6 @@
 package redacted.path.;
 
 
-
 import redacted.path.controller.MainController;
 
 public class Main {
