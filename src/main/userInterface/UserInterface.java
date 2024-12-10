@@ -535,7 +535,7 @@ public class UserInterface {
     return stringHandler(STRING_HANDLER_LIMIT_FOR_DESCRIPTION);
   }
 
-//TODO: shouldnt be List encapsulation...
+  //TODO: shouldnt be List encapsulation...
   public List<String> promtForRecipeInstructions() {
     printer.printString("Enter recipe instructions:" + TEN_BLANK_SPACES
         + "max length is: " + STRING_HANDLER_LIMIT_FOR_INSTRUCTIONS + " characters per line.");
@@ -651,7 +651,7 @@ public class UserInterface {
   }
 
 
-  public void printEnterRecipeSpesifications() {
+  public void printEnterRecipeSpecifications() {
     printer.printString("Enter recipe ingredients specifications.");
   }
 
@@ -662,5 +662,37 @@ public class UserInterface {
 
   public void printWelcomeMessage() {
     printer.welcomeMessage();
+  }
+
+  public boolean yesOrNoAddExpirationDate() {
+    return yesOrNo("Do you want to add an expiration date?");
+  }
+
+  public boolean yesOrNoAddCostOfItem() {
+    return yesOrNo("Do you want to add the cost of the item?");
+  }
+
+  public void displayRecipeByNameAndNumberInTable(Iterator<String> iteratedRecipeNames) {
+    printer.printString("Recipes in cookBook:");
+    int itemNumerator = 0;
+    while (iteratedRecipeNames.hasNext()) {
+      itemNumerator++;
+      printer.printString(itemNumerator + "   " + iteratedRecipeNames.next());
+      printer.blankLine();
+    }
+  }
+
+  public int promtForRecipeNumber() {
+    printer.printString("Enter the number of the recipe you want to check:");
+    return intHandler(DEFAULT_INT_HANDLER_LIMIT);
+  }
+
+  public void printRecipeCanBeMadeAnswer(boolean canBeMade) {
+    if (canBeMade) {
+      printer.printString("Recipe can be made with current fridge content.");
+    } else {
+      printer.printString("Recipe can not be made with current fridge content.");
+    }
+    printer.blankLine();
   }
 }

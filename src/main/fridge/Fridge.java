@@ -273,11 +273,10 @@ public class Fridge {
 
   public boolean reduceQuantityOfItem(int quantityToReduceWith, Item itemToReduce) {
     boolean noItemsLeft = false;
-    int oldQuantity = itemToReduce.getQuantity();
-    if (oldQuantity
-        <= quantityToReduceWith) { //If the quantity to reduce with is greater than or equal to the quantity of the item, remove the item.
-      removeItem(itemToReduce);
-      noItemsLeft = true;
+    int oldQuantity = itemToReduce.getQuantity(); //Get old quantity
+    if (oldQuantity <= quantityToReduceWith) { //If the quantity to reduce with is greater than
+      removeItem(itemToReduce);            // or equal to the quantity of the item, remove the item.
+      noItemsLeft = true; //No items left.
     } else {
       itemToReduce.setQuantity(oldQuantity - quantityToReduceWith);
     }

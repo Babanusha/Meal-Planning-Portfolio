@@ -12,22 +12,42 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+
+/**
+ * Controller class for the CookBook. Handles the interaction between the CookBook and the UserInterface.
+ */
 public class CookBookController {
 
-  private CookBook cookBook;
-  private UserInterface userInterface;
+  private CookBook cookBook; // CookBook object
+  private UserInterface userInterface; // UserInterface object
 
 
+  /**
+   * Constructor for the CookBookController class.
+   * Contains independency injection of CookBook and UserInterface.
+   * @param cookBook CookBook object
+   * @param userInterface UserInterface object
+   */
   CookBookController(CookBook cookBook, UserInterface userInterface) {
     init(cookBook, userInterface);
 
   }
 
+  /**
+   *  Method for initiating the CookBookController.
+   * @param cookBook CookBook object
+   * @param userInterface UserInterface object
+   */
   private void init(CookBook cookBook, UserInterface userInterface) {
     this.cookBook = cookBook;
     this.userInterface = userInterface;
   }
 
+  /**
+   * Method for opening the CookBook menu.
+   * @param currentFridge Iterator for the current fridge.
+   *                      Used to check what recipes can be made with the current fridge content.
+   */
   void openCookBookMenu(Iterator<Item> currentFridge) {
     boolean exitTrigger = false;
     while (!exitTrigger) {
@@ -37,7 +57,8 @@ public class CookBookController {
           case 1 -> createNewRecipe();
           // case 2 -> searchAndEditRecipeMenu(); //Todo: Implement
           case 3 -> displayAllRecipes();
-          case 4 -> whatRecipesCanBeMade(currentFridge);
+          case 4 -> checkIfSpecificRecipeCanBeMade(currentFridge);
+          case 5 -> seeAllRecipesThatCanBeMade(currentFridge);
 
           case INT_EXIT -> exitTrigger = true;
           default -> throw new IllegalArgumentException(INVALID_INPUT);
@@ -48,9 +69,28 @@ public class CookBookController {
     }
   }
 
+  /**
+   * Method for checking if a specific recipe can be made with the current fridge content.
+   * User is prompted with list of recipes (names) and asked to choose a recipe.
+   * The method then checks if the recipe can be made with the current fridge content.
+   * The user is informed.
+   * NB! user prompt is taken in, and subtracted by 1 to match the index of the recipe in the list.
+   * @param currentFridge Iterator for the current fridge, iterated in when entering cookBook.
+   */
+  private void checkIfSpecificRecipeCanBeMade(Iterator<Item> currentFridge) {
+    userInterface.displayRecipeByNameAndNumberInTable(cookBook.getRecipeNames());
+    boolean canBeMade = cookBook.canSpecificRecipeBeMade((userInterface.promtForRecipeNumber() -1)  //Subtract 1 to match index
+        , currentFridge); //Finds first recipe that fits.
+    userInterface.printRecipeCanBeMadeAnswer(canBeMade);
+  }
 
 
-  private void whatRecipesCanBeMade(Iterator<Item> iteratedFridge) {
+
+  /**
+   * Method for checking what recipes can be made with the current fridge content.
+   * @param iteratedFridge Iterated fridge content, to cross check.
+   */
+  private void seeAllRecipesThatCanBeMade(Iterator<Item> iteratedFridge) {
     if (iteratedFridge.hasNext() && cookBook.notEmpty()) {
       userInterface.displayRecipesInTable(
           cookBook.isRecipeInFridge(iteratedFridge));
@@ -58,6 +98,11 @@ public class CookBookController {
       userInterface.printNoItemsFound();
     }
   }
+
+  /**
+   * Method for creating a new recipe.
+   * Gathers Recipe Information into simple parts and uses CookBook to create a new Recipe.
+   */
 
   private void createNewRecipe() {
     String name = userInterface.promtForRecipeName();
@@ -67,19 +112,23 @@ public class CookBookController {
     cookBook.createRecipeAndAddToBook(name, description, ingredientsNeeded, instructions);
   }
 
+  /**
+   * Method for prompting the user for recipe ingredients.
+   * @return List of Items, representing the ingredients needed for the recipe.
+   */
 
-  public List<Item> promtForRecipeIngredients() {
-    userInterface.printEnterRecipeSpesifications();
-    List<Item> listOfIngredients = new ArrayList<>();
+  private List<Item> promtForRecipeIngredients() {
+    userInterface.printEnterRecipeSpecifications(); //Prints out the prompt
+    List<Item> listOfIngredients = new ArrayList<>(); //List to store ingredients
 
     listOfIngredients.add(promtForRecipeIngredient()); //add first
     boolean addMoreIngredients = userInterface.promtAddMoreIngredients();
 
-    while (addMoreIngredients) {
+    while (addMoreIngredients) { //Optional to add more than one.
       listOfIngredients.add(promtForRecipeIngredient());
       addMoreIngredients = userInterface.promtAddMoreIngredients();
     }
-    return listOfIngredients;
+    return listOfIngredients; //Return list of ingredients
   }
 
 
@@ -88,6 +137,7 @@ public class CookBookController {
 
 
 
+//TODO: Implement edit recipe or remove recipeEDIT METHOD from CookBookController
   private void editRecipeSwitchCase(Recipe recipe) {
     boolean editComplete = false;
     while (!editComplete) {
@@ -186,10 +236,6 @@ public class CookBookController {
   }
 
   */
-
-
-
-
 
 
 }

@@ -1,7 +1,6 @@
 package edu.ntnu.idi.bidata;
 
 
-
 import controller.MainController;
 
 public class Main {

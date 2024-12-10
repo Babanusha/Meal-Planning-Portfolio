@@ -8,8 +8,8 @@ import cookbook.CookBook;
 import fridge.Fridge;
 import userInterface.Printer;
 import userInterface.Reader;
-import userInterface.Validator;
 import userInterface.UserInterface;
+import userInterface.Validator;
 import java.text.DecimalFormat;
 import java.util.Scanner;
 
@@ -88,7 +88,6 @@ public class MainController {
         }
       } catch (Exception allExceptions) {
         userInterface.printIntErrorStandardResponse();
-        System.out.println(allExceptions.getMessage());
       }
 
     }

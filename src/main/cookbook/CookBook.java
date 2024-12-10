@@ -208,4 +208,13 @@ public class CookBook {
   public boolean notEmpty() {
     return !cookBookArrayList.isEmpty();
   }
+
+  public Iterator<String> getRecipeNames() {
+    return cookBookArrayList.stream().map(Recipe::getRecipeName).iterator();
+  }
+
+  public boolean canSpecificRecipeBeMade(int recipeNumberInList, Iterator<Item> currentFridge) {
+    Recipe recipeToCheck = retrieveNthOccurenceOfRecipe(recipeNumberInList);
+    return recipeIsInFridge(recipeToCheck, iteratorToList(currentFridge));
+  }
 }
