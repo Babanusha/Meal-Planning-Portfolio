@@ -13,7 +13,8 @@ import java.util.List;
 
 
 /**
- * Controller class for the CookBook. Handles the interaction between the CookBook and the UserInterface.
+ * Controller class for the CookBook. Handles the interaction between the CookBook and the
+ * UserInterface.
  */
 public class CookBookController {
 
@@ -22,9 +23,10 @@ public class CookBookController {
 
 
   /**
-   * Constructor for the CookBookController class.
-   * Contains independency injection of CookBook and UserInterface.
-   * @param cookBook CookBook object
+   * Constructor for the CookBookController class. Contains independency injection of CookBook and
+   * UserInterface.
+   *
+   * @param cookBook      CookBook object
    * @param userInterface UserInterface object
    */
   CookBookController(CookBook cookBook, UserInterface userInterface) {
@@ -33,8 +35,9 @@ public class CookBookController {
   }
 
   /**
-   *  Method for initiating the CookBookController.
-   * @param cookBook CookBook object
+   * Method for initiating the CookBookController.
+   *
+   * @param cookBook      CookBook object
    * @param userInterface UserInterface object
    */
   private void init(CookBook cookBook, UserInterface userInterface) {
@@ -44,8 +47,9 @@ public class CookBookController {
 
   /**
    * Method for opening the CookBook menu.
-   * @param currentFridge Iterator for the current fridge.
-   *                      Used to check what recipes can be made with the current fridge content.
+   *
+   * @param currentFridge Iterator for the current fridge. Used to check what recipes can be made
+   *                      with the current fridge content.
    */
   void openCookBookMenu(Iterator<Item> currentFridge) {
     boolean exitTrigger = false;
@@ -53,12 +57,15 @@ public class CookBookController {
       try {
         userInterface.printCookBookMenu();
         switch (userInterface.intHandler(SWITCH_CASE_LIMIT)) {
+
           case 1 -> createNewRecipe();
-         // case 5 -> displayAllRecipesNameOnly();
-          // case 6 -> seeRecipeByName();
-          case 2 -> displayAllRecipesFullDetail();
-          case 3 -> checkIfSpecificRecipeCanBeMade(currentFridge);
-          case 4 -> seeAllRecipesThatCanBeMade(currentFridge);
+          case 2 -> displayByRecipesNameOnly(cookBook.getRecipeNames());
+
+          case 3 -> searchDisplayRecipeByName();
+          case 4 -> displayAllRecipesFullDetail();
+
+          case 5 -> checkIfSpecificRecipeCanBeMade(currentFridge);
+          case 6 -> seeAllRecipesThatCanBeMade(currentFridge);
 
           case INT_EXIT -> exitTrigger = true;
           default -> throw new IllegalArgumentException(INVALID_INPUT);
@@ -70,11 +77,38 @@ public class CookBookController {
   }
 
   /**
-   * Method for checking if a specific recipe can be made with the current fridge content.
-   * User is prompted with list of recipes (names) and asked to choose a recipe.
-   * The method then checks if the recipe can be made with the current fridge content.
-   * The user is informed.
-   * NB! User prompt is taken in, and subtracted by 1 to match the index of the recipe in the list.
+   * Method for searching and displaying a recipe by name. Prompts the user for a recipe name and
+   * checks if the recipe exists. If the recipe exists, the recipe is displayed.
+   */
+  private void searchDisplayRecipeByName() {
+
+    String recipeName = userInterface.promtForRecipeName();
+    if (cookBook.recipeExists(recipeName)) {
+      userInterface.printFoundRecipe();
+      userInterface.displayRecipesInTable(cookBook.iterateRecipeByName(recipeName));
+    } else {
+      userInterface.printNoItemsFound();
+    }
+
+  }
+
+  /**
+   * Displays all recipes names iterated.
+   */
+  private void displayByRecipesNameOnly(Iterator<String> namesToShow) {
+    if (namesToShow.hasNext()) {
+      userInterface.printFoundRecipe();
+      userInterface.displayRecipeNamesInTable(namesToShow);
+    }
+
+  }
+
+  /**
+   * Method for checking if a specific recipe can be made with the current fridge content. User is
+   * prompted with list of recipes (names) and asked to choose a recipe. The method then checks if
+   * the recipe can be made with the current fridge content. The user is informed. NB! User prompt
+   * is taken in, and subtracted by 1 to match the index of the recipe in the list.
+   *
    * @param currentFridge Iterator for the current fridge, iterated in when entering cookBook.
    */
   private void checkIfSpecificRecipeCanBeMade(Iterator<Item> currentFridge) {
@@ -90,9 +124,9 @@ public class CookBookController {
   }
 
 
-
   /**
    * Method for checking what recipes can be made with the current fridge content.
+   *
    * @param iteratedFridge Iterated fridge content, to cross check.
    */
   private void seeAllRecipesThatCanBeMade(Iterator<Item> iteratedFridge) {
@@ -105,8 +139,8 @@ public class CookBookController {
   }
 
   /**
-   * Method for creating a new recipe.
-   * Gathers Recipe Information into simple parts and uses CookBook to create a new Recipe.
+   * Method for creating a new recipe. Gathers Recipe Information into simple parts and uses
+   * CookBook to create a new Recipe.
    */
 
   private void createNewRecipe() {
@@ -116,6 +150,7 @@ public class CookBookController {
     List<String> instructions = writeIteratorToList(userInterface.promtForRecipeInstructions());
     cookBook.createRecipeAndAddToBook(name, description, ingredientsNeeded, instructions);
   }
+
   private List<String> writeIteratorToList(Iterator<String> stringListIterator) {
     List<String> stringList = new ArrayList<>();
     stringListIterator.forEachRemaining(stringList::add);
@@ -124,6 +159,7 @@ public class CookBookController {
 
   /**
    * Method for prompting the user for recipe ingredients.
+   *
    * @return List of Items, representing the ingredients needed for the recipe.
    */
 
@@ -142,18 +178,19 @@ public class CookBookController {
   }
 
   /**
-   * Method for displaying all recipes in the cookBook.
-   * Uses CookBook to iterate over the cookBook and display the recipes in a table.
+   * Method for displaying all recipes in the cookBook. Uses CookBook to iterate over the cookBook
+   * and display the recipes in a table.
    */
   private void displayAllRecipesFullDetail() {
     userInterface.displayRecipesInTable(cookBook.iterateOverCookBook());
   }
 
   /**
-   * Method for prompting the user for a recipe ingredient.
-   * Builds an Item object with cookBook.createIngredient() and returns it.
-   * @see CookBook#createIngredient(String, int, String)
+   * Method for prompting the user for a recipe ingredient. Builds an Item object with
+   * cookBook.createIngredient() and returns it.
+   *
    * @return Item object representing the ingredient.
+   * @see CookBook#createIngredient(String, int, String)
    */
 
   private Item promtForRecipeIngredient() {

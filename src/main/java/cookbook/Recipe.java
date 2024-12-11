@@ -5,9 +5,8 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- * Class for the Recipe.
- * Contains a recipe name, description, ingredients and instructions.
- * The class can get and set the recipe name, description, ingredients and instructions.
+ * Class for the Recipe. Contains a recipe name, description, ingredients and instructions. The
+ * class can get and set the recipe name, description, ingredients and instructions.
  */
 public class Recipe {
 
@@ -18,11 +17,12 @@ public class Recipe {
 
 
   /**
-   * Constructor for the Recipe class.
-   * Uses setters to set the recipe name, description, ingredients and instructions.
-   * @param recipeName name of the recipe
-   * @param recipeDescription description of the recipe
-   * @param recipeIngredients ingredients of the recipe
+   * Constructor for the Recipe class. Uses setters to set the recipe name, description, ingredients
+   * and instructions.
+   *
+   * @param recipeName         name of the recipe
+   * @param recipeDescription  description of the recipe
+   * @param recipeIngredients  ingredients of the recipe
    * @param recipeInstructions instructions of the recipe
    */
   public Recipe(String recipeName, String recipeDescription, List<Item> recipeIngredients,
@@ -35,6 +35,7 @@ public class Recipe {
 
   /**
    * Getter for the recipe name.
+   *
    * @return the recipe name
    */
   public String getRecipeName() {
@@ -43,6 +44,7 @@ public class Recipe {
 
   /**
    * Setter for the recipe name.
+   *
    * @param recipeName the name of the recipe
    */
   private void setRecipeName(String recipeName) {
@@ -51,6 +53,7 @@ public class Recipe {
 
   /**
    * Getter for the recipe description.
+   *
    * @return the recipe description
    */
   public String getRecipeDescription() {
@@ -59,6 +62,7 @@ public class Recipe {
 
   /**
    * Setter for the recipe description.
+   *
    * @param recipeDescription the description of the recipe
    */
   private void setRecipeDescription(String recipeDescription) {
@@ -67,6 +71,7 @@ public class Recipe {
 
   /**
    * Getter for the recipe ingredients.
+   *
    * @return the recipe ingredients iterated.
    */
   public Iterator<Item> getRecipeIngredients() {
@@ -75,6 +80,7 @@ public class Recipe {
 
   /**
    * Setter for the recipe ingredients.
+   *
    * @param recipeIngredients the ingredients of the recipe
    */
   private void setRecipeIngredients(List<Item> recipeIngredients) {
@@ -83,6 +89,7 @@ public class Recipe {
 
   /**
    * Getter for the recipe instructions.
+   *
    * @return the recipe instructions iterated.
    */
   public Iterator<String> getRecipeInstructions() {
@@ -91,6 +98,7 @@ public class Recipe {
 
   /**
    * Setter for the recipe instructions.
+   *
    * @param recipeInstructions the instructions of the recipe
    */
   private void setRecipeInstructions(List<String> recipeInstructions) {

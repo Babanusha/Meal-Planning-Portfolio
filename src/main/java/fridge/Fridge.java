@@ -14,9 +14,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * Class for the fridge. Contains methods for adding, removing, searching and editing items in the fridge.
- * Also contains methods for calculating costs and checking for expired items.
- * The fridge can be sorted by expiration date, quantity left and alphabetically.
+ * Class for the fridge. Contains methods for adding, removing, searching and editing items in the
+ * fridge. Also contains methods for calculating costs and checking for expired items. The fridge
+ * can be sorted by expiration date, quantity left and alphabetically.
  */
 
 public class Fridge {
@@ -33,9 +33,7 @@ public class Fridge {
   }
 
   /**
-   * a test method to add items to the fridge.
-   * ONLY USED IN TESTING.
-   * Left for censoring purposes.
+   * a test method to add items to the fridge. ONLY USED IN TESTING. Left for censoring purposes.
    */
 
   private void testInit() {
@@ -85,11 +83,11 @@ public class Fridge {
   }
 
   /**
-   * Adds an item to the fridge.
-   * Package private for testing purposes.
+   * Adds an item to the fridge. Package private for testing purposes.
+   *
    * @param item to add to fridge
    */
-   void addItemToFridge(Item item) {
+  void addItemToFridge(Item item) {
     listOfItems.add(item);
   }
 
@@ -221,8 +219,9 @@ public class Fridge {
 
 
   /**
-   * Retrieves the nth occurrence of a specific item in the fridge.
-   * Takes into account that Lists are 0-indexed. (-1).
+   * Retrieves the nth occurrence of a specific item in the fridge. Takes into account that Lists
+   * are 0-indexed. (-1).
+   *
    * @param itemNumber to retrieve.
    * @param searchItem name of the wanted item
    * @return the nth occurrence of the item.
@@ -276,11 +275,11 @@ public class Fridge {
   }
 
   /**
-   * Reduces the quantity of an item in the fridge.
-   * If the quantity to reduce with is greater than or equal to the quantity of the item,
-   * the item is removed from the fridge.
+   * Reduces the quantity of an item in the fridge. If the quantity to reduce with is greater than
+   * or equal to the quantity of the item, the item is removed from the fridge.
+   *
    * @param quantityToReduceWith quantity to reduce with.
-   * @param itemToReduce the item to reduce quantity of.
+   * @param itemToReduce         the item to reduce quantity of.
    * @return true if no items left.
    */
   public boolean reduceQuantityOfItem(int quantityToReduceWith, Item itemToReduce) {
@@ -297,11 +296,11 @@ public class Fridge {
 
 
   /**
-   * Creates a shortened list of items in the fridge.
-   * Items with the same name are grouped together and their quantities summed.
-   * The list is sorted alphabetically by name.
+   * Creates a shortened list of items in the fridge. Items with the same name are grouped together
+   * and their quantities summed. The list is sorted alphabetically by name.
+   *
    * @return iterator of shortened list of items.
-  */
+   */
   private Iterator<Item> createShortenedListOfItems() {
     // Create a map to group items by their name (case-insensitive) and sum their quantities
     Map<String, Item> groupedItems = new HashMap<>();
@@ -327,6 +326,7 @@ public class Fridge {
 
   /**
    * Retrieves a shortened list of items in the fridge.
+   *
    * @return iterator of shortened list of items.
    */
   public Iterator<Item> retrieveShortenListOfItems() {
