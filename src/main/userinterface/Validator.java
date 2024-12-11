@@ -60,6 +60,7 @@ public class Validator {
 
   /**
    * Checks if a date is equal or is after the year limit.
+   *
    * @param expirationDate date to check
    * @return true if date is after year limit, false otherwise
    */
@@ -69,6 +70,7 @@ public class Validator {
 
   /**
    * Checks if a cost is equal or less than the default value.
+   *
    * @param inputCost cost to check
    * @return true if cost is the default value, false otherwise
    */
@@ -78,6 +80,7 @@ public class Validator {
 
   /**
    * Checks if a string input equals ignore case "done".
+   *
    * @param input string to check
    * @return true if input is "done", false otherwise
    */
@@ -87,6 +90,7 @@ public class Validator {
 
   /**
    * Checks if a string is not empty, excluding spaces.
+   *
    * @param input string to check (input is trimmed)
    * @return true if string is not empty, false otherwise
    */

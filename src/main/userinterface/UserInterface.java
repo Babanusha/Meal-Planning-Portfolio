@@ -294,7 +294,8 @@ public class UserInterface {
    * @return , returns the validated boolean value from user.
    */
   public boolean yesOrNo(String questionOnly) {
-    printer.printString(questionOnly + "  type: ´yes´, or ´y´" + ". Other input is interpreted as no");
+    printer.printString(
+        questionOnly + "  type: ´yes´, or ´y´" + ". Other input is interpreted as no");
     return validator.checkIfYes(stringHandler(STRING_HANDLER_LIMIT_FOR_YES_NO));
   }
 
@@ -520,9 +521,10 @@ public class UserInterface {
   //////////////////////////////////
 
   /**
-   *  prompts user for recipe name
-   * @see #stringHandler(int)
+   * prompts user for recipe name
+   *
    * @return stringHandler method that gives input from user.
+   * @see #stringHandler(int)
    */
   public String promtForRecipeName() {
     printer.printString("Please enter recipe name" + TEN_BLANK_SPACES +
@@ -538,9 +540,10 @@ public class UserInterface {
   }
 
   /**
-   *  prompts user for recipe description.
-   * @see #stringHandler(int)
+   * prompts user for recipe description.
+   *
    * @return stringHandler method that gives input from user.
+   * @see #stringHandler(int)
    */
   public String promtForRecipeDescription() {
     printer.printString("Enter recipe description:" + TEN_BLANK_SPACES
@@ -549,10 +552,10 @@ public class UserInterface {
   }
 
   /**
-   * prompts user for recipe instructions.
-   * Uses readInstructions() and iterates the result.
-   * @see #readInstructions()
+   * prompts user for recipe instructions. Uses readInstructions() and iterates the result.
+   *
    * @return iterated List of String.
+   * @see #readInstructions()
    */
   public Iterator<String> promtForRecipeInstructions() {
     printer.printString("Enter recipe instructions:" + TEN_BLANK_SPACES
@@ -563,11 +566,11 @@ public class UserInterface {
   }
 
   /**
-   * reads instructions from user and adds results to list.
-   * Every time user pushes "enter" the arrayList indexes.
-   * When user types "done" the loop stops and List is returned
-   * @see Reader#readString()
+   * reads instructions from user and adds results to list. Every time user pushes "enter" the
+   * arrayList indexes. When user types "done" the loop stops and List is returned
+   *
    * @return List of strings containing Instructions
+   * @see Reader#readString()
    */
   private List<String> readInstructions() {
     List<String> instructions = new ArrayList<>();
@@ -584,9 +587,9 @@ public class UserInterface {
   }
 
   /**
-   * Displays recipes in a table format.
-   * If no items are iterated, it prints No Items Found, and returns immediately.
-   * If items are found, it prints all items with a numerator.
+   * Displays recipes in a table format. If no items are iterated, it prints No Items Found, and
+   * returns immediately. If items are found, it prints all items with a numerator.
+   *
    * @param iteratedRecipesToShow numerator to print Recipe with.
    */
 
@@ -607,7 +610,8 @@ public class UserInterface {
 
   /**
    * Prints recipe in a format.
-   * @param recipeToPrint recipe to print.
+   *
+   * @param recipeToPrint   recipe to print.
    * @param recipeNumerator number corresponding to the recipe.
    */
   private void printRecipeInFormat(Recipe recipeToPrint, int recipeNumerator) {
@@ -625,8 +629,9 @@ public class UserInterface {
 
   /**
    * Prints recipe name.
+   *
    * @param recipeNumerator number corresponding to the recipe name.
-   * @param recipeName recipe name.
+   * @param recipeName      recipe name.
    */
   public void printRecipeName(int recipeNumerator, String recipeName) {
     printer.printString("Recipe number: " + recipeNumerator);
@@ -636,6 +641,7 @@ public class UserInterface {
 
   /**
    * Prints recipe description.
+   *
    * @param recipeDescription recipe to print
    */
   public void printRecipeDescription(String recipeDescription) {
@@ -645,6 +651,7 @@ public class UserInterface {
 
   /**
    * prints Recipe ingredients.
+   *
    * @param recipeIngredients to print
    */
   public void printRecipeIngredients(Iterator<Item> recipeIngredients) {
@@ -659,8 +666,8 @@ public class UserInterface {
   }
 
   /**
-   * prints recipe Instructions.
-   * Automatically places "step nr" with numerator.
+   * prints recipe Instructions. Automatically places "step nr" with numerator.
+   *
    * @param recipeInstructions to printa
    */
   public void printRecipeInstructions(Iterator<String> recipeInstructions) {
@@ -675,9 +682,9 @@ public class UserInterface {
   }
 
   /**
-   * Prints an item as ingredient in a shorten format.
-   * only takes name, quantity, and unit.
-   * @param next next item to print
+   * Prints an item as ingredient in a shorten format. only takes name, quantity, and unit.
+   *
+   * @param next                next item to print
    * @param ingredientNumerator number corresponding to the number of ingredient.
    */
   private void printItemInShortFormat(Item next, int ingredientNumerator) {
@@ -726,7 +733,8 @@ public class UserInterface {
 
   /**
    * Displays recipe by name with numerator in a table format.
-   * @param iteratedRecipeNames  the names to print, iterated as string.
+   *
+   * @param iteratedRecipeNames the names to print, iterated as string.
    */
   public void displayRecipeByNameAndNumberInTable(Iterator<String> iteratedRecipeNames) {
     printer.printString("Recipes in cookBook:");
@@ -750,5 +758,23 @@ public class UserInterface {
       printer.printString("Recipe can not be made with current fridge content.");
     }
     printer.blankLine();
+  }
+
+  /**
+   * displays recipe names in format from iterated Strings.
+   *
+   * @param recipeNames iterated strings to display.
+   */
+  public void displayRecipeNamesInTable(Iterator<String> recipeNames) {
+    int numerator = 0;
+    printer.blankLine();
+    while (recipeNames.hasNext()) {
+      numerator++;
+      printer.printString("Nr. " + numerator + "   Recipe: " + recipeNames.next());
+    }
+  }
+
+  public void printFoundRecipe() {
+    printer.foundRecipe();
   }
 }

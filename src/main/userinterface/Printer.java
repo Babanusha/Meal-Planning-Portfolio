@@ -12,22 +12,32 @@ import static settings.ApplicationSettings.STRING_MILLIGRAMS;
 import static settings.ApplicationSettings.STRING_PIECES;
 
 /**
- * Printer Class used to print string output to user.
- * Uses System.out & System.err
+ * Printer Class used to print string output to user. Uses System.out & System.err
  */
 public class Printer {
 
 
+  /**
+   * Prints a string to the console.
+   *
+   * @param message the message to print.
+   */
   public void printString(String message) {
     System.out.println(message);
   }
 
+  /**
+   * Prints an error message to the console.
+   *
+   * @param stringToPrint the error message to print.
+   */
   public void printError(String stringToPrint) {
     System.err.println(stringToPrint);
   }
 
   //______________________________________-
   public void welcomeMessage() {
+    blankLine();
     printString("Welcome to the fridge application!");
   }
 
@@ -73,6 +83,9 @@ public class Printer {
     printString(INT_EXIT + ". Back to edit menu");
   }
 
+  /**
+   * Prints a blank line to the console.
+   */
 
   public void blankLine() {
     printString("");
@@ -141,10 +154,14 @@ public class Printer {
   public void cookBookMenu() {
     printString("Welcome to cookBook! Where we help you manage your recipes.");
     printString("To continue please choose an action from below:");
+    blankLine();
     printString("1. Create a new recipe");
-    printString("2. See all recipes");
-    printString("3. Check if recipe can be made with your items");
-    printString("4. See all recipes that can be made");
+    printString("2. See all recipes by name only");
+    printString("3. Search for recipes by name");
+    printString("4. See all recipes with full detail.");
+    blankLine();
+    printString("5. Check if recipe can be made with your items");
+    printString("6. See all recipes that can be made");
     blankLine();
     printString(INT_EXIT + ". Exit cookBook");
   }
@@ -183,4 +200,8 @@ public class Printer {
   }
 
 
+  public void foundRecipe() {
+    blankLine();
+    printString("Recipe found:");
+  }
 }

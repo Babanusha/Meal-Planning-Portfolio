@@ -13,7 +13,8 @@ import java.time.LocalDate;
 import java.util.Iterator;
 
 /**
- * Controller class for the Fridge. Handles the interaction between the Fridge and the UserInterface.
+ * Controller class for the Fridge. Handles the interaction between the Fridge and the
+ * UserInterface.
  */
 
 public class FridgeController {
@@ -23,9 +24,10 @@ public class FridgeController {
 
 
   /**
-   * Constructor for the FridgeController class.
-   * Contains independency injection of CookBook and UserInterface.
-   * @param fridge Fridge object
+   * Constructor for the FridgeController class. Contains independency injection of CookBook and
+   * UserInterface.
+   *
+   * @param fridge        Fridge object
    * @param userInterface UserInterface object
    */
   public FridgeController(Fridge fridge, UserInterface userInterface) {
@@ -35,7 +37,8 @@ public class FridgeController {
 
   /**
    * Method for initiating the FridgeController.
-   * @param fridge Fridge object
+   *
+   * @param fridge        Fridge object
    * @param userInterface UserInterface object
    */
   private void init(Fridge fridge, UserInterface userInterface) {
@@ -45,8 +48,8 @@ public class FridgeController {
 
 
   /**
-   * Method for displaying a simplified version of the fridge.
-   * Simplified meaning the quantities of items of same name are summed up.
+   * Method for displaying a simplified version of the fridge. Simplified meaning the quantities of
+   * items of same name are summed up.
    */
 
   void displaySimplifiedFridge() {
@@ -54,27 +57,27 @@ public class FridgeController {
   }
 
   /**
-   * Method for reducing the quantity of an item.
-   * If there is no items in the fridge, method does nothing.
-   * Contains a null check for the returned item list.
-   * Gives feedback to the user if the item is not in the fridge, or if the item is depleted.
+   * Method for reducing the quantity of an item. If there is no items in the fridge, method does
+   * nothing. Contains a null check for the returned item list. Gives feedback to the user if the
+   * item is not in the fridge, or if the item is depleted.
    */
   void reduceAnItemInFridge() {
 
-      userInterface.promptUserForWhatItemToRemove();
-      Item itemToReduce = searchForItemByNameInFridge(); //Search for item.
-      if (itemToReduce != null) { //null check
-        int quantityToReduceWith = userInterface.promtForQuantityToReduceWIth(); // Promt for quantity.
-        if (fridge.reduceQuantityOfItem(quantityToReduceWith,
-            itemToReduce)) { //Returns if item is depleted
-          userInterface.printItemRemovedCauseNoneLeft();
-        }
+    userInterface.promptUserForWhatItemToRemove();
+    Item itemToReduce = searchForItemByNameInFridge(); //Search for item.
+    if (itemToReduce != null) { //null check
+      int quantityToReduceWith = userInterface.promtForQuantityToReduceWIth(); // Promt for quantity.
+      if (fridge.reduceQuantityOfItem(quantityToReduceWith,
+          itemToReduce)) { //Returns if item is depleted
+        userInterface.printItemRemovedCauseNoneLeft();
       }
+    }
   }
+
   /**
-   * Method for searching and editing an item in the fridge.
-   * Package private since use is only within the package.
-   * Throws an exception making user turn to menu if item is not found. (with feedback).
+   * Method for searching and editing an item in the fridge. Package private since use is only
+   * within the package. Throws an exception making user turn to menu if item is not found. (with
+   * feedback).
    */
   void searchAndEditItemMenu() {
     Item itemToEdit = searchForItemByNameInFridge(); //if null is returned/item not found, it returns to menu.
@@ -85,16 +88,17 @@ public class FridgeController {
 
 
   /**
-   * Method for searching and displaying items that expire before the searched date.
-   * The user is prompted for a date to check against.
-   * If no items are found, a message is printed to the user.
-   * If items are found, the items are displayed in a table and the total cost of the items is printed.
+   * Method for searching and displaying items that expire before the searched date. The user is
+   * prompted for a date to check against. If no items are found, a message is printed to the user.
+   * If items are found, the items are displayed in a table and the total cost of the items is
+   * printed.
    */
 
 
   void searchDisplayItemsThatExpireBeforeGivenDate() {
     LocalDate dateToCheck = userInterface.promtForExpirationDate(); //Promt for date.
-    Iterator<Item> expiredItems = fridge.iterateExpiredItems(dateToCheck); //Iterate over expired items by expiration given.
+    Iterator<Item> expiredItems = fridge.iterateExpiredItems(
+        dateToCheck); //Iterate over expired items by expiration given.
     if (expiredItems.hasNext()) { //If items are found.
       userInterface.displayItemsInTable(expiredItems);
       userInterface.displayCostOfItemsInFridge(fridge.calculateCostOfExpiredItems(dateToCheck));
@@ -105,8 +109,8 @@ public class FridgeController {
 
 
   /**
-   * Fridge settings menu. Switch case with options.
-   * Prompts user for choice of sorting fridge by, currency, or exit.
+   * Fridge settings menu. Switch case with options. Prompts user for choice of sorting fridge by,
+   * currency, or exit.
    */
   void fridgeSettings() {
     boolean exitTrigger = false;
@@ -132,9 +136,9 @@ public class FridgeController {
   /**
    * Creates a new item and adds it to the fridge.
    * <p>
-   * Prompts user for name, quantity, quantity unit.
-   * If user chooses to add cost, the user is prompted for cost.
-   * If user chooses to add expiration date, the user is prompted for expiration date.
+   * Prompts user for name, quantity, quantity unit. If user chooses to add cost, the user is
+   * prompted for cost. If user chooses to add expiration date, the user is prompted for expiration
+   * date.
    * <p>
    * non-mandatory item details are given default values from ApplicationSettings.
    */
@@ -155,7 +159,8 @@ public class FridgeController {
     if (userInterface.yesOrNoAddExpirationDate()) { //Optional expiration date.
       expirationDate = userInterface.promtForExpirationDate();
     }
-    fridge.createItemAndAddToFridge(name, quantity, quantityUnit, //Uses fridge to create an add item
+    fridge.createItemAndAddToFridge(name, quantity, quantityUnit,
+        //Uses fridge to create an add item
         cost, expirationDate);                                  //to fridge
   }
 
@@ -182,10 +187,10 @@ public class FridgeController {
 
 
   /**
-   * Method for finding an item in the fridge by Item name.
-   * Displays all items in the fridge and prompts user for item name.
-   * Uses a switch case to handle the different outcomes of the search.
+   * Method for finding an item in the fridge by Item name. Displays all items in the fridge and
+   * prompts user for item name. Uses a switch case to handle the different outcomes of the search.
    * If 0 items found, an exception is thrown and caught. (causing feedback and return to menu).
+   *
    * @return the item found by the search.
    */
   private Item searchForItemByNameInFridge() {
@@ -209,6 +214,7 @@ public class FridgeController {
 
   /**
    * Retrieves the first item found by search in the fridge.
+   *
    * @param searchItem the item to search for.
    * @return the first item found.
    */
@@ -217,9 +223,10 @@ public class FridgeController {
   }
 
   /**
-   * Prompts user to choose which item to edit from a list of items.
-   * Displays all options found by search term for user to choose.
-   * Retrieves the nth occurrence of item // The item corresponding to the index user returns.
+   * Prompts user to choose which item to edit from a list of items. Displays all options found by
+   * search term for user to choose. Retrieves the nth occurrence of item // The item corresponding
+   * to the index user returns.
+   *
    * @param searchItem the item that has been searched for.
    * @return the item to edit.
    */

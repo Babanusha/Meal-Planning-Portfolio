@@ -8,12 +8,11 @@ import fridge.Item;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.stream.IntStream;
 
 /**
- * Class for the cookBook. Contains a list of recipes.
- * The cookBook can add recipes, iterate over recipes, retrieve a specific recipe, check if a recipe
- * is in the fridge, and check if the cookBook is empty.
+ * Class for the cookBook. Contains a list of recipes. The cookBook can add recipes, iterate over
+ * recipes, retrieve a specific recipe, check if a recipe is in the fridge, and check if the
+ * cookBook is empty.
  */
 public class CookBook {
 
@@ -28,9 +27,8 @@ public class CookBook {
   }
 
   /**
-   * Test method for adding recipes to cookBook.
-   * Used for testing purposes.
-   * Left in code for censoring purposes.
+   * Test method for adding recipes to cookBook. Used for testing purposes. Left in code for
+   * censoring purposes.
    */
   private void test() {
 
@@ -105,9 +103,10 @@ public class CookBook {
 
   /**
    * Creates a recipe with the given parameters using Recipe constructor.
-   * @param recipeName name of the recipe
-   * @param recipeDescription description of the recipe
-   * @param recipeIngredients ingredients of the recipe
+   *
+   * @param recipeName         name of the recipe
+   * @param recipeDescription  description of the recipe
+   * @param recipeIngredients  ingredients of the recipe
    * @param recipeInstructions instructions of the recipe
    * @return a recipe with the given parameters.
    */
@@ -119,10 +118,11 @@ public class CookBook {
 
   /**
    * Creates a recipe with the given parameters and adds it to the cookBook.
-   * @param recipeName name of the recipe
-   * @param recipeDescription description of the recipe
-   * @param recipeIngredients ingredients of the recipe
-   * @param recipeInstructions  instructions of the recipe
+   *
+   * @param recipeName         name of the recipe
+   * @param recipeDescription  description of the recipe
+   * @param recipeIngredients  ingredients of the recipe
+   * @param recipeInstructions instructions of the recipe
    */
   public void createRecipeAndAddToBook(String recipeName, String recipeDescription,
       List<Item> recipeIngredients, List<String> recipeInstructions) {
@@ -133,6 +133,7 @@ public class CookBook {
 
   /**
    * Iterates over the cookBook and returns an iterator of recipes.
+   *
    * @return iterator of recipes in cookBook
    */
 
@@ -142,19 +143,20 @@ public class CookBook {
 
   /**
    * Retrieves the nth occurrence of a recipe in the cookBook.
+   *
    * @param nthOccurrenceToRetrieve the occurrence to retrieve
-   * @return  the nth occurrence of a recipe in the cookBook
+   * @return the nth occurrence of a recipe in the cookBook
    */
   public Recipe retrieveNthOccurenceOfRecipe(int nthOccurrenceToRetrieve) {
     return cookBookArrayList.get(nthOccurrenceToRetrieve);
   }
 
   /**
-   * Creates an ingredient with the given parameters.
-   * Ingredient is created as an Item object.
-   * @param name name of the ingredient
+   * Creates an ingredient with the given parameters. Ingredient is created as an Item object.
+   *
+   * @param name     name of the ingredient
    * @param quantity quantity of the ingredient
-   * @param unit unit of the ingredient
+   * @param unit     unit of the ingredient
    * @return an ingredient with the given parameters
    */
   public Item createIngredient(String name, int quantity, String unit) {
@@ -164,6 +166,7 @@ public class CookBook {
   /**
    * Checks if there is any recipe in the CookBook List that currently can be made, from the
    * retrieved fridge items.
+   *
    * @param fridgeItemsIterated fridge items to check against
    * @return iterator of recipes that can be made
    */
@@ -176,25 +179,28 @@ public class CookBook {
   }
 
   /**
-   * Checks if a recipe is in the fridge.
-   * Does this by cross checking every ingredient in the recipe with the fridge items.
-   *
+   * Checks if a recipe is in the fridge. Does this by cross checking every ingredient in the recipe
+   * with the fridge items.
    *
    * @param recipeToCheck recipe to check
-   * @param fridgeItems fridge items to check against
+   * @param fridgeItems   fridge items to check against
    * @return true if recipe is in fridge, false otherwise
    */
   public boolean recipeIsInFridge(Recipe recipeToCheck, List<Item> fridgeItems) {
     List<Item> recipeIngredientsList = iteratorToList(recipeToCheck.getRecipeIngredients());
 
-    return recipeIngredientsList.stream().allMatch(recipeIngredient -> //All recipe ingredients must match
-        fridgeItems.stream().anyMatch(fridgeItem -> //checks all ingredients for a match
-            recipeIngredient.getName().equalsIgnoreCase(fridgeItem.getName()) && //name must match
-                recipeIngredient.getQuantity() <= fridgeItem.getQuantity())); //quantity must be enough
+    return recipeIngredientsList.stream()
+        .allMatch(recipeIngredient -> //All recipe ingredients must match
+            fridgeItems.stream().anyMatch(fridgeItem -> //checks all ingredients for a match
+                recipeIngredient.getName().equalsIgnoreCase(fridgeItem.getName()) &&
+                    //name must match
+                    recipeIngredient.getQuantity()
+                        <= fridgeItem.getQuantity())); //quantity must be enough
   }
 
   /**
    * Converts an iterator to a list.
+   *
    * @param recipeIngredients iterator to convert
    * @return list of items
    */
@@ -209,6 +215,7 @@ public class CookBook {
 
   /**
    * Checks if the cookBook is empty.
+   *
    * @return true if cookBook is not empty, false otherwise
    */
 
@@ -218,20 +225,45 @@ public class CookBook {
 
   /**
    * Gets the recipe names in the cookBook.
+   *
    * @return iterator of recipe names
    */
   public Iterator<String> getRecipeNames() {
-    return cookBookArrayList.stream().map(Recipe::getRecipeName).iterator(); // maps all recipe names to iterator stream.
+    return cookBookArrayList.stream().map(Recipe::getRecipeName)
+        .iterator(); // maps all recipe names to iterator stream.
   }
 
   /**
    * Checks if a specific recipe can be made with the given fridge content.
+   *
    * @param recipeNumberInList the number of the recipe in the cookBook.
-   * @param currentFridge fridge content to check against
+   * @param currentFridge      fridge content to check against
    * @return true if recipe can be made, false otherwise
    */
   public boolean canSpecificRecipeBeMade(int recipeNumberInList, Iterator<Item> currentFridge) {
     Recipe recipeToCheck = retrieveNthOccurenceOfRecipe(recipeNumberInList);
     return recipeIsInFridge(recipeToCheck, iteratorToList(currentFridge));
+  }
+
+  /**
+   * Checks if a recipe exists in the cookBook.
+   *
+   * @param recipeName name of the recipe
+   * @return true if recipe exists, false otherwise
+   */
+  public boolean recipeExists(String recipeName) {
+    return cookBookArrayList.stream()
+        .anyMatch(recipe -> recipe.getRecipeName().equalsIgnoreCase(recipeName));
+  }
+
+  /**
+   * Iterates over all recipes matching the given recipe name.
+   *
+   * @param recipeName name of the recipe to find
+   * @return iterator of recipes matching the given recipe name
+   */
+  public Iterator<Recipe> iterateRecipeByName(String recipeName) {
+    return cookBookArrayList.stream()
+        .filter(recipe -> recipe.getRecipeName().equalsIgnoreCase(recipeName)).iterator();
   }
 }
