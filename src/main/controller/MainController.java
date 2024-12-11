@@ -6,10 +6,10 @@ import static settings.ApplicationSettings.SWITCH_CASE_LIMIT;
 
 import cookbook.CookBook;
 import fridge.Fridge;
-import userInterface.Printer;
-import userInterface.Reader;
-import userInterface.UserInterface;
-import userInterface.Validator;
+import userinterface.Printer;
+import userinterface.Reader;
+import userinterface.UserInterface;
+import userinterface.Validator;
 import java.text.DecimalFormat;
 import java.util.Scanner;
 

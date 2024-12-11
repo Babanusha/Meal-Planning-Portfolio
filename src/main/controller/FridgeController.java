@@ -8,7 +8,7 @@ import static settings.ApplicationSettings.SWITCH_CASE_LIMIT;
 
 import fridge.Fridge;
 import fridge.Item;
-import userInterface.UserInterface;
+import userinterface.UserInterface;
 import java.time.LocalDate;
 import java.util.Iterator;
 
@@ -54,21 +54,23 @@ public class FridgeController {
   }
 
   /**
-   * Method for reducing the quantity of an item, if the item is in the fridge.
+   * Method for reducing the quantity of an item.
+   * If there is no items in the fridge, method does nothing.
    * Contains a null check for the returned item list.
    * Gives feedback to the user if the item is not in the fridge, or if the item is depleted.
    */
   void reduceAnItemInFridge() {
-    userInterface.promptUserForWhatItemToRemove();
-    Item itemToReduce = searchForItemByNameInFridge();
-    if (itemToReduce != null) { //null check
-      int quantityToReduceWith = userInterface.promtForQuantityToReduceWIth();
-      if (fridge.reduceQuantityOfItem(quantityToReduceWith, itemToReduce)) {
-        userInterface.printItemRemovedCauseNoneLeft(); //TODO: you cant take out more items then you have.
-      }
-    }
-  }
 
+      userInterface.promptUserForWhatItemToRemove();
+      Item itemToReduce = searchForItemByNameInFridge(); //Search for item.
+      if (itemToReduce != null) { //null check
+        int quantityToReduceWith = userInterface.promtForQuantityToReduceWIth(); // Promt for quantity.
+        if (fridge.reduceQuantityOfItem(quantityToReduceWith,
+            itemToReduce)) { //Returns if item is depleted
+          userInterface.printItemRemovedCauseNoneLeft();
+        }
+      }
+  }
   /**
    * Method for searching and editing an item in the fridge.
    * Package private since use is only within the package.
@@ -222,7 +224,7 @@ public class FridgeController {
    * @return the item to edit.
    */
   private Item promtMultipleFound(String searchItem) {
-    return fridge.retrieveNthOccurenceOfItem(
+    return fridge.retrieveNthOccurrenceOfItem(
         promtForSpecificItemToEditFromSearch(searchItem), searchItem);
   }
 

@@ -5,9 +5,8 @@ import static settings.ApplicationSettings.INVALID_INPUT;
 import static settings.ApplicationSettings.SWITCH_CASE_LIMIT;
 
 import cookbook.CookBook;
-import cookbook.Recipe;
 import fridge.Item;
-import userInterface.UserInterface;
+import userinterface.UserInterface;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -55,10 +54,11 @@ public class CookBookController {
         userInterface.printCookBookMenu();
         switch (userInterface.intHandler(SWITCH_CASE_LIMIT)) {
           case 1 -> createNewRecipe();
-          // case 2 -> searchAndEditRecipeMenu(); //Todo: Implement
-          case 3 -> displayAllRecipes();
-          case 4 -> checkIfSpecificRecipeCanBeMade(currentFridge);
-          case 5 -> seeAllRecipesThatCanBeMade(currentFridge);
+         // case 5 -> displayAllRecipesNameOnly();
+          // case 6 -> seeRecipeByName();
+          case 2 -> displayAllRecipesFullDetail();
+          case 3 -> checkIfSpecificRecipeCanBeMade(currentFridge);
+          case 4 -> seeAllRecipesThatCanBeMade(currentFridge);
 
           case INT_EXIT -> exitTrigger = true;
           default -> throw new IllegalArgumentException(INVALID_INPUT);
@@ -74,14 +74,19 @@ public class CookBookController {
    * User is prompted with list of recipes (names) and asked to choose a recipe.
    * The method then checks if the recipe can be made with the current fridge content.
    * The user is informed.
-   * NB! user prompt is taken in, and subtracted by 1 to match the index of the recipe in the list.
+   * NB! User prompt is taken in, and subtracted by 1 to match the index of the recipe in the list.
    * @param currentFridge Iterator for the current fridge, iterated in when entering cookBook.
    */
   private void checkIfSpecificRecipeCanBeMade(Iterator<Item> currentFridge) {
-    userInterface.displayRecipeByNameAndNumberInTable(cookBook.getRecipeNames());
-    boolean canBeMade = cookBook.canSpecificRecipeBeMade((userInterface.promtForRecipeNumber() -1)  //Subtract 1 to match index
-        , currentFridge); //Finds first recipe that fits.
-    userInterface.printRecipeCanBeMadeAnswer(canBeMade);
+    if (cookBook.notEmpty() && currentFridge.hasNext()) {
+      userInterface.displayRecipeByNameAndNumberInTable(cookBook.getRecipeNames());
+      boolean canBeMade = cookBook.canSpecificRecipeBeMade(
+          (userInterface.promtForRecipeNumber() - 1)  //Subtract 1 to match index
+          , currentFridge); //Finds first recipe that fits.
+      userInterface.printRecipeCanBeMadeAnswer(canBeMade);
+    } else {
+      userInterface.printNoItemsFound();
+    }
   }
 
 
@@ -93,7 +98,7 @@ public class CookBookController {
   private void seeAllRecipesThatCanBeMade(Iterator<Item> iteratedFridge) {
     if (iteratedFridge.hasNext() && cookBook.notEmpty()) {
       userInterface.displayRecipesInTable(
-          cookBook.isRecipeInFridge(iteratedFridge));
+          cookBook.isAnyRecipeInFridge(iteratedFridge));
     } else {
       userInterface.printNoItemsFound();
     }
@@ -108,8 +113,13 @@ public class CookBookController {
     String name = userInterface.promtForRecipeName();
     String description = userInterface.promtForRecipeDescription();
     List<Item> ingredientsNeeded = promtForRecipeIngredients();
-    List<String> instructions = userInterface.promtForRecipeInstructions();
+    List<String> instructions = writeIteratorToList(userInterface.promtForRecipeInstructions());
     cookBook.createRecipeAndAddToBook(name, description, ingredientsNeeded, instructions);
+  }
+  private List<String> writeIteratorToList(Iterator<String> stringListIterator) {
+    List<String> stringList = new ArrayList<>();
+    stringListIterator.forEachRemaining(stringList::add);
+    return stringList;
   }
 
   /**
@@ -131,75 +141,20 @@ public class CookBookController {
     return listOfIngredients; //Return list of ingredients
   }
 
-
-
-
-
-
-
-//TODO: Implement edit recipe or remove recipeEDIT METHOD from CookBookController
-  private void editRecipeSwitchCase(Recipe recipe) {
-    boolean editComplete = false;
-    while (!editComplete) {
-
-      try {
-        int userChoice = userInterface.promtWhatPartToEditInRecipe();
-        switch (userChoice) {
-          case 1 -> editComplete = editRecipeName(recipe);
-          case 2 -> editComplete = editRecipeDescription(recipe);
-          case 3 -> editComplete = editRecipeIngredients(recipe);
-          case 4 -> editComplete = editRecipeInstructions(recipe);
-          case 5 -> editComplete = removeRecipeFromCookBook(recipe);
-
-          case INT_EXIT -> editComplete = true; //EXIT
-
-          default -> throw new IllegalArgumentException(INVALID_INPUT);
-        }
-
-      } catch (Exception allExceptions) {
-        userInterface.printIntErrorStandardResponse();
-      }
-    }
-  }
-
-  private boolean removeRecipeFromCookBook(Recipe recipeToEdit) {
-    boolean removeConfirmation = false;
-    if (userInterface.promtForConfirmation()) {
-      removeConfirmation = cookBook.removeRecipe(recipeToEdit);
-
-    }
-    return removeConfirmation;
-  }
-
-  private boolean editRecipeInstructions(Recipe recipeToEdit) {
-    userInterface.printRecipeInstructions(recipeToEdit.getRecipeInstructions());
-    cookBook.editInstructions(userInterface.promtForRecipeInstructions(), recipeToEdit);
-    return true;
-  }
-
-  private boolean editRecipeIngredients(Recipe recipeToEdit) {
-    userInterface.printRecipeIngredients(recipeToEdit.getRecipeIngredients());
-    cookBook.editIngredient(promtForRecipeIngredients(), recipeToEdit);
-    return true;
-  }
-
-  private boolean editRecipeDescription(Recipe recipeToEdit) {
-    userInterface.printRecipeDescription(recipeToEdit.getRecipeDescription());
-    cookBook.editDescription(userInterface.promtForRecipeDescription(), recipeToEdit);
-    return true;
-  }
-
-  private boolean editRecipeName(Recipe recipeToEdit) {
-    int recipeNumber = cookBook.getRecipeNumber(recipeToEdit);
-    userInterface.printRecipeName(recipeNumber, recipeToEdit.getRecipeName());
-
-    return false;
-  }
-
-  private void displayAllRecipes() {
+  /**
+   * Method for displaying all recipes in the cookBook.
+   * Uses CookBook to iterate over the cookBook and display the recipes in a table.
+   */
+  private void displayAllRecipesFullDetail() {
     userInterface.displayRecipesInTable(cookBook.iterateOverCookBook());
   }
 
+  /**
+   * Method for prompting the user for a recipe ingredient.
+   * Builds an Item object with cookBook.createIngredient() and returns it.
+   * @see CookBook#createIngredient(String, int, String)
+   * @return Item object representing the ingredient.
+   */
 
   private Item promtForRecipeIngredient() {
     String itemName = userInterface.promtForItemName();
@@ -207,35 +162,4 @@ public class CookBookController {
     String quantityUnit = userInterface.promtForQuantityUnit();
     return cookBook.createIngredient(itemName, ingredientQuantity, quantityUnit);
   }
-
-
-
-
-
-
-/*
-  private void searchAndEditRecipeMenu() {
-    String recipeNameToFind = userInterface.promtForRecipeName();
-    int numberOfRecipesFound = cookBook.specificRecipeInCookBookCount(recipeNameToFind);
-
-    switch (numberOfRecipesFound) {
-      case 0 -> userInterface.printNoItemsFound(); //Found none
-      case 1 -> editSingularRecipe(recipeNameToFind);   //found 1
-      default -> findSingularRecipeFromList(recipeNameToFind); //found multiple
-    }
-  }
-
-  private void findSingularRecipeFromList(String recipeNameToFind) {
-    editRecipeSwitchCase(cookBook.retrieveNthOccurenceOfRecipe(
-        promtForSpecificIRecipeToEditFromSearch(recipeNameToFind)));
-  }
-
-  private String promtForSpecificIRecipeToEditFromSearch(String recipeNameToFind) {
-    userInterface.printRecipeName(cookBook.retrieveRecipeFromCookBook());
-    return userInterface.promtForRecipeNumberFromMultipleRecipes();
-  }
-
-  */
-
-
 }

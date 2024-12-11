@@ -1,4 +1,4 @@
-package userInterface;
+package userinterface;
 
 import static settings.ApplicationSettings.COST_LIMITATION;
 import static settings.ApplicationSettings.CURRENCY_EUR;
@@ -294,7 +294,7 @@ public class UserInterface {
    * @return , returns the validated boolean value from user.
    */
   public boolean yesOrNo(String questionOnly) {
-    printer.printString(questionOnly + "  (yes/no or y/n)");
+    printer.printString(questionOnly + "  type: ´yes´, or ´y´" + ". Other input is interpreted as no");
     return validator.checkIfYes(stringHandler(STRING_HANDLER_LIMIT_FOR_YES_NO));
   }
 
@@ -519,31 +519,56 @@ public class UserInterface {
 
   //////////////////////////////////
 
+  /**
+   *  prompts user for recipe name
+   * @see #stringHandler(int)
+   * @return stringHandler method that gives input from user.
+   */
   public String promtForRecipeName() {
     printer.printString("Please enter recipe name" + TEN_BLANK_SPACES +
         "max length is: " + STRING_HANDLER_LIMIT_FOR_NAME + " characters");
     return stringHandler(STRING_HANDLER_LIMIT_FOR_NAME);
   }
 
+  /**
+   * MiddleMan method, prints cookBookMenu.
+   */
   public void printCookBookMenu() {
     printer.cookBookMenu();
   }
 
+  /**
+   *  prompts user for recipe description.
+   * @see #stringHandler(int)
+   * @return stringHandler method that gives input from user.
+   */
   public String promtForRecipeDescription() {
     printer.printString("Enter recipe description:" + TEN_BLANK_SPACES
         + "max length is: " + STRING_HANDLER_LIMIT_FOR_DESCRIPTION + " characters");
     return stringHandler(STRING_HANDLER_LIMIT_FOR_DESCRIPTION);
   }
 
-  //TODO: shouldnt be List encapsulation...
-  public List<String> promtForRecipeInstructions() {
+  /**
+   * prompts user for recipe instructions.
+   * Uses readInstructions() and iterates the result.
+   * @see #readInstructions()
+   * @return iterated List of String.
+   */
+  public Iterator<String> promtForRecipeInstructions() {
     printer.printString("Enter recipe instructions:" + TEN_BLANK_SPACES
         + "max length is: " + STRING_HANDLER_LIMIT_FOR_INSTRUCTIONS + " characters per line.");
 
     printer.recipeManual();
-    return readInstructions();
+    return readInstructions().iterator();
   }
 
+  /**
+   * reads instructions from user and adds results to list.
+   * Every time user pushes "enter" the arrayList indexes.
+   * When user types "done" the loop stops and List is returned
+   * @see Reader#readString()
+   * @return List of strings containing Instructions
+   */
   private List<String> readInstructions() {
     List<String> instructions = new ArrayList<>();
     boolean doneSpotted = false;
@@ -558,11 +583,17 @@ public class UserInterface {
     return instructions;
   }
 
+  /**
+   * Displays recipes in a table format.
+   * If no items are iterated, it prints No Items Found, and returns immediately.
+   * If items are found, it prints all items with a numerator.
+   * @param iteratedRecipesToShow numerator to print Recipe with.
+   */
 
   public void displayRecipesInTable(Iterator<Recipe> iteratedRecipesToShow) {
     if (!iteratedRecipesToShow.hasNext()) {
       printNoItemsFound();
-      return;
+      return; //Fail early.
     }
     printer.blankLine();
     int recipeNumerator = 0;
@@ -574,6 +605,11 @@ public class UserInterface {
     printer.blankLine();
   }
 
+  /**
+   * Prints recipe in a format.
+   * @param recipeToPrint recipe to print.
+   * @param recipeNumerator number corresponding to the recipe.
+   */
   private void printRecipeInFormat(Recipe recipeToPrint, int recipeNumerator) {
     String recipeName = recipeToPrint.getRecipeName();
     String recipeDescription = recipeToPrint.getRecipeDescription();
@@ -587,15 +623,30 @@ public class UserInterface {
     printRecipeInstructions(recipeInstructions);
   }
 
+  /**
+   * Prints recipe name.
+   * @param recipeNumerator number corresponding to the recipe name.
+   * @param recipeName recipe name.
+   */
   public void printRecipeName(int recipeNumerator, String recipeName) {
-    printer.printString("Recipe number: " + recipeNumerator + " Recipe name: " + recipeName);
+    printer.printString("Recipe number: " + recipeNumerator);
+    printer.printString("Recipe name: " + recipeName);
   }
 
+
+  /**
+   * Prints recipe description.
+   * @param recipeDescription recipe to print
+   */
   public void printRecipeDescription(String recipeDescription) {
     printer.printString("Description: ");
     printer.printString(recipeDescription);
   }
 
+  /**
+   * prints Recipe ingredients.
+   * @param recipeIngredients to print
+   */
   public void printRecipeIngredients(Iterator<Item> recipeIngredients) {
     printer.printIngredienttable();
 
@@ -607,6 +658,11 @@ public class UserInterface {
     }
   }
 
+  /**
+   * prints recipe Instructions.
+   * Automatically places "step nr" with numerator.
+   * @param recipeInstructions to printa
+   */
   public void printRecipeInstructions(Iterator<String> recipeInstructions) {
     printer.printString("Instructions: ");
     int instructionNumerator = 0;
@@ -618,6 +674,12 @@ public class UserInterface {
     }
   }
 
+  /**
+   * Prints an item as ingredient in a shorten format.
+   * only takes name, quantity, and unit.
+   * @param next next item to print
+   * @param ingredientNumerator number corresponding to the number of ingredient.
+   */
   private void printItemInShortFormat(Item next, int ingredientNumerator) {
     String itemName = next.getName();
     int quantity = next.getQuantity();
@@ -626,16 +688,6 @@ public class UserInterface {
         ingredientNumerator, itemName, quantity, quantityUnit);
     printer.printString(formattedString);
   }
-
-  public int promtWhatPartToEditInRecipe() {
-    printer.editRecipeMenu();
-    return intHandler(DEFAULT_INT_HANDLER_LIMIT);
-  }
-
-  public boolean promtForConfirmation() {
-    return true; //TODO: fix
-  }
-
 
   public int promtForQuantityToReduceWIth() {
     printer.printString("How many items should be taken out of your fridge?:");
@@ -672,6 +724,10 @@ public class UserInterface {
     return yesOrNo("Do you want to add the cost of the item?");
   }
 
+  /**
+   * Displays recipe by name with numerator in a table format.
+   * @param iteratedRecipeNames  the names to print, iterated as string.
+   */
   public void displayRecipeByNameAndNumberInTable(Iterator<String> iteratedRecipeNames) {
     printer.printString("Recipes in cookBook:");
     int itemNumerator = 0;

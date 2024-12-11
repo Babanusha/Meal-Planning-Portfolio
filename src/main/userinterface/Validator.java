@@ -1,4 +1,4 @@
-package userInterface;
+package userinterface;
 
 
 import static settings.ApplicationSettings.DEFAULT_COST;
@@ -58,18 +58,38 @@ public class Validator {
     return input > 0 && input <= givenMaxValue;
   }
 
+  /**
+   * Checks if a date is equal or is after the year limit.
+   * @param expirationDate date to check
+   * @return true if date is after year limit, false otherwise
+   */
   public boolean isAfterDateLimit(LocalDate expirationDate) {
     return YEAR_INT_LIMITATION < expirationDate.getYear();
   }
 
+  /**
+   * Checks if a cost is equal or less than the default value.
+   * @param inputCost cost to check
+   * @return true if cost is the default value, false otherwise
+   */
   public boolean costIsDefaultValue(Double inputCost) {
     return inputCost <= DEFAULT_COST;
   }
 
+  /**
+   * Checks if a string input equals ignore case "done".
+   * @param input string to check
+   * @return true if input is "done", false otherwise
+   */
   public boolean isDoneSpotted(String input) {
     return input.equalsIgnoreCase("done");
   }
 
+  /**
+   * Checks if a string is not empty, excluding spaces.
+   * @param input string to check (input is trimmed)
+   * @return true if string is not empty, false otherwise
+   */
   public boolean stringNotEmpty(String input) {
     return !input.trim().isEmpty();
   }

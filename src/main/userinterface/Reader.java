@@ -1,4 +1,4 @@
-package userInterface;
+package userinterface;
 
 import static settings.ApplicationSettings.INVALID_INPUT;
 
@@ -89,6 +89,4 @@ public class Reader {
     }
     return input;
   }
-
-
 }

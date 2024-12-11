@@ -13,27 +13,32 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-//TODO: En metode for å legge til en matvare i registeret. Dersom det allerede finnes en matvare av
-//samme type som den varen som forsøkes lagt til, skal mengden av varen i kjøleskapet
-//økes tilsvarende mengden som blir forsøkt lagt til. (DEL 2 spesifikasjon)
+/**
+ * Class for the fridge. Contains methods for adding, removing, searching and editing items in the fridge.
+ * Also contains methods for calculating costs and checking for expired items.
+ * The fridge can be sorted by expiration date, quantity left and alphabetically.
+ */
 
 public class Fridge {
 
 
-  private ArrayList<Item> listOfItems;
-
-  ///TODO: make item search case insensitive  ss SS
-
+  private ArrayList<Item> listOfItems; //List of items in fridge.
 
   /**
    * Constructor for Fridge class. Initiates fridge with an empty list of items.
    */
   public Fridge() {
     init();
-    testInit(); //TODO: REMOVE.
+    // testInit(); //for censoring purposes.
   }
 
-  private void testInit() { //TODO: Remove before completion
+  /**
+   * a test method to add items to the fridge.
+   * ONLY USED IN TESTING.
+   * Left for censoring purposes.
+   */
+
+  private void testInit() {
     listOfItems.add(new Item("Milk", 1, STRING_LITERS, 20.03034, LocalDate.now().plusDays(2)));
     listOfItems.add(new Item("milk", 3, STRING_LITERS, 40.3402, LocalDate.now().plusDays(7)));
     listOfItems.add(new Item("Bacon", 2, STRING_KILOGRAMS, 20.03032, LocalDate.now().plusDays(3)));
@@ -81,10 +86,10 @@ public class Fridge {
 
   /**
    * Adds an item to the fridge.
-   *
+   * Package private for testing purposes.
    * @param item to add to fridge
    */
-  private void addItemToFridge(Item item) {
+   void addItemToFridge(Item item) {
     listOfItems.add(item);
   }
 
@@ -217,13 +222,13 @@ public class Fridge {
 
   /**
    * Retrieves the nth occurrence of a specific item in the fridge.
-   *
+   * Takes into account that Lists are 0-indexed. (-1).
    * @param itemNumber to retrieve.
    * @param searchItem name of the wanted item
    * @return the nth occurrence of the item.
    */
 
-  public Item retrieveNthOccurenceOfItem(int itemNumber, String searchItem) {
+  public Item retrieveNthOccurrenceOfItem(int itemNumber, String searchItem) {
     List<Item> listToSearch = listOfItems.stream().filter(itemInList -> itemInList.
         getName().equalsIgnoreCase(searchItem)).toList();
     return listToSearch.get(itemNumber - 1);
@@ -270,7 +275,14 @@ public class Fridge {
         .filter(item -> item.getExpirationDate().isBefore(dateToCheck)).iterator();
   }
 
-
+  /**
+   * Reduces the quantity of an item in the fridge.
+   * If the quantity to reduce with is greater than or equal to the quantity of the item,
+   * the item is removed from the fridge.
+   * @param quantityToReduceWith quantity to reduce with.
+   * @param itemToReduce the item to reduce quantity of.
+   * @return true if no items left.
+   */
   public boolean reduceQuantityOfItem(int quantityToReduceWith, Item itemToReduce) {
     boolean noItemsLeft = false;
     int oldQuantity = itemToReduce.getQuantity(); //Get old quantity
@@ -283,30 +295,13 @@ public class Fridge {
     return noItemsLeft;
   }
 
-  /*
-  private Iterator<Item> createShortenedListOfItems() {
-    List<Item> mergedItems = new ArrayList<>(listOfItems); //duplicate list.
-    mergedItems.sort(Comparator.comparing(Item::getName)); //Sort alphabetically by name
 
-    Item previousItem = mergedItems.getFirst(); //First item in list.
-
-    for (Item newItem : mergedItems) {
-
-      if (previousItem != null) {
-        if (previousItem.getName()
-            .equalsIgnoreCase(newItem.getName())) { //If name is the same, merge quantity and delete last element
-          int index = mergedItems.indexOf(previousItem);
-
-          mergedItems.get(index) //Get previous
-              .setQuantity(mergedItems.get(index).getQuantity() + newItem.getQuantity()); //set quantity to sum of both.
-          mergedItems.remove(newItem); //remove new item.
-        }
-      }
-      previousItem = newItem; //  new item to previous item.
-    } return mergedItems.iterator();
-  }
-
-*/
+  /**
+   * Creates a shortened list of items in the fridge.
+   * Items with the same name are grouped together and their quantities summed.
+   * The list is sorted alphabetically by name.
+   * @return iterator of shortened list of items.
+  */
   private Iterator<Item> createShortenedListOfItems() {
     // Create a map to group items by their name (case-insensitive) and sum their quantities
     Map<String, Item> groupedItems = new HashMap<>();
@@ -314,7 +309,7 @@ public class Fridge {
     for (Item item : listOfItems) {
       String itemName = item.getName()
           .toLowerCase(); // Normalize name to lowercase for case-insensitivity
-      if (!groupedItems.containsKey(itemName)) {
+      if (!groupedItems.containsKey(itemName)) { // if name does not exist
         groupedItems.put(itemName, new Item(item)); // Add a copy of the item to the map
       } else {
         // If name exists, merge the quantity
@@ -330,6 +325,10 @@ public class Fridge {
     return shortenedList.iterator();
   }
 
+  /**
+   * Retrieves a shortened list of items in the fridge.
+   * @return iterator of shortened list of items.
+   */
   public Iterator<Item> retrieveShortenListOfItems() {
     return createShortenedListOfItems(); //always reloaded list.
   }

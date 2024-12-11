@@ -4,6 +4,7 @@ import static org.junit.Assert.assertNotEquals;
 
 import java.time.LocalDate;
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 
 class ItemTest {
@@ -63,5 +64,31 @@ class ItemTest {
     Assertions.assertEquals(testItem.getExpirationDate(), expirationDateNotOut, "Positive getExpirationDate() failed");
     Assertions.assertNotEquals(invalidTime, testItem.getExpirationDate(), "Negative getExpirationDate() failed");
   }
+
+  @org.junit.jupiter.api.Test
+  void setName() {
+    testItem.setName("NewName");
+    Assertions.assertEquals("NewName", testItem.getName(), "setName() failed");
+  }
+
+  @org.junit.jupiter.api.Test
+  void setQuantity() {
+    testItem.setQuantity(5);
+    Assertions.assertEquals(5, testItem.getQuantity(), "setQuantity() failed");
+  }
+
+  @org.junit.jupiter.api.Test
+  void setUnit() {
+    testItem.setUnit("liters");
+    Assertions.assertEquals("liters", testItem.getUnit(), "setUnit() failed");
+  }
+
+  @org.junit.jupiter.api.Test
+  void setProductCost() {
+    testItem.setProductCost(20.0);
+    Assertions.assertEquals(20.0, testItem.getProductCost(), "setProductCost() failed");
+    Assertions.assertNotEquals(10.0, testItem.getProductCost(), "setProductCost() failed");
+  }
+
 
 }

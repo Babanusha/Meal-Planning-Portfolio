@@ -1,4 +1,4 @@
-package userInterface;
+package userinterface;
 
 import static settings.ApplicationSettings.CURRENCY_EUR;
 import static settings.ApplicationSettings.CURRENCY_GBP;
@@ -11,7 +11,10 @@ import static settings.ApplicationSettings.STRING_LITERS;
 import static settings.ApplicationSettings.STRING_MILLIGRAMS;
 import static settings.ApplicationSettings.STRING_PIECES;
 
-
+/**
+ * Printer Class used to print string output to user.
+ * Uses System.out & System.err
+ */
 public class Printer {
 
 
@@ -139,8 +142,9 @@ public class Printer {
     printString("Welcome to cookBook! Where we help you manage your recipes.");
     printString("To continue please choose an action from below:");
     printString("1. Create a new recipe");
-    printString("2. search for a recipe - edit/remove possible");
-    printString("3. See all recipes");
+    printString("2. See all recipes");
+    printString("3. Check if recipe can be made with your items");
+    printString("4. See all recipes that can be made");
     blankLine();
     printString(INT_EXIT + ". Exit cookBook");
   }
@@ -149,7 +153,9 @@ public class Printer {
 
     printString("Write instructions sequentially, one line at a time.");
     printString("When one step is finished, press enter before writing the next step.");
-    printError("When complete: type 'done' and press enter.");
+    printString("We will automatically add the step number for you.");
+    blankLine();
+    printError("!! When complete: type 'done' and press enter.");
   }
 
 

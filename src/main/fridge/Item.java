@@ -11,6 +11,8 @@ import java.time.LocalDate;
  * Class for Item, which is a product that can be stored in the fridge. The class contains
  * information about the item, such as name, quantity, quantity specifier, product cost and
  * expiration date. Some parameters are optional, for easier entry.
+ * Contains three constructors, one for only name, quantity, and unit, one for all fields, and one
+ * for copying an existing item.
  */
 public class Item {
 
@@ -82,7 +84,7 @@ public class Item {
 
   /**
    * Set name of item.
-   *
+   * Package private because only fridge needs setter access.
    * @param name , name of item
    */
   void setName(String name) {
@@ -100,7 +102,7 @@ public class Item {
 
   /**
    * Set quantity of item.
-   *
+   *Package private because only fridge needs setter access.
    * @param quantity , quantity of item
    */
   void setQuantity(int quantity) {
@@ -118,10 +120,10 @@ public class Item {
 
   /**
    * Set quantity specifier of item.
-   *
+   *Package private because only fridge needs setter access.
    * @param unit , quantity specifier of item
    */
-  void setUnit(String unit) {
+   void setUnit(String unit) {
     this.unit = unit;
   }
 
@@ -136,7 +138,7 @@ public class Item {
 
   /**
    * Set product cost of item.
-   *
+   * Package private because only fridge needs setter access.
    * @param productCost , product cost of item
    */
   void setProductCost(double productCost) {
@@ -154,7 +156,7 @@ public class Item {
 
   /**
    * Set expiration date of item.
-   *
+   * Package private because only fridge needs setter access.
    * @param expirationDate , expiration date of item
    */
   void setExpirationDate(LocalDate expirationDate) {
