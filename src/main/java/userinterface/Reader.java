@@ -1,4 +1,4 @@
-package redacted.path.userInterface;
+package redacted.path.userinterface;
 
 import static redacted.path.settings.ApplicationSettings.INVALID_INPUT;
 
@@ -89,6 +89,4 @@ public class Reader {
     }
     return input;
   }
-
-
 }

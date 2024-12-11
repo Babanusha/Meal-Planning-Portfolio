@@ -6,10 +6,10 @@ import static redacted.path.settings.ApplicationSettings.SWITCH_CASE_LIMIT;
 
 import redacted.path.cookbook.CookBook;
 import redacted.path.fridge.Fridge;
-import redacted.path.userInterface.Printer;
-import redacted.path.userInterface.Reader;
-import redacted.path.userInterface.UserInterface;
-import redacted.path.userInterface.Validator;
+import redacted.path.userinterface.Printer;
+import redacted.path.userinterface.Reader;
+import redacted.path.userinterface.UserInterface;
+import redacted.path.userinterface.Validator;
 import java.text.DecimalFormat;
 import java.util.Scanner;
 

@@ -8,6 +8,9 @@ import java.time.LocalDate;
  */
 public class ApplicationSettings {
 
+  private ApplicationSettings() {
+    // Prevent instantiation.
+  }
 
   //User Interface
   public static final int QUANTITY_LIMITATION = 9999999;
@@ -24,15 +27,12 @@ public class ApplicationSettings {
   public static final int STRING_HANDLER_LIMIT_FOR_YES_NO = 5; //Yes or No can be up to x characters long.
 
   public static final int STRING_HANDLER_LIMIT_FOR_NAME = 20; //Item name can be up to x characters long.
-  public static final int STRING_HANDLER_LIMIT_FOR_UNIT = 10; //Unit can be up to x characters long.
-  public static final int STRING_HANDLER_LIMIT_FOR_CURRENCY = 10; //Currency can be up to x characters long.
   public static final int STRING_HANDLER_LIMIT_FOR_DESCRIPTION = 200; //Description can be up to x characters long.
   public static final int STRING_HANDLER_LIMIT_FOR_INSTRUCTIONS = 200; //Instructions can be up to x characters long.
 
   public static final String TEN_BLANK_SPACES = "          "; //10 blank spaces
 
   public static final String STRING_LITERAL_NOT_GIVEN = "Not given";
-  public static final String STRING_LITERAL_MAX_LIMIT = "max length: ";
   //Controller
   public static final LocalDate DEFAULT_EXPIRATION_DATE = LocalDate.of(9999, 12, 31);
   public static final int DEFAULT_COST = -1;
@@ -58,7 +58,5 @@ public class ApplicationSettings {
   public static final String CURRENCY_EUR = "€ (EUR)";
   public static final String CURRENCY_GBP = "£ (GBP)";
 
-  private ApplicationSettings() {
-    // Prevent instantiation.
-  }
+
 }
