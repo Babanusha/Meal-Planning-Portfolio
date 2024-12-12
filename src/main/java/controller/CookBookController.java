@@ -126,7 +126,7 @@ public class CookBookController {
   /**
    * Method for checking what recipes can be made with the current fridge content.
    *
-   * @param iteratedFridge Iterated fridge content, to cross check.
+   * @param iteratedFridge Iterated fridge content, to cross-check.
    */
   private void seeAllRecipesThatCanBeMade(Iterator<Item> iteratedFridge) {
     if (iteratedFridge.hasNext() && cookBook.notEmpty()) {
@@ -150,6 +150,11 @@ public class CookBookController {
     cookBook.createRecipeAndAddToBook(name, description, ingredientsNeeded, instructions);
   }
 
+  /**
+   * Method for writing an iterator to a list.
+   * @param stringListIterator Iterator to write to list.
+   * @return List of Strings.
+   */
   private List<String> writeIteratorToList(Iterator<String> stringListIterator) {
     List<String> stringList = new ArrayList<>();
     stringListIterator.forEachRemaining(stringList::add);
