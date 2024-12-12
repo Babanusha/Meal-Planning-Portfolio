@@ -228,8 +228,8 @@ public class Fridge {
    */
 
   public Item retrieveNthOccurrenceOfItem(int itemNumber, String searchItem) {
-    List<Item> listToSearch = listOfItems.stream().filter(itemInList -> itemInList.
-        getName().equalsIgnoreCase(searchItem)).toList();
+    List<Item> listToSearch = listOfItems.stream().filter(itemInList -> itemInList
+        .getName().equalsIgnoreCase(searchItem)).toList();
     return listToSearch.get(itemNumber - 1);
   }
 

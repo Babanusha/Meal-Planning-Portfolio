@@ -36,11 +36,18 @@ public class Printer {
   }
 
   //______________________________________-
+
+  /**
+   * prints welcome message.
+   */
   public void welcomeMessage() {
     blankLine();
     printString("Welcome to the fridge application!");
   }
 
+  /**
+   * prints home menu.
+   */
   public void homeMenu() {
     blankLine();
     printString("Fridge is open, choose an action:");
@@ -60,6 +67,9 @@ public class Printer {
     printString(INT_EXIT + ". Exit Application");
   }
 
+  /**
+   * prints settings menu.
+   */
   public void settingsMenu() {
     printString("Edit fridge:");
     printString("1. Sort items alphabetically");
@@ -71,6 +81,9 @@ public class Printer {
     printString(INT_EXIT + ". Back to main menu");
   }
 
+  /**
+   * prints edit item menu.
+   */
   public void editItemMenu() {
     printString("Edit item:");
     printString("1. Edit name");
@@ -92,6 +105,9 @@ public class Printer {
   }
 
 
+  /**
+   * Prints a list of quantity units to the console.
+   */
   public void listQuantityUnitsTable() {
 
     printString("1. " + STRING_KILOGRAMS);
@@ -103,11 +119,17 @@ public class Printer {
 
   //ea = each
 
+  /**
+   * Prints the item table frame to the console.
+   */
   public void itemTableFrame() {
     printString(String.format("%-5s\t%-13s\t%-11s\t%-10s\t%-10s\t%-16s",
         "Nr", "Name", "Quantity", "Unit", "Cost 'ea' ", "Expiration Date"));
   }
 
+  /**
+   * Prints the currency menu to the console.
+   */
   public void currencyMenu() {
     printString("Please choose currency:");
     printString("1. " + CURRENCY_NOK);
@@ -118,18 +140,30 @@ public class Printer {
     printString(INT_EXIT + ". Exit");
   }
 
+  /**
+   * Prints the standard feedback message for "int" input errors.
+   */
   public void correctedFormatForIntHandler() {
     printString("Please enter a number corresponding to the given list");
   }
 
+  /**
+   * Prints the standard feedback message for invalid input errors.
+   */
   public void invalidInputError() {
     printError("Invalid input, try again");
   }
 
+  /**
+   * Prints the standard feedback message for "double" input errors.
+   */
   public void correctedFormatForDoubleHandler() {
     printString("Please enter a number, two decimals allowed");
   }
 
+  /**
+   * Prints the standard feedback message for string input errors.
+   */
   public void correctedFormatForStringHandler() {
     printString("Please enter letters and numbers, special characters not allowed");
   }
@@ -151,6 +185,9 @@ public class Printer {
     correctedFormatForIntHandler();
   }
 
+  /**
+   * Prints the cookBook menu to the console.
+   */
   public void cookBookMenu() {
     printString("Welcome to cookBook! Where we help you manage your recipes.");
     printString("To continue please choose an action from below:");
@@ -166,6 +203,9 @@ public class Printer {
     printString(INT_EXIT + ". Exit cookBook");
   }
 
+  /**
+   * Prints the manual for writing a recipe to the console.
+   */
   public void recipeManual() {
 
     printString("Write instructions sequentially, one line at a time.");
@@ -176,23 +216,17 @@ public class Printer {
   }
 
 
-  public void editRecipeMenu() {
-    printString("Edit recipe:");
-    printString("1. Edit name");
-    printString("2. Edit description");
-    printString("3. Edit ingredients");
-    printString("4. Edit instructions");
-    printString("5. Remove recipe");
-    blankLine();
-    printString(INT_EXIT + ". Back to cookBook menu");
-  }
-
-
+  /**
+   * prints prompt for reducing quantity.
+   */
   public void reduceItemQuantity() {
     printString("Enter the amount you want to reduce the quantity by:");
   }
 
-  public void printIngredienttable() {
+  /**
+   * prints ingredient table formatted.
+   */
+  public void printIngredientTable() {
     printString("Ingredients:");
     blankLine();
     printString(String.format("%-5s\t%-13s\t%-11s\t%-10s",
@@ -200,6 +234,9 @@ public class Printer {
   }
 
 
+  /**
+   * Prints response for found recipe.
+   */
   public void foundRecipe() {
     blankLine();
     printString("Recipe found:");

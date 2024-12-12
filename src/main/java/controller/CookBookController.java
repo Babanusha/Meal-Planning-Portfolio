@@ -114,9 +114,8 @@ public class CookBookController {
   private void checkIfSpecificRecipeCanBeMade(Iterator<Item> currentFridge) {
     if (cookBook.notEmpty() && currentFridge.hasNext()) {
       userInterface.displayRecipeByNameAndNumberInTable(cookBook.getRecipeNames());
-      boolean canBeMade = cookBook.canSpecificRecipeBeMade(
-          (userInterface.promtForRecipeNumber() - 1)  //Subtract 1 to match index
-          , currentFridge); //Finds first recipe that fits.
+      boolean canBeMade = cookBook.canSpecificRecipeBeMade(//Subtract 1 to match index
+          (userInterface.promtForRecipeNumber() - 1), currentFridge); //Finds first recipe that fits
       userInterface.printRecipeCanBeMadeAnswer(canBeMade);
     } else {
       userInterface.printNoItemsFound();
