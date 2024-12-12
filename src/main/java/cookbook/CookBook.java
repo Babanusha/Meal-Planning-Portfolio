@@ -23,7 +23,7 @@ public class CookBook {
    */
   public CookBook() {
     init();
-    //test(); //TESTKLASSE FOR Å LEGGE TIL RECIPE I COOKBOOK
+    //test(); //Tester method for adding recipes to cookBook
   }
 
   /**
@@ -179,7 +179,7 @@ public class CookBook {
   }
 
   /**
-   * Checks if a recipe is in the fridge. Does this by cross checking every ingredient in the recipe
+   * Checks if a recipe is in the fridge. Does this by cross-checking every ingredient in the recipe
    * with the fridge items.
    *
    * @param recipeToCheck recipe to check

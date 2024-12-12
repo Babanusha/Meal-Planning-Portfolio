@@ -690,7 +690,7 @@ public class UserInterface {
   /**
    * prints recipe Instructions. Automatically places "step nr" with numerator.
    *
-   * @param recipeInstructions to printa
+   * @param recipeInstructions to print
    */
   public void printRecipeInstructions(Iterator<String> recipeInstructions) {
     printer.printString("Instructions: ");

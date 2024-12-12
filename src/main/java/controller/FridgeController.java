@@ -193,7 +193,7 @@ public class FridgeController {
    */
   private Item searchForItemByNameInFridge() {
     displayAllItemsInFridgeWithCost();
-    Item itemFromFridge = null; //Item to return.
+    Item itemFromFridge; //Item to return.
     try {
       String searchItem = userInterface.promtForItemName(); //Promt for item name.
       int itemsFound = fridge.specificItemInFridgeCount(searchItem); //Count items found.

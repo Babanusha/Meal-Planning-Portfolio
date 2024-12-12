@@ -241,13 +241,13 @@ public class Fridge {
    */
 
   public double calculateTotalCostOfItems() {
-    double totalcost = 0;
+    double totalCost = 0;
     for (Item item : listOfItems) {
       if (item.getProductCost() > 0) { //Takes out default values.
-        totalcost += (item.getProductCost() * item.getQuantity());
+        totalCost += (item.getProductCost() * item.getQuantity());
       }
     }
-    return totalcost;
+    return totalCost;
   }
 
 
