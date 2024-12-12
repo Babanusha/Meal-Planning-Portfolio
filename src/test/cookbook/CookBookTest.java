@@ -3,7 +3,10 @@ package cookbook;
 import static settings.ApplicationSettings.STRING_GRAMS;
 import static settings.ApplicationSettings.STRING_LITERS;
 import static settings.ApplicationSettings.STRING_PIECES;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import fridge.Fridge;
 import fridge.Item;
@@ -15,6 +18,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 class CookBookTest {
+
   CookBook cookBookTester = new CookBook();
   Recipe pastaWeDontHaveTestRecipe;
   Fridge testFridge = new Fridge();
@@ -30,7 +34,8 @@ class CookBookTest {
     List<String> pastaInstructions = new ArrayList<>();
     pastaInstructions.add("Boil pasta");
     pastaInstructions.add("Add tomato sauce");
-    cookBookTester.createRecipeAndAddToBook("PastaDontHave", "Pasta with tomato sauce", pastaIngredients,
+    cookBookTester.createRecipeAndAddToBook("PastaDontHave", "Pasta with tomato sauce",
+        pastaIngredients,
         pastaInstructions);
 
     ////****
@@ -51,7 +56,8 @@ class CookBookTest {
     cookBookTester.createRecipeAndAddToBook("PizzaWeHave", "Pizza with cheese", pizzaIngredients,
         pizzaInstructions);
 
-     pastaWeDontHaveTestRecipe = new Recipe("PastaDontHave", "Pasta with tomato sauce", pastaIngredients,
+    pastaWeDontHaveTestRecipe = new Recipe("PastaDontHave", "Pasta with tomato sauce",
+        pastaIngredients,
         pastaInstructions);
 
     testFridge.createItemAndAddToFridge("Pizza", 200, STRING_PIECES, 20.0, null);
@@ -69,14 +75,16 @@ class CookBookTest {
   @Test
   void isAnyRecipeInFridge() { // uses recipeIsInFridge() method
 
-   Iterator<Recipe> iteratorOfRecipiesWeHaveTest = cookBookTester.isAnyRecipeInFridge(testFridge.iterateOverFridge());
+    Iterator<Recipe> iteratorOfRecipiesWeHaveTest = cookBookTester.isAnyRecipeInFridge(
+        testFridge.iterateOverFridge());
     ArrayList<Recipe> recipesWeHaveTest = new ArrayList<>();
     while (iteratorOfRecipiesWeHaveTest.hasNext()) {
       recipesWeHaveTest.add(iteratorOfRecipiesWeHaveTest.next());
     }
     assertEquals(1, recipesWeHaveTest.size(), "Size of recipesWeHaveTest is 1");
     assertNotEquals(0, recipesWeHaveTest.size(), "Size of recipesWeHaveTest is not 0");
-    assertEquals("PizzaWeHave", recipesWeHaveTest.get(0).getRecipeName(), "Recipe is not PizzaWeHave");
+    assertEquals("PizzaWeHave", recipesWeHaveTest.get(0).getRecipeName(),
+        "Recipe is not PizzaWeHave");
   }
 
 

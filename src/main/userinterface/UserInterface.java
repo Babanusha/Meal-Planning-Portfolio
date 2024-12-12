@@ -538,12 +538,7 @@ public class UserInterface {
     printer.intErrorStandardResponse();
   }
 
-  /**
-   * Prints standard feedback for reducing and items quantity by x amount. Redirects to printer
-   */
-  public void printReduceItemQuantity() {
-    printer.reduceItemQuantity();
-  }
+
 
   //////////////////////////////////
 

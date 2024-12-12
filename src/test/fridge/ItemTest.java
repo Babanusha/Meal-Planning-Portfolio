@@ -1,10 +1,7 @@
 package fridge;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
 
 import java.time.LocalDate;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
 
 
 class ItemTest {
@@ -26,7 +23,7 @@ class ItemTest {
     quantitySpecifier = "kg";
     productCost = 10;
 
-    testItem = new Item(itemName,quantity,quantitySpecifier, productCost, expirationDateNotOut);
+    testItem = new Item(itemName, quantity, quantitySpecifier, productCost, expirationDateNotOut);
   }
 
   @org.junit.jupiter.api.AfterEach
@@ -37,7 +34,8 @@ class ItemTest {
   @org.junit.jupiter.api.Test
   void getName() {
     Assertions.assertEquals(testItem.getName(), "TestItem", "Positive getName() failed");
-    Assertions.assertNotEquals("hopefullyGoodGrades" , testItem.getName(), "Negative getName() failed");
+    Assertions.assertNotEquals("hopefullyGoodGrades", testItem.getName(),
+        "Negative getName() failed");
   }
 
   @org.junit.jupiter.api.Test
@@ -48,21 +46,26 @@ class ItemTest {
 
   @org.junit.jupiter.api.Test
   void getQuantitySpecifier() {
-    Assertions.assertEquals(testItem.getUnit(), quantitySpecifier, "Positive getQuantitySpecifier() failed");
-    Assertions.assertNotEquals("privateMethodsAreSecure", testItem.getUnit(), "Negative getQuantitySpecifier() failed");
+    Assertions.assertEquals(testItem.getUnit(), quantitySpecifier,
+        "Positive getQuantitySpecifier() failed");
+    Assertions.assertNotEquals("privateMethodsAreSecure", testItem.getUnit(),
+        "Negative getQuantitySpecifier() failed");
   }
 
   @org.junit.jupiter.api.Test
   void getProductCost() {
-    Assertions.assertEquals(testItem.getProductCost(), productCost, "Positive getProductCost() failed");
+    Assertions.assertEquals(testItem.getProductCost(), productCost,
+        "Positive getProductCost() failed");
     Assertions.assertNotEquals(200, testItem.getProductCost(), "Negative getProductCost() failed");
   }
 
   @org.junit.jupiter.api.Test
   void getExpirationDate() {
     LocalDate invalidTime = LocalDate.of(2021, 10, 10);
-    Assertions.assertEquals(testItem.getExpirationDate(), expirationDateNotOut, "Positive getExpirationDate() failed");
-    Assertions.assertNotEquals(invalidTime, testItem.getExpirationDate(), "Negative getExpirationDate() failed");
+    Assertions.assertEquals(testItem.getExpirationDate(), expirationDateNotOut,
+        "Positive getExpirationDate() failed");
+    Assertions.assertNotEquals(invalidTime, testItem.getExpirationDate(),
+        "Negative getExpirationDate() failed");
   }
 
   @org.junit.jupiter.api.Test

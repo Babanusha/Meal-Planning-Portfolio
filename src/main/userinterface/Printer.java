@@ -217,13 +217,6 @@ public class Printer {
 
 
   /**
-   * prints prompt for reducing quantity.
-   */
-  public void reduceItemQuantity() {
-    printString("Enter the amount you want to reduce the quantity by:");
-  }
-
-  /**
    * prints ingredient table formatted.
    */
   public void printIngredientTable() {
