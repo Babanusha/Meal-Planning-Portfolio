@@ -66,7 +66,7 @@ public class FridgeController {
     userInterface.promptUserForWhatItemToRemove();
     Item itemToReduce = searchForItemByNameInFridge(); //Search for item.
     if (itemToReduce != null) { //null check
-      int quantityToReduceWith = userInterface.promtForQuantityToReduceWIth(); // Promt for quantity.
+      int quantityToReduceWith = userInterface.promtForQuantityToReduceWith(); // Promt for quantity
       if (fridge.reduceQuantityOfItem(quantityToReduceWith,
           itemToReduce)) { //Returns if item is depleted
         userInterface.printItemRemovedCauseNoneLeft();
@@ -80,7 +80,7 @@ public class FridgeController {
    * feedback).
    */
   void searchAndEditItemMenu() {
-    Item itemToEdit = searchForItemByNameInFridge(); //if null is returned/item not found, it returns to menu.
+    Item itemToEdit = searchForItemByNameInFridge(); //if item not found, returns to menu.
     if (itemToEdit != null) { //Double check.
       editItemSwitchCase(itemToEdit); //Edit item menu with item to edit.
     }
@@ -135,11 +135,9 @@ public class FridgeController {
 
   /**
    * Creates a new item and adds it to the fridge.
-   * <p>
    * Prompts user for name, quantity, quantity unit. If user chooses to add cost, the user is
    * prompted for cost. If user chooses to add expiration date, the user is prompted for expiration
    * date.
-   * <p>
    * non-mandatory item details are given default values from ApplicationSettings.
    */
   void createNewItem() {

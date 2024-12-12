@@ -262,17 +262,45 @@ public class UserInterface {
    * @return , returns the validated LocalDate value from user.
    */
   public LocalDate promtForExpirationDate() {
-    printer.printString("Enter expiration year:");
-    printer.printError("Year must be between 1 and 9998");
-    int year = intHandler(YEAR_INT_LIMITATION);
-    printer.printString("Enter expiration month:");
-    printer.printError("Month must be between 1 and 12");
-    int month = intHandler(MONTH_INT_LIMITATION);
-    printer.printString("Enter expiration day:");
-    printer.printError("Day must be between 1 and 31");
-    int day = intHandler(DAY_INT_LIMITATION);
+    int year = promptYear();
+    int month = promtMonth();
+
+    int day = promtDay();
 
     return LocalDate.of(year, month, day);
+  }
+
+  /**
+   * Prompts year.
+   *
+   * @return year input from user.
+   */
+  private int promptYear() {
+    printer.printString("Enter expiration year:");
+    printer.printError("Year must be between 1 and 9998");
+    return intHandler(YEAR_INT_LIMITATION);
+  }
+
+  /**
+   * Prompts Month.
+   *
+   * @return month input from user.
+   */
+  private int promtMonth() {
+    printer.printString("Enter expiration month:");
+    printer.printError("Month must be between 1 and 12");
+    return intHandler(MONTH_INT_LIMITATION);
+  }
+
+  /**
+   * Prompts Day.
+   *
+   * @return day input from user.
+   */
+  private int promtDay() {
+    printer.printString("Enter expiration day:");
+    printer.printError("Day must be between 1 and 31");
+    return intHandler(DAY_INT_LIMITATION);
   }
 
   /**
@@ -419,9 +447,8 @@ public class UserInterface {
     printer.blankLine();
   }
 
-  /*
-   * Redirects to printer method
-   * Prints the edit fridge/settings menu
+  /**
+   * Redirects to printer method. Prints the edit fridge/settings menu
    */
   public void printSettingsMenu() {
     printer.settingsMenu();
@@ -521,14 +548,14 @@ public class UserInterface {
   //////////////////////////////////
 
   /**
-   * prompts user for recipe name
+   * prompts user for recipe name.
    *
    * @return stringHandler method that gives input from user.
    * @see #stringHandler(int)
    */
   public String promtForRecipeName() {
-    printer.printString("Please enter recipe name" + TEN_BLANK_SPACES +
-        "max length is: " + STRING_HANDLER_LIMIT_FOR_NAME + " characters");
+    printer.printString("Please enter recipe name" + TEN_BLANK_SPACES
+        + "max length is:  " + STRING_HANDLER_LIMIT_FOR_NAME + " characters");
     return stringHandler(STRING_HANDLER_LIMIT_FOR_NAME);
   }
 
@@ -616,15 +643,15 @@ public class UserInterface {
    */
   private void printRecipeInFormat(Recipe recipeToPrint, int recipeNumerator) {
     String recipeName = recipeToPrint.getRecipeName();
-    String recipeDescription = recipeToPrint.getRecipeDescription();
-    Iterator<Item> recipeIngredients = recipeToPrint.getRecipeIngredients();
-    Iterator<String> recipeInstructions = recipeToPrint.getRecipeInstructions();
-
     printRecipeName(recipeNumerator, recipeName);
+    String recipeDescription = recipeToPrint.getRecipeDescription();
     printRecipeDescription(recipeDescription);
-
+    Iterator<Item> recipeIngredients = recipeToPrint.getRecipeIngredients();
     printRecipeIngredients(recipeIngredients);
+    Iterator<String> recipeInstructions = recipeToPrint.getRecipeInstructions();
     printRecipeInstructions(recipeInstructions);
+
+
   }
 
   /**
@@ -655,7 +682,7 @@ public class UserInterface {
    * @param recipeIngredients to print
    */
   public void printRecipeIngredients(Iterator<Item> recipeIngredients) {
-    printer.printIngredienttable();
+    printer.printIngredientTable();
 
     int ingredientNumerator = 0;
     while (recipeIngredients.hasNext()) {
@@ -696,37 +723,67 @@ public class UserInterface {
     printer.printString(formattedString);
   }
 
-  public int promtForQuantityToReduceWIth() {
+  /**
+   * Prompts for quantity to reduce with.
+   *
+   * @return int to reduce with.
+   */
+  public int promtForQuantityToReduceWith() {
     printer.printString("How many items should be taken out of your fridge?:");
     return intHandler(QUANTITY_LIMITATION);
   }
 
+  /**
+   * Asks user what item to reduce in fridge.
+   */
   public void promptUserForWhatItemToRemove() {
     printer.printString("What item do you want to reduce in the fridge?");
   }
 
+  /**
+   * Prints feedback to user.
+   */
   public void printItemRemovedCauseNoneLeft() {
     printer.printString("No items left, entry removed.");
   }
 
+  /**
+   * Prints feedback to user.
+   */
 
   public void printEnterRecipeSpecifications() {
     printer.printString("Enter recipe ingredients specifications.");
   }
 
+  /**
+   * Asks if user want to add more ingredients.
+   */
   public boolean promtAddMoreIngredients() {
-    return yesOrNo("Add more ingredients? (yes/no)");
+    return yesOrNo("Add more ingredients?");
   }
 
-
+  /**
+   * Prints welcome message.
+   */
   public void printWelcomeMessage() {
     printer.welcomeMessage();
   }
+
+  /**
+   * prompts user for adding expiration date.
+   *
+   * @return yes or no from user.
+   */
 
   public boolean yesOrNoAddExpirationDate() {
     return yesOrNo("Do you want to add an expiration date?");
   }
 
+  /**
+   * prompts user for adding cost.
+   *
+   * @return yes or no from user.
+   */
   public boolean yesOrNoAddCostOfItem() {
     return yesOrNo("Do you want to add the cost of the item?");
   }
@@ -746,11 +803,21 @@ public class UserInterface {
     }
   }
 
+  /**
+   * Prompts user for recipe Number they want to check.
+   *
+   * @return recipe number to check.
+   */
   public int promtForRecipeNumber() {
     printer.printString("Enter the number of the recipe you want to check:");
     return intHandler(DEFAULT_INT_HANDLER_LIMIT);
   }
 
+  /**
+   * Prints if the recipe can be made or not according to parameter.
+   *
+   * @param canBeMade can be made or not.
+   */
   public void printRecipeCanBeMadeAnswer(boolean canBeMade) {
     if (canBeMade) {
       printer.printString("Recipe can be made with current fridge content.");
@@ -774,6 +841,9 @@ public class UserInterface {
     }
   }
 
+  /**
+   * Prints Recipe found text. Middle man method
+   */
   public void printFoundRecipe() {
     printer.foundRecipe();
   }

@@ -192,9 +192,8 @@ public class CookBook {
     return recipeIngredientsList.stream()
         .allMatch(recipeIngredient -> //All recipe ingredients must match
             fridgeItems.stream().anyMatch(fridgeItem -> //checks all ingredients for a match
-                recipeIngredient.getName().equalsIgnoreCase(fridgeItem.getName()) &&
-                    //name must match
-                    recipeIngredient.getQuantity()
+                recipeIngredient.getName().equalsIgnoreCase(fridgeItem.getName()) //name must match
+                && recipeIngredient.getQuantity()
                         <= fridgeItem.getQuantity())); //quantity must be enough
   }
 

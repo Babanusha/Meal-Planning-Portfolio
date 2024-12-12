@@ -15,12 +15,19 @@ public class ApplicationSettings {
   public static final int MONTH_INT_LIMITATION = 12;
   public static final int YEAR_INT_LIMITATION = 9998; //9999 is reserved for default expiration date
   public static final int SWITCH_CASE_LIMIT = 99;
-  //HANDLER LIMITATIONS
-  public static final int DEFAULT_INT_HANDLER_LIMIT = 999; //Default value for intHandler maximum value input.
-  public static final int STRING_HANDLER_LIMIT_FOR_YES_NO = 5; //Yes or No can be up to x characters long.
-  public static final int STRING_HANDLER_LIMIT_FOR_NAME = 20; //Item name can be up to x characters long.
-  public static final int STRING_HANDLER_LIMIT_FOR_DESCRIPTION = 200; //Description can be up to x characters long.
-  public static final int STRING_HANDLER_LIMIT_FOR_INSTRUCTIONS = 200; //Instructions can be up to x characters long.
+
+  //HANDLER LIMITATIONS -- Used for limiting input
+
+  //Default value for intHandler maximum value input.
+  public static final int DEFAULT_INT_HANDLER_LIMIT = 999;
+  //Yes or No can be up to x characters long.
+  public static final int STRING_HANDLER_LIMIT_FOR_YES_NO = 5;
+  //Item name can be up to x characters long.
+  public static final int STRING_HANDLER_LIMIT_FOR_NAME = 20;
+  //Description can be up to x characters long.
+  public static final int STRING_HANDLER_LIMIT_FOR_DESCRIPTION = 200;
+  //Instructions can be up to x characters long.
+  public static final int STRING_HANDLER_LIMIT_FOR_INSTRUCTIONS = 200;
   public static final String TEN_BLANK_SPACES = "          "; //10 blank spaces
   public static final String STRING_LITERAL_NOT_GIVEN = "Not given";
   //Controller
@@ -45,6 +52,7 @@ public class ApplicationSettings {
   public static final String CURRENCY_USD = "$ (USD)";
   public static final String CURRENCY_EUR = "€ (EUR)";
   public static final String CURRENCY_GBP = "£ (GBP)";
+
   private ApplicationSettings() {
     // Prevent instantiation.
   }

@@ -6,6 +6,10 @@ import static settings.ApplicationSettings.YEAR_INT_LIMITATION;
 
 import java.time.LocalDate;
 
+/**
+ * Class for the Validator. Contains methods for validating input.
+ * Used for validating input in the UserInterface.
+ */
 public class Validator {
 
 
@@ -30,8 +34,8 @@ public class Validator {
 
   public boolean validateString(String input, int maxLengthOfStringInput) {
     String regex = "^[a-zA-Z0-9 ,.]*$";
-    return input != null && !input.trim().isEmpty() &&
-        input.length() <= maxLengthOfStringInput && input.matches(regex);
+    return input != null && !input.trim().isEmpty()
+        && input.length() <= maxLengthOfStringInput && input.matches(regex);
   }
 
   /**

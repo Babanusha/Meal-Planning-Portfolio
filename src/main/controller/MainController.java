@@ -13,19 +13,34 @@ import userinterface.Validator;
 import java.text.DecimalFormat;
 import java.util.Scanner;
 
+/**
+ * Main Controller class for the application. Handles the interaction between the UserInterface,
+ * CookBookController and FridgeController.
+ * Used for independency injection.
+ */
 public class MainController {
 
   private UserInterface userInterface;
   private CookBookController cookBookController;
   private FridgeController fridgeController;
 
+  /**
+   * Constructor for the MainController. Initiates the independent components and starts the app.
+   */
   public MainController() {
     initializeIndependentComponents();
-    StartMainApplication();
+    startMainApplication();
   }
 
+  /**
+   * Method for initiating the independent components of the MainController.
+   * Independency injection.
+   * Initiates the UserInterface, CookBookController and FridgeController.
+   * Initiates the Validator, Scanner, Reader, Printer and DecimalFormat.
+   *
+   */
   private void initializeIndependentComponents() {
-    Validator validator = new Validator();//Only Initiated in controller, not held by.
+    Validator validator = new Validator(); //Only Initiated in controller, not held by.
     Scanner scanner = new Scanner(System.in); //Only Initiated in controller, not held by.
     Reader reader = new Reader(scanner); //Only Initiated in controller, not held by.
     Printer printer = new Printer();  //Only Initiated in controller, not held by.
@@ -43,7 +58,7 @@ public class MainController {
 
   }
 
-  private void StartMainApplication() {
+  private void startMainApplication() {
     boolean isApplicationOnline = true;
     userInterface.printWelcomeMessage();
     mainMenuSwitchCase(isApplicationOnline);
