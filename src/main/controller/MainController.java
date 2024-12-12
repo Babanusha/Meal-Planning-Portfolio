@@ -58,12 +58,18 @@ public class MainController {
 
   }
 
+  /**
+   * Method for starting the main application.
+   */
   private void startMainApplication() {
     boolean isApplicationOnline = true;
     userInterface.printWelcomeMessage();
     mainMenuSwitchCase(isApplicationOnline);
   }
 
+  /**
+   * Method for exiting the application.
+   */
 
   private void exit() {
     if (userInterface.promtExitMessage()) {

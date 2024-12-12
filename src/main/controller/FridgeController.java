@@ -333,7 +333,10 @@ public class FridgeController {
     return fridge.editItemName(itemToEdit, userInterface.promtForItemName());
   }
 
-
+  /**
+   * Method for getting an iterator of all fridge Items.
+   * @return iterator of fridge items.
+   */
   public Iterator<Item> getFridgeIterator() {
     return fridge.iterateOverFridge();
   }
