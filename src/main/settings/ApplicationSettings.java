@@ -54,7 +54,7 @@ public class ApplicationSettings {
   public static final String CURRENCY_GBP = "£ (GBP)";
 
   private ApplicationSettings() {
-    // Prevent instantiation.
+    // Prevent instantiation. //.
   }
 
 
